@@ -2,8 +2,10 @@
 
 [![Super-Linter](https://github.com/homelab-alpha/docker/actions/workflows/super-linter.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/super-linter.yml)
 
-Welcome to the Homelab-Alpha docker repository. This is the source for
-[Homelab-Alpha - Docker].
+Welcome to the Homelab-Alpha Docker Repository!
+
+For all related documentation and more information about this repository, please
+visit [Homelab-Alpha/Docker].
 
 ## Provide feedback
 
@@ -56,7 +58,7 @@ to contribute, see [contributing].
 &copy; 2024 Homelab-Alpha and its repositories are licensed under the terms of
 the [license] agreement.
 
-[Homelab-Alpha - Docker]: https://homelab-alpha.nl/docker
+[Homelab-Alpha/Docker]: https://homelab-alpha.nl/docker
 [community]: https://github.com/homelab-alpha/docker/discussions
 [bug report]:
   https://github.com/homelab-alpha/docker/issues/new?&template=bug_report.md

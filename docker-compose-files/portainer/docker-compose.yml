@@ -1,0 +1,60 @@
+---
+version: "3.9"
+networks:
+  portainer_net:
+    internal: false
+    external: false
+    name: portainer
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.1.0/24
+          ip_range: 172.20.1.0/24
+          gateway: 172.20.1.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "portainer"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.portainer.network.description: "is an isolated network."
+
+services:
+  portainer_app:
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: portainer
+    image: portainer/portainer-ee:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/portainer/production/app:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: portainer.local # Customize this with your own domain, e.g., `portainer.local` to `portainer.your-fqdn-here.com`.
+    hostname: portainer
+    networks:
+      portainer_net:
+        ipv4_address: 172.20.1.2
+    ports:
+      - "8000:8000/tcp" # Edge agents
+      - "8000:8000/udp" # Edge agents
+      - "9000:9000/tcp" # HTTP
+      - "9000:9000/udp" # HTTP
+      - "9443:9443/tcp" # HTTPS
+      - "9443:9443/udp" # HTTPS
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "portainer"
+      com.portainer.description:
+        "deploy, configure, troubleshoot and secure containers."
+    healthcheck:
+      disable: true

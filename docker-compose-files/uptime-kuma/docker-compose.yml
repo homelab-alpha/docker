@@ -1,0 +1,58 @@
+---
+version: "3.9"
+networks:
+  uptime-kuma_net:
+    internal: false
+    external: false
+    name: uptime-kuma
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.3.0/24
+          ip_range: 172.20.3.0/24
+          gateway: 172.20.3.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "uptime-kuma"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.uptime-kuma.network.description: "is an isolated network."
+
+services:
+  uptime-kuma_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: uptime-kuma
+    image: louislam/uptime-kuma:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/uptime-kuma/production/app:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /usr/local/share/ca-certificates:/app/data/docker-tls
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # NODE_EXTRA_CA_CERTS: /app/data/docker-tls/change_me # Replace `change_me` with the name of your own certificate to add your trusted root certificates.
+    domainname: status.local  # Customize this with your own domain, e.g., `status.local` to `status.your-fqdn-here.com`.
+    hostname: status
+    networks:
+      uptime-kuma_net:
+        ipv4_address: 172.20.3.2
+    ports:
+      - "3001:3001/tcp" # HTTP
+      - "3001:3001/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "uptime-kuma"
+      com.uptime-kuma.description:
+        "it is a self-hosted monitoring tool like uptime robot."
+    healthcheck:
+      disable: true

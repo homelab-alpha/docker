@@ -41,8 +41,8 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      JELLYFIN_PublishedServerUrl: "https://jellyfin.local"  # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
-    domainname: jellyfin.local  # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
+      JELLYFIN_PublishedServerUrl: "https://jellyfin.local" # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
+    domainname: jellyfin.local # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
     hostname: jellyfin
     extra_hosts:
       host.docker.internal: "host-gateway"
@@ -61,6 +61,8 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "jellyfin"
-      com.jellyfin.description: "is a free software media system that puts you in control of managing and streaming your media."
+      com.jellyfin.description:
+        "is a free software media system that puts you in control of managing
+        and streaming your media."
     healthcheck:
       disable: true

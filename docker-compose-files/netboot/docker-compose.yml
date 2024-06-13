@@ -1,0 +1,68 @@
+---
+version: "3.9"
+networks:
+  netboot_net:
+    internal: false
+    external: false
+    name: netboot
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.11.0/24
+          ip_range: 172.20.11.0/24
+          gateway: 172.20.11.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "netboot"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.netboot.network.description: "is an isolated bridge network."
+
+services:
+  netboot_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: netboot
+    image: netbootxyz/netbootxyz:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/netboot/production/app:/config
+      - /docker/media/images/netboot/assets:/assets
+      - /docker/media/images/iso:/assets
+      - /docker/media/images/dmg:/assets
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # MENU_VERSION: 2.0.79 # optional
+      # PORT_RANGE: 30000:30010 # optional
+      # SUBFOLDER: / # optional
+    domainname: netboot.local # Customize this with your own domain, e.g., `netboot.local` to `netboot.your-fqdn-here.com`.
+    hostname: netboot
+    networks:
+      netboot_net:
+        ipv4_address: 172.20.11.2
+    ports:
+      - "69:69/udp" # TFTP Port
+      - "3011:3000/tcp" # Web configuration interface.
+      - "3011:3000/udp" # Web configuration interface.
+      # - "3012:80/tcp" # NGINX server for hosting assets.
+      # - "3012:80/udp" # NGINX server for hosting assets.
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "netboot"
+      com.netboot.description:
+        "is a convenient place to boot into any type of operating system or
+        utility disk without the need of having to go spend time retrieving the
+        ISO just to run it."
+    healthcheck:
+      disable: true

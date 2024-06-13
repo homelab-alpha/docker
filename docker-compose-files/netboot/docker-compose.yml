@@ -1,5 +1,4 @@
 ---
-version: "3.9"
 networks:
   netboot_net:
     internal: false

@@ -1,5 +1,4 @@
 ---
-version: "3.9"
 networks:
   netdata_net:
     internal: false

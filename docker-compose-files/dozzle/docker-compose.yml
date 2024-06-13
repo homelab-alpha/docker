@@ -1,0 +1,65 @@
+---
+version: "3.9"
+networks:
+  dozzle_net:
+    internal: false
+    external: false
+    name: dozzle
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.9.0/24
+          ip_range: 172.20.9.0/24
+          gateway: 172.20.9.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "dozzle"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.dozzle.network.description: "is an isolated bridge network."
+
+services:
+  dozzle_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/dozzle/production/app:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      DOZZLE_AUTH_PROVIDER: "none" # none, simple, forward-proxy
+      DOZZLE_ENABLE_ACTIONS: "false"
+      DOZZLE_HOSTNAME: docker-server
+      DOZZLE_LEVEL: info
+      DOZZLE_NO_ANALYTICS: "true"
+      # DOZZLE_REMOTE_HOST: tcp://192.168.*.*:2376|dozzle-remote.local
+    domainname: dozzle.local # Customize this with your own domain, e.g., `dozzle.local` to `dozzle.your-fqdn-here.com`.
+    hostname: dozzle
+    networks:
+      dozzle_net:
+        ipv4_address: 172.20.9.2
+    ports:
+      - "3008:8080/tcp" # HTTP
+      - "3008:8080/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "dozzle"
+      com.dozzle.description:
+        "is a small lightweight application with a web based interface to
+        monitor Docker logs."
+    healthcheck:
+      disable: true

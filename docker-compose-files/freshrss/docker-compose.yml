@@ -1,0 +1,104 @@
+---
+networks:
+  freshrss_net:
+    internal: false
+    external: false
+    name: freshrss
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.6.0/24
+          ip_range: 172.20.6.0/24
+          gateway: 172.20.6.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "freshrss"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.freshrss.network.description: "is an isolated bridge network."
+
+services:
+  freshrss_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: freshrss_db
+    image: mariadb:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/freshrss/production/db:/var/lib/mysql
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_ROOT_PASSWORD: "sprD3KmxVgS5u4UaBbyRedLkWt6fn" # Change the MySQL root password to a strong, unique password of your choice.  Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
+      MYSQL_DATABASE: "freshrss_db"
+      MYSQL_USER: "freshrss"
+      MYSQL_PASSWORD: "bNg5cEUFTvRH2XMxzSksemh8PrJ4u" # Change the MySQL password to a strong, unique password of your choice. Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
+    command:
+      [
+        "--transaction-isolation=READ-COMMITTED",
+        "--log-bin=binlog",
+        "--binlog-format=ROW",
+      ]
+    hostname: freshrss_db
+    networks:
+      freshrss_net:
+        ipv4_address: 172.20.6.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.freshrss.db.description: "is a MySQL database."
+    healthcheck:
+      disable: true
+
+  freshrss_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: freshrss
+    image: freshrss/freshrss:latest
+    pull_policy: if_not_present
+    depends_on:
+      freshrss_db:
+        condition: service_started
+    links:
+      - freshrss_db
+    volumes:
+      - /docker/freshrss/production/app/data:/var/www/FreshRSS/data
+      - /docker/freshrss/extensions:/var/www/FreshRSS/extensions
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      CRON_MIN: "*/10"
+      MYSQL_HOST: "freshrss_db"
+      MYSQL_PORT: 3306
+      MYSQL_NAME: "freshrss_db"
+      MYSQL_USER: "freshrss"
+      MYSQL_PASSWORD: "bNg5cEUFTvRH2XMxzSksemh8PrJ4u" # Change the MySQL password to a strong, unique password of your choice. Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
+    domainname: freshrss.local # Customize this with your own domain, e.g., `freshrss.local` to `freshrss.your-fqdn-here.com`.
+    hostname: freshrss
+    networks:
+      freshrss_net:
+        ipv4_address: 172.20.6.3
+    ports:
+      - "3002:80/tcp" # HTTP
+      - "3002:80/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "freshrss"
+      com.freshrss.description: "is a free, self-hostable feeds aggregator."
+    healthcheck:
+      disable: true

@@ -1,0 +1,73 @@
+---
+networks:
+  plex_net:
+    internal: false
+    external: false
+    name: plex
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.12.0/24
+          ip_range: 172.20.12.0/24
+          gateway: 172.20.12.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "plex"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.plex.network.description: "is an isolated bridge network."
+
+services:
+  plex_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: plex
+    image: plexinc/pms-docker:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/plex/production/app/config:/config
+      - /docker/plex/production/app/temp:/transcode
+      - /docker/media:/data:ro
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      PLEX_CLAIM: "claim-a1b2c3d4e5f6g7h8i9j0" # Visit https://www.plex.tv/claim to get a claim token for logging into your Plex server with your Plex account.
+      ADVERTISE_IP: "http://192.168.1.1:32400/" # Customize this with your own server IP address, e.g., `192.168.1.1:32400` to `192.168.69.69:32400`.
+      CHANGE_CONFIG_DIR_OWNERSHIP: "false"
+      # ALLOWED_NETWORKS: ""
+    domainname: plex.local # Customize this with your own domain, e.g., `plex.local` to `plex.your-fqdn-here.com`.
+    hostname: plex
+    networks:
+      plex_net:
+        ipv4_address: 172.20.12.2
+    ports:
+      - 32400:32400/tcp # HTTP
+      - 32400:32400/udp # HTTP
+      - 5353:5353/udp # older Bonjour/Avahi network discovery (not is use anymore)
+      - 8324:8324/tcp # controlling Plex for Roku via Plex Companion
+      - 1900:1900/udp # Plex DLNA Server
+      - 32469:32469/tcp # Plex DLNA Server
+      - 32410:32410/udp # GDM network discovery
+      - 32412:32412/udp # GDM network discovery
+      - 32413:32413/udp # GDM network discovery
+      - 32414:32414/udp # GDM network discovery
+    devices:
+      - /dev/dri:/dev/dri
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "plex"
+      com.plex.description:
+        "organizes all of your personal media so you can enjoy it no matter
+        where you are."
+    healthcheck:
+      disable: true

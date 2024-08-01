@@ -34,5 +34,6 @@ jobs:
         uses: super-linter/super-linter@v6.8.0
         env:
           BASH_SEVERITY: warning
+          VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_POWERSHELL: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

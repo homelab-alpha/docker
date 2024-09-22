@@ -1,0 +1,59 @@
+---
+networks:
+  dockge_net:
+    internal: false
+    external: false
+    name: dockge
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.7.0/24
+          ip_range: 172.20.7.0/24
+          gateway: 172.20.7.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "dockge"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.dockge.network.description: "is an isolated bridge network."
+
+services:
+  dockge_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: dockge
+    image: louislam/dockge:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/dockge/production/app/data:/app/data
+      - /docker/dockge/production/app/stacks:/opt/stacks
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      DOCKGE_STACKS_DIR: /opt/stacks
+    domainname: dockge.local # Customize this with your own domain, e.g., `dockge.local` to `dockge.your-fqdn-here.com`.
+    hostname: dockge
+    networks:
+      dockge_net:
+        ipv4_address: 172.20.7.2
+    ports:
+      - "3005:5001/tcp" # HTTP
+      - "3005:5001/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "dockge"
+      com.dockge.description:
+        "a fancy, easy-to-use and reactive self-hosted docker compose.yml stack."
+    healthcheck:
+      disable: true

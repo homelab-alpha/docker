@@ -1,0 +1,63 @@
+---
+networks:
+  openspeedtest_net:
+    internal: false
+    external: false
+    name: openspeedtest
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.10.0/24
+          ip_range: 172.20.10.0/24
+          gateway: 172.20.10.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "openspeedtest"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.openspeedtest.network.description: "is an isolated bridge network."
+
+services:
+  openspeedtest_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: openspeedtest
+    image: openspeedtest/latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/openspeedtest/production/config/nginx.conf:/etc/nginx.conf
+      - /docker/openspeedtest/production/config/OpenSpeedTest-Server.conf:/etc/nginx/conf.d/OpenSpeedTest-Server.conf
+      - /docker/openspeedtest/production/log:/var/log/letsencrypt
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      ENABLE_LETSENCRYPT: false
+      DOMAIN_NAME: speedtest.local # Customize this with your own domain, e.g., `openspeedtest.local` to `openspeedtest.your-fqdn-here.com`.
+      # USER_EMAIL: info@example.com
+    domainname: openspeedtest.local # Customize this with your own domain, e.g., `openspeedtest.local` to `openspeedtest.your-fqdn-here.com`.
+    hostname: openspeedtest
+    networks:
+      openspeedtest_net:
+        ipv4_address: 172.20.10.2
+    ports:
+      - "3009:3000/tcp" # HTTP
+      - "3009:3000/udp" # HTTP
+      - "3010:3001/tcp" # HTTPS
+      - "3010:3001/udp" # HTTPS
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "openspeedtest"
+      com.openspeedtest.description:
+        "is a Free and Open-Source HTML5 Network Speed Test Software."
+    healthcheck:
+      disable: true

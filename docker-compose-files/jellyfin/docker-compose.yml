@@ -1,0 +1,67 @@
+---
+networks:
+  jellyfin_net:
+    internal: false
+    external: false
+    name: jellyfin
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.5.0/24
+          ip_range: 172.20.5.0/24
+          gateway: 172.20.5.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "jellyfin"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.jellyfin.network.description: "is an isolated bridge network."
+
+services:
+  jellyfin_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: jellyfin
+    image: jellyfin/jellyfin:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/jellyfin/production/app:/config
+      - /docker/jellyfin/production/app/cache:/cache
+      - /docker/media:/media:ro
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      JELLYFIN_PublishedServerUrl: "https://jellyfin.local" # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
+    domainname: jellyfin.local # Customize this with your own domain, e.g., `jellyfin.local` to `jellyfin.your-fqdn-here.com`.
+    hostname: jellyfin
+    extra_hosts:
+      host.docker.internal: "host-gateway"
+    networks:
+      jellyfin_net:
+        ipv4_address: 172.20.5.2
+    ports:
+      - "8096:8096/tcp" # HTTP
+      - "8096:8096/udp" # HTTP
+      - "8920:8920/tcp" # HTTPS
+      - "8920:8920/udp" # HTTPS
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "jellyfin"
+      com.jellyfin.description:
+        "is a free software media system that puts you in control of managing
+        and streaming your media."
+    healthcheck:
+      disable: true

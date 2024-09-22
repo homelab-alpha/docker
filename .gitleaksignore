@@ -1,0 +1,9 @@
+# GitHub Workspace
+/github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:41
+/github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:44
+/github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:89
+
+# Super Linter Local
+/tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:41
+/tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:44
+/tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:89

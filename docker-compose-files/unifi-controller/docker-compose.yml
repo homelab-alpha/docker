@@ -1,0 +1,65 @@
+---
+networks:
+  unifi-controller_net:
+    internal: false
+    external: false
+    name: unifi-controller
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.13.0/24
+          ip_range: 172.20.13.0/24
+          gateway: 172.20.13.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "unifi-controller"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.unifi-controller.network.description: "is an isolated bridge network."
+
+services:
+  unifi-controller_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: unifi-controller
+    image: linuxserver/unifi-controller:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/unifi-controller/production/app:/config
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MEM_LIMIT: "2048M"
+    domainname: unifi-controller.local # Customize this with your own domain, e.g., `unifi-controller.local` to `unifi-controller.your-fqdn-here.com`.
+    hostname: unifi-controller
+    networks:
+      unifi-controller_net:
+        ipv4_address: 172.20.13.2
+    ports:
+      - "1900:1900/udp" # Required for Make controller discoverable on L2
+      - "3478:3478/udp" # Unifi STUN port
+      - "5514:5514/tcp" # Remote syslog port
+      - "6789:6789/tcp" # For mobile throughput test
+      - "8080:8080/tcp" # Required for device communication
+      - "8443:8443/tcp" # Unifi web admin port
+      - "8843:8843/tcp" # Unifi guest portal HTTPS redirect port
+      - "8880:8880/tcp" # Unifi guest portal HTTP redirect port
+      - "10001:10001/udp" # Required for AP discovery
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "unifi-controller"
+      com.unifi-controller.description:
+        "is an end-to-end system of network devices across different locations —
+        all controlled from a single interface."
+    healthcheck:
+      disable: true

@@ -1,0 +1,70 @@
+---
+networks:
+  netdata_net:
+    internal: false
+    external: false
+    name: netdata
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.4.0/24
+          ip_range: 172.20.4.0/24
+          gateway: 172.20.4.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "netdata"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.netdata.network.description: "is an isolated bridge network."
+
+services:
+  netdata_app:
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    container_name: netdata
+    image: netdata/netdata:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/netdata/production/app/cache:/var/cache/netdata
+      - /docker/netdata/production/app/config:/etc/netdata
+      - /docker/netdata/production/app/lib:/var/lib/netdata
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /etc/passwd:/host/etc/passwd:ro
+      - /proc:/host/proc:ro
+      - /run/dbus:/run/dbus:ro
+      - /sys:/host/sys:ro
+      - /var/log:/host/var/log:ro
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      DOCKER_USR: root
+      NETDATA_EXTRA_APK_PACKAGES: lm-sensors
+    domainname: netdata.local # Customize this with your own domain, e.g., `netdata.local` to `netdata.your-fqdn-here.com`.
+    hostname: netdata
+    networks:
+      netdata_net:
+        ipv4_address: 172.20.4.2
+    ports:
+      - "19999:19999/tcp" # HTTP
+      - "19999:19999/udp" # HTTP
+    security_opt:
+      - apparmor:unconfined
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    labels:
+      com.docker.compose.project: "netdata"
+      com.netdata.description:
+        "is an infrastructure monitoring and troubleshooting."
+    healthcheck:
+      disable: true

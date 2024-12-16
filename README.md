@@ -169,14 +169,14 @@ the [license] agreement.
 [Homelab-Alpha's GitHub repositories]: https://github.com/homelab-alpha
 [community]: https://github.com/homelab-alpha/docker/discussions
 [bug report]:
-  https://github.com/homelab-alpha/docker/issues/new?&template=bug_report.md
+  https://github.com/homelab-alpha/docker/issues/new?&template=bug_report.yml
 [security report]:
-  https://github.com/homelab-alpha/docker/issues/new?&template=security_report.md
+  https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=security&projects=&template=security_report.yml&title=GitHub+Security+Advisory
 [give feedback]:
   https://github.com/homelab-alpha/docker/discussions/categories/feedback
 [ideas]: https://github.com/homelab-alpha/docker/discussions/categories/ideas
 [feature request]:
-  https://github.com/homelab-alpha/docker/discussions/categories/feature-requests
+  https://github.com/homelab-alpha/docker/issues/new?&template=feature_request.yml
 [contributing]: CONTRIBUTING.md
 [Homelab-Alpha's contact]: https://homelab-alpha.nl/contact
 [license]: LICENSE.md

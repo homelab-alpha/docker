@@ -1,6 +1,7 @@
 ---
 networks:
   plex_net:
+    attachable: false
     internal: false
     external: false
     name: plex
@@ -36,12 +37,19 @@ services:
       - /docker/plex/production/app/config:/config
       - /docker/plex/production/app/temp:/transcode
       - /docker/media:/data:ro
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
     environment:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      PLEX_CLAIM: "claim-a1b2c3d4e5f6g7h8i9j0" # Visit https://www.plex.tv/claim to get a claim token for logging into your Plex server with your Plex account.
-      ADVERTISE_IP: "http://192.168.1.1:32400/" # Customize this with your own server IP address, e.g., `192.168.1.1:32400` to `192.168.69.69:32400`.
+      PLEX_CLAIM: ${PLEX_CLAIM_TOKEN} # Fill in the value in both the .env and stack.env files
+      ADVERTISE_IP: ${IP_ADDRESS} # Fill in the value in both the .env and stack.env files
       CHANGE_CONFIG_DIR_OWNERSHIP: "false"
       # ALLOWED_NETWORKS: ""
     domainname: plex.local # Customize this with your own domain, e.g., `plex.local` to `plex.your-fqdn-here.com`.

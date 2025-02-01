@@ -1,6 +1,7 @@
 ---
 networks:
   dozzle_net:
+    attachable: false
     internal: false
     external: false
     name: dozzle

@@ -1,6 +1,7 @@
 ---
 networks:
   netboot_net:
+    attachable: false
     internal: false
     external: false
     name: netboot
@@ -35,8 +36,6 @@ services:
     volumes:
       - /docker/netboot/production/app:/config
       - /docker/media/images/netboot/assets:/assets
-      - /docker/media/images/iso:/assets
-      - /docker/media/images/dmg:/assets
     environment:
       PUID: "1000"
       PGID: "1000"

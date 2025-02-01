@@ -1,0 +1,132 @@
+---
+networks:
+  uptime-kuma-beta_net:
+    attachable: false
+    internal: false
+    external: false
+    name: uptime-kuma-beta
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.3.0/24
+          ip_range: 172.19.3.0/24
+          gateway: 172.19.3.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "uptimekuma-beta"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.uptime-kuma-beta.network.description: "is an isolated bridge network."
+
+services:
+  uptime-kuma-beta_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: uptime-kuma-beta_db
+    image: mariadb:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/uptime-kuma-beta/production/db:/var/lib/mysql
+      - /docker/uptime-kuma-beta/production/my.cnf:/etc/my.cnf
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
+      MYSQL_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+    hostname: uptime-kuma-beta_db
+    networks:
+      uptime-kuma-beta_net:
+        ipv4_address: 172.19.3.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.uptime-kuma-beta.db.description: "is an MySQL database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  uptime-kuma-beta_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: uptime-kuma-beta
+    image: louislam/uptime-kuma:2.0.0-beta.1
+    pull_policy: if_not_present
+    depends_on:
+      uptime-kuma-beta_db:
+        condition: service_healthy
+    links:
+      - uptime-kuma-beta_db
+    volumes:
+      - /docker/uptime-kuma-beta/production/app:/app/data
+      - /usr/local/share/ca-certificates:/app/data/docker-tls
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # Replace 'root_ca.crt' with your own Root CA certificate, then uncomment the line
+      # NODE_EXTRA_CA_CERTS: /app/data/docker-tls/root_ca.crt
+      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+    domainname: status.local # Customize this with your own domain, e.g., `status.local` to `status.your-fqdn-here.com`.
+    hostname: status
+    networks:
+      uptime-kuma-beta_net:
+        ipv4_address: 172.19.3.3
+    ports:
+      - "3001:3001/tcp" # HTTP
+      - "3001:3001/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "uptime-kuma-beta"
+      com.uptime-kuma-beta.description:
+        "is an self-hosted monitoring tool that allows you to monitor uptime,
+        status, and notifications for various services and domains."
+    healthcheck:
+      disable: false
+      test: ["CMD", "extra/healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

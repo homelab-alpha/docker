@@ -1,6 +1,7 @@
 ---
 networks:
   watchtower_net:
+    attachable: false
     internal: false
     external: false
     name: watchtower

@@ -1,6 +1,7 @@
 ---
 networks:
   unifi-controller_net:
+    attachable: false
     internal: false
     external: false
     name: unifi-controller

@@ -1,6 +1,7 @@
 ---
 networks:
   freshrss_net:
+    attachable: false
     internal: false
     external: false
     name: freshrss
@@ -29,25 +30,28 @@ services:
       options:
         max-size: "1M"
         max-file: "2"
+    stop_grace_period: 1m
     container_name: freshrss_db
     image: mariadb:latest
     pull_policy: if_not_present
     volumes:
       - /docker/freshrss/production/db:/var/lib/mysql
+      - /docker/freshrss/production/my.cnf:/etc/my.cnf
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
     environment:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MYSQL_ROOT_PASSWORD: "sprD3KmxVgS5u4UaBbyRedLkWt6fn" # Change the MySQL root password to a strong, unique password of your choice.  Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
-      MYSQL_DATABASE: "freshrss_db"
-      MYSQL_USER: "freshrss"
-      MYSQL_PASSWORD: "bNg5cEUFTvRH2XMxzSksemh8PrJ4u" # Change the MySQL password to a strong, unique password of your choice. Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
-    command:
-      [
-        "--transaction-isolation=READ-COMMITTED",
-        "--log-bin=binlog",
-        "--binlog-format=ROW",
-      ]
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
+      MYSQL_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
     hostname: freshrss_db
     networks:
       freshrss_net:
@@ -57,7 +61,13 @@ services:
     labels:
       com.freshrss.db.description: "is a MySQL database."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
 
   freshrss_app:
     restart: unless-stopped
@@ -66,27 +76,35 @@ services:
       options:
         max-size: "1M"
         max-file: "2"
+    stop_grace_period: 1m
     container_name: freshrss
     image: freshrss/freshrss:latest
     pull_policy: if_not_present
     depends_on:
       freshrss_db:
-        condition: service_started
+        condition: service_healthy
     links:
       - freshrss_db
     volumes:
       - /docker/freshrss/production/app/data:/var/www/FreshRSS/data
       - /docker/freshrss/extensions:/var/www/FreshRSS/extensions
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
     environment:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       CRON_MIN: "*/10"
-      MYSQL_HOST: "freshrss_db"
-      MYSQL_PORT: 3306
-      MYSQL_NAME: "freshrss_db"
-      MYSQL_USER: "freshrss"
-      MYSQL_PASSWORD: "bNg5cEUFTvRH2XMxzSksemh8PrJ4u" # Change the MySQL password to a strong, unique password of your choice. Avoid using symbols like !";#$%&'()*+,-./:;<=>?@[]^_`{|}~
+      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
     domainname: freshrss.local # Customize this with your own domain, e.g., `freshrss.local` to `freshrss.your-fqdn-here.com`.
     hostname: freshrss
     networks:

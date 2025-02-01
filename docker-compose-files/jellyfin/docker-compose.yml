@@ -30,6 +30,7 @@ services:
       options:
         max-size: "1M"
         max-file: "2"
+    stop_grace_period: 1m
     container_name: jellyfin
     image: jellyfin/jellyfin:latest
     pull_policy: if_not_present

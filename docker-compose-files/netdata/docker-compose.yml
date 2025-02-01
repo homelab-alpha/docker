@@ -1,6 +1,7 @@
 ---
 networks:
   netdata_net:
+    attachable: false
     internal: false
     external: false
     name: netdata

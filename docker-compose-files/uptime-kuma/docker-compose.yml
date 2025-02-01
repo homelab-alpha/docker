@@ -1,6 +1,7 @@
 ---
 networks:
   uptime-kuma_net:
+    attachable: false
     internal: false
     external: false
     name: uptime-kuma
@@ -43,7 +44,7 @@ services:
     hostname: status
     networks:
       uptime-kuma_net:
-        ipv4_address: 172.20.3.2
+        ipv4_address: 172.20.3.3
     ports:
       - "3001:3001/tcp" # HTTP
       - "3001:3001/udp" # HTTP

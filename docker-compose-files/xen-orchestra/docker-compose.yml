@@ -1,6 +1,7 @@
 ---
 networks:
   xen-orchestra_net:
+    attachable: false
     internal: false
     external: false
     name: xen-orchestra

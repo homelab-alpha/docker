@@ -56,4 +56,10 @@ services:
       com.uptime-kuma.description:
         "it is a self-hosted monitoring tool like uptime robot."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "extra/healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

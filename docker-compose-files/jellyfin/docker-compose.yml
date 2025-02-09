@@ -66,4 +66,10 @@ services:
         "is a free software media system that puts you in control of managing
         and streaming your media."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "curl", "--noproxy", "localhost", "-Lk", "-fsS", "http://localhost:8096/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

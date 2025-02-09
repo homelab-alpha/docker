@@ -63,4 +63,10 @@ services:
         "is a small lightweight application with a web based interface to
         monitor Docker logs."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/dozzle", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

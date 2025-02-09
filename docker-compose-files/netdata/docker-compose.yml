@@ -69,4 +69,10 @@ services:
       com.netdata.description:
         "is an infrastructure monitoring and troubleshooting."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/usr/sbin/health.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

@@ -79,4 +79,10 @@ services:
         "organizes all of your personal media so you can enjoy it no matter
         where you are."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

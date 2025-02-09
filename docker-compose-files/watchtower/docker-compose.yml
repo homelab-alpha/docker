@@ -51,4 +51,10 @@ services:
         "a container-based solution for automating Docker container base image
         updates."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/watchtower", "--health-check"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

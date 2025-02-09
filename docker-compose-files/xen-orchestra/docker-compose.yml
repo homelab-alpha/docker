@@ -75,4 +75,10 @@ services:
         "is a complete solution to visualize, manage, backup and delegate your
         XCP-ng or XenServer infrastructure."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

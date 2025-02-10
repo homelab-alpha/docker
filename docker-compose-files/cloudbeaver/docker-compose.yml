@@ -40,7 +40,7 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-    domainname: cloudbeaver.local # Customize this with your own domain, e.g., `dockge.local` to `dockge.your-fqdn-here.com`.
+    domainname: cloudbeaver.local # Customize this with your own domain, e.g., `cloudbeaver.local` to `cloudbeaver.your-fqdn-here.com`.
     hostname: cloudbeaver
     networks:
       cloudbeaver_net:

@@ -1,0 +1,64 @@
+---
+networks:
+  cloudbeaver_net:
+    attachable: false
+    internal: false
+    external: false
+    name: cloudbeaver
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.14.0/24
+          ip_range: 172.20.14.0/24
+          gateway: 172.20.14.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "cloudbeaver"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.cloudbeaver.network.description: "is an isolated bridge network."
+
+services:
+  cloudbeaver_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/cloudbeaver/production/app:/opt/cloudbeaver/workspace
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: cloudbeaver.local # Customize this with your own domain, e.g., `dockge.local` to `dockge.your-fqdn-here.com`.
+    hostname: cloudbeaver
+    networks:
+      cloudbeaver_net:
+        ipv4_address: 172.20.14.3
+    ports:
+      - "3978:8978/tcp" # HTTP(s)
+      - "3978:8978/udp" # HTTP(s)
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "cloudbeaver"
+      com.cloudbeaver.description:
+        "is an lightweight web application for all-around data management."
+    healthcheck:
+      disable: false
+      test: ["CMD", "curl", "-f", "http://localhost:8978/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

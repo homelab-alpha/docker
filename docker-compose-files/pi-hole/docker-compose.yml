@@ -1,0 +1,71 @@
+---
+networks:
+  pi-hole_net:
+    attachable: false
+    internal: false
+    external: false
+    name: pi-hole
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.17.0/24
+          ip_range: 172.20.17.0/24
+          gateway: 172.20.17.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "pi-hole"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.pi-hole.network.description: "is an isolated bridge network."
+
+services:
+  pi-hole_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: pi-hole
+    image: pihole/pihole:latest
+    pull_policy: if_not_present
+    volumes:
+      - ./etc-pihole:/etc/pihole
+      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      WEBPASSWORD: "set a secure password here or it will be random"
+    domainname: pi-hole.local # Customize this with your own domain, e.g., `pi-hole.local` to `pi-hole.your-fqdn-here.com`.
+    hostname: pi-hole
+    networks:
+      pi-hole_net:
+        ipv4_address: 172.20.17.2
+    ports:
+      - "53:53/tcp" # plain DNS
+      - "53:53/udp" # plain DNS
+      - "67:67/udp" # DHCP
+      - "3080:80/tcp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    cap_add:
+      - NET_ADMIN
+    labels:
+      com.docker.compose.project: "pi-hole"
+      com.pi-hole.description:
+        "is a Linux network-level advertisement and Internet tracker blocking
+        application which acts as a DNS sinkhole and optionally a DHCP server."
+    healthcheck:
+      disable: true # Healthcheck is temporarily disabled because the service hasn't been tested yet.
+      test: ["CMD", "dig", "+short", "+norecurse", "+retry=0", "@127.0.0.1", "pi.hole"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

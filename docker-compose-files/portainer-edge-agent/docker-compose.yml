@@ -1,0 +1,57 @@
+---
+networks:
+  edge-agent_net:
+    attachable: false
+    internal: false
+    external: false
+    name: edge-agent
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.18.0/24
+          ip_range: 172.20.18.0/24
+          gateway: 172.20.18.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "edge-agent"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.edge-agent.network.description: "is an isolated bridge network."
+
+services:
+  edge-agent_app:
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: edge-agent
+    image: portainer/agent:latest
+    volumes:
+      - /docker/portainer/edge-agent/production/app:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /:/host
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      EDGE: 1
+      EDGE_ID: ${PORTAINER_AGENT_ID}
+      EDGE_KEY: ${PORTAINER_AGENT_KEY}
+      EDGE_INSECURE_POLL: 1
+    networks:
+      edge-agent_net:
+        ipv4_address: 172.20.18.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "portainer agent"
+      com.edge-agent.description:
+        "a remote environment is not directly accessible from docker server."
+    healthcheck:
+      disable: true

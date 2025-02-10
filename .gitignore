@@ -48,6 +48,7 @@ docker-compose.override.yml
 .env
 stack.env
 !docker-compose-files/*/.env
+!docker-compose-files/*/stack.env
 
 ## External Dependencies
 composer.lock

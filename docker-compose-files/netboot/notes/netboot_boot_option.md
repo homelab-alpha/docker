@@ -12,16 +12,16 @@ legacy
 netboot.xyz.kpxe
 ```
 
-## netboot.xyz boot file types
+## netboot.xyz Boot File Types
 
-|                               |                                                                      |
-| ----------------------------- | -------------------------------------------------------------------- |
-| netboot.xyz.kpxe              | Legacy DHCP boot image file, uses built-in iPXE NIC drivers          |
-| netboot.xyz-undionly.kpxe     | Legacy DHCP boot image file, use if you have NIC issues              |
-| netboot.xyz.efi               | UEFI boot image file, uses built-in UEFI NIC drivers                 |
-| netboot.xyz-snp.efi           | UEFI w/ Simple Network Protocol, attempts to boot all net devices    |
-| netboot.xyz-snponly.efi       | UEFI w/ Simple Network Protocol, only boots from device chained from |
-| netboot.xyz-arm64.efi         | DHCP EFI boot image file, uses built-in iPXE NIC drivers             |
-| netboot.xyz-arm64-snp.efi     | UEFI w/ Simple Network Protocol, attempts to boot all net devices    |
-| netboot.xyz-arm64-snponly.efi | UEFI w/ Simple Network Protocol, only boots from device chained from |
-| netboot.xyz-rpi4-snp.efi      | UEFI for Raspberry Pi 4, attempts to boot all net devices            |
+| File Type                         | Description                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| **netboot.xyz.kpxe**              | Legacy DHCP boot image, uses built-in iPXE NIC drivers                         |
+| **netboot.xyz-undionly.kpxe**     | Legacy DHCP boot image, recommended for devices with NIC issues                |
+| **netboot.xyz.efi**               | UEFI boot image, uses built-in UEFI NIC drivers                                |
+| **netboot.xyz-snp.efi**           | UEFI with Simple Network Protocol (SNP), attempts to boot all network devices  |
+| **netboot.xyz-snponly.efi**       | UEFI with SNP, boots only from the device specified by a chainloader           |
+| **netboot.xyz-arm64.efi**         | DHCP EFI boot image for ARM64, uses built-in iPXE NIC drivers                  |
+| **netboot.xyz-arm64-snp.efi**     | UEFI with SNP for ARM64, attempts to boot all network devices                  |
+| **netboot.xyz-arm64-snponly.efi** | UEFI with SNP for ARM64, boots only from the device specified by a chainloader |
+| **netboot.xyz-rpi4-snp.efi**      | UEFI for Raspberry Pi 4, attempts to boot all network devices                  |

@@ -1,0 +1,73 @@
+---
+networks:
+  mariadb_net:
+    attachable: false
+    internal: false
+    external: false
+    name: mariadb
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.16.0/24
+          ip_range: 172.20.16.0/24
+          gateway: 172.20.16.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "mariadb"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.mariadb.network.description: "is an isolated bridge network."
+
+services:
+  mariadb_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: mariadb_db
+    image: mariadb:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/mariadb/production/db:/var/lib/mysql
+      - /docker/mariadb/production/my.cnf:/etc/my.cnf
+      - /sys/fs/cgroup:ro
+    env_file:
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
+      MYSQL_DATABASE: ${NAME_DB}
+      MYSQL_USER: ${USER_DB}
+      MYSQL_PASSWORD: ${PASSWORD_DB}
+    hostname: mariadb_db
+    networks:
+      mariadb_net:
+        ipv4_address: 172.20.16.2
+    # ports:
+    #   - target: 3306       # container port
+    #     host_ip: 127.0.0.1 # The Host IP mapping, unspecified means all network interfaces (0.0.0.0)
+    #     published: 3306    # publicly exposed port
+    #     protocol: tcp      # tcp or udp
+    #     mode: ingress      # host: For publishing a host port on each node
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.mariadb.db.description: "is a MySQL database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

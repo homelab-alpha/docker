@@ -47,6 +47,7 @@ docker-compose.override.yml
 ## Environment and Configuration Files
 .env
 stack.env
+!docker-compose-files/*/.env
 
 ## External Dependencies
 composer.lock

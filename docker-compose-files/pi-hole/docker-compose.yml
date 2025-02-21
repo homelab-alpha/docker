@@ -62,7 +62,7 @@ services:
         "is a Linux network-level advertisement and Internet tracker blocking
         application which acts as a DNS sinkhole and optionally a DHCP server."
     healthcheck:
-      disable: true # Healthcheck is temporarily disabled because the service hasn't been tested yet.
+      disable: false
       test: ["CMD", "dig", "+short", "+norecurse", "+retry=0", "@127.0.0.1", "pi.hole"]
       interval: 10s
       timeout: 5s

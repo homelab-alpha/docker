@@ -35,7 +35,7 @@ services:
     image: pihole/pihole:latest
     pull_policy: if_not_present
     volumes:
-      - ./etc-pihole:/etc/pihole
+      - /docker/pi-hole/production/app:/etc/pihole
       - ./etc-dnsmasq.d:/etc/dnsmasq.d
     environment:
       PUID: "1000"
@@ -48,8 +48,8 @@ services:
       pi-hole_net:
         ipv4_address: 172.20.17.2
     ports:
-      - "53:53/tcp" # plain DNS
-      - "53:53/udp" # plain DNS
+      - "5353:53/tcp" # plain DNS
+      - "5353:53/udp" # plain DNS
       - "67:67/udp" # DHCP
       - "3080:80/tcp" # HTTP
     security_opt:

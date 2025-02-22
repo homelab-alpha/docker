@@ -38,14 +38,6 @@ services:
       - /docker/haproxy/production/app/hapoxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - /docker/haproxy/production/certs:/certs
       - /etc/letsencrypt:/etc/letsencrypt
-    env_file:
-      # adds environment variables to the container based on the file content.
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
     environment:
       PUID: "1000"
       PGID: "1000"

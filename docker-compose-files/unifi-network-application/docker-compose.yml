@@ -9,9 +9,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.13.0/24
-          ip_range: 172.20.13.0/24
-          gateway: 172.20.13.1
+        - subnet: 172.20.19.0/24
+          ip_range: 172.20.19.0/24
+          gateway: 172.20.19.1
     driver_opts:
       com.docker.network.bridge.default_bridge: "false"
       com.docker.network.bridge.enable_icc: "true"
@@ -57,7 +57,7 @@ services:
     hostname: unifi-network-application_db
     networks:
       unifi-network-application_net:
-        ipv4_address: 172.20.13.2
+        ipv4_address: 172.20.19.2
     security_opt:
       - no-new-privileges:true
     labels:
@@ -115,7 +115,7 @@ services:
     hostname: unifi-network-application
     networks:
       unifi-network-application_net:
-        ipv4_address: 172.20.13.3
+        ipv4_address: 172.20.19.3
     ports:
       - "1900:1900/udp" # Required for Make controller discoverable on L2
       - "3478:3478/udp" # Unifi STUN port

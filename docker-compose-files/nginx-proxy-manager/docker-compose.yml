@@ -38,7 +38,6 @@ services:
       - /docker/nginx-proxy-manager/production/db:/var/lib/mysql
       - /docker/nginx-proxy-manager/production/my.cnf:/etc/my.cnf
     env_file:
-      # adds environment variables to the container based on the file content.
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.
       # - Use 'stack.env' for Portainer.
@@ -48,11 +47,11 @@ services:
     environment:
       PUID: "1000"
       PGID: "1000"
-      TZ: Europe/Amsterdam
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
-      MYSQL_DATABASE: ${NAME_DB}
-      MYSQL_USER: ${USER_DB}
-      MYSQL_PASSWORD: ${PASSWORD_DB}
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
     hostname: nginx-proxy-manager_db
     networks:
       nginx-proxy-manager_net:
@@ -91,7 +90,6 @@ services:
       - /docker/nginx-proxy-manager/production/app:/data
       - /etc/letsencrypt:/etc/letsencrypt
     env_file:
-      # adds environment variables to the container based on the file content.
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.
       # - Use 'stack.env' for Portainer.
@@ -101,7 +99,7 @@ services:
     environment:
       PUID: "1000"
       PGID: "1000"
-      TZ: Europe/Amsterdam
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
       MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
       MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
@@ -110,7 +108,7 @@ services:
       INITIAL_ADMIN_EMAIL: ${ADMIN_EMAIL} # Fill in the value in both the .env and stack.env files
       INITIAL_ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Fill in the value in both the .env and stack.env files
       DISABLE_IPV6: "true"  # Set this to "true" if IPv6 is disabled on your host. (Default is "false")
-    domainname: npm.local
+    domainname: npm.local # Customize this with your own domain, e.g., `npm.local` to `npm.your-fqdn-here.com`.
     hostname: nginx-proxy-manager
     networks:
       nginx-proxy-manager_net:

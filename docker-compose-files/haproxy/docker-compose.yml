@@ -41,12 +41,12 @@ services:
     environment:
       PUID: "1000"
       PGID: "1000"
-      TZ: Europe/Amsterdam
-    domainname: haproxy.local
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: haproxy.local # Customize this with your own domain, e.g., `haproxy.local` to `haproxy.your-fqdn-here.com`.
     hostname: haproxy
     networks:
       haproxy_net:
-        ipv4_address: 172.20.21.3
+        ipv4_address: 172.20.21.2
     dns:
       # Defines custom DNS servers to set on the container network interface configuration.
       # It can be a single value or a list.

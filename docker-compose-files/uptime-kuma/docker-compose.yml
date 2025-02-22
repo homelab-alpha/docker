@@ -45,7 +45,7 @@ services:
     hostname: status
     networks:
       uptime-kuma_net:
-        ipv4_address: 172.20.3.3
+        ipv4_address: 172.20.3.2
     ports:
       - "3001:3001/tcp" # HTTP
       - "3001:3001/udp" # HTTP

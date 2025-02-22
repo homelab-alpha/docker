@@ -1,0 +1,70 @@
+---
+networks:
+  haproxy_net:
+    attachable: true
+    internal: false
+    external: false
+    name: haproxy
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.21.0/24
+          ip_range: 172.20.21.0/24
+          gateway: 172.20.21.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "haproxy"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.haproxy.network.description: "is an isolated bridge network."
+
+services:
+  haproxy_app:
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: haproxy
+    image: haproxytech/haproxy-ubuntu
+    pull_policy: if_not_present
+    volumes:
+      - /docker/haproxy/production/app/hapoxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /docker/haproxy/production/certs:/certs
+      - /etc/letsencrypt:/etc/letsencrypt
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam
+    domainname: haproxy.local
+    hostname: haproxy
+    networks:
+      haproxy_net:
+        ipv4_address: 172.20.21.3
+    dns:
+      # Defines custom DNS servers to set on the container network interface configuration.
+      # It can be a single value or a list.
+      # Recommended: Quad9 for Malware Blocking, DNSSEC Validation, and Privacy.
+      - 9.9.9.9 # Primary DNS server   (Quad9 - Security & Privacy)
+      - 149.112.112.112 # Secondary DNS server (Quad9 - Redundant)
+    ports:
+      - "80:80/tcp" # HTTP
+      - "80:80/udp" # HTTP
+      - "443:433/tcp" # HTTPS
+      - "443:433/udp" # HTTPS
+      - "8404:8404/tcp" # Statistics Report
+      - "8404:8404/udp" # Statistics Report
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "haproxy"
+      com.haproxy.description:
+        "the reliable, high performance tcp/http load balancer."
+    healthcheck:
+      disable: false

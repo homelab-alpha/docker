@@ -32,8 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: nginx-proxy-manager_db
-    image: jc21/mariadb-aria:latest
-    init: false
+    image: mariadb:latest
     pull_policy: if_not_present
     volumes:
       - /docker/nginx-proxy-manager/production/db:/var/lib/mysql
@@ -47,8 +46,8 @@ services:
       - .env
       - stack.env
     environment:
-      PUID: "1000" # UserID
-      PGID: "1000" # GroupID
+      PUID: "1000"
+      PGID: "1000"
       TZ: Europe/Amsterdam
       MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
       MYSQL_DATABASE: ${NAME_DB}
@@ -86,8 +85,6 @@ services:
       nginx-proxy-manager_db:
         condition: service_healthy
         restart: true
-      nginx-proxy-manager_redis:
-        condition: service_healthy
     links:
       - nginx-proxy-manager_db
     volumes:
@@ -105,13 +102,14 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam
-      MYSQL_HOST: ${HOST_DB}
-      MYSQL_PORT: ${PORT_DB}
-      MYSQL_NAME: ${NAME_DB}
-      MYSQL_USER: ${USER_DB}
-      MYSQL_PASSWORD: ${PASSWORD_DB}
-    command: ["change_me"]
-    entrypoint: ["change_me"]
+      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      INITIAL_ADMIN_EMAIL: ${ADMIN_EMAIL} # Fill in the value in both the .env and stack.env files
+      INITIAL_ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Fill in the value in both the .env and stack.env files
+      DISABLE_IPV6: "true"  # Set this to "true" if IPv6 is disabled on your host. (Default is "false")
     domainname: npm.local
     hostname: nginx-proxy-manager
     networks:
@@ -130,8 +128,8 @@ services:
       com.docker.compose.project: "nginx-proxy-manager"
       com.nginx-proxy-manager.description: "nginx proxy manager expose your services easily and securely."
     healthcheck:
-      disable: true
-      test: ["CMD", "curl", "-f", "http://localhost"]
+      disable: false
+      test: ["CMD", "/usr/bin/check-health"]
       interval: 1m30s
       timeout: 10s
       retries: 3

@@ -1,0 +1,137 @@
+---
+networks:
+  nginx-proxy-manager_net:
+    attachable: true
+    internal: false
+    external: false
+    name: nginx-proxy-manager
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.20.0/24
+          ip_range: 172.20.20.0/24
+          gateway: 172.20.20.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "npm"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.nginx-proxy-manager.network.description: "is an isolated bridge network."
+
+services:
+  nginx-proxy-manager_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: nginx-proxy-manager_db
+    image: mariadb:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/nginx-proxy-manager/production/db:/var/lib/mysql
+      - /docker/nginx-proxy-manager/production/my.cnf:/etc/my.cnf
+    env_file:
+      # adds environment variables to the container based on the file content.
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
+      MYSQL_DATABASE: ${NAME_DB}
+      MYSQL_USER: ${USER_DB}
+      MYSQL_PASSWORD: ${PASSWORD_DB}
+    hostname: nginx-proxy-manager_db
+    networks:
+      nginx-proxy-manager_net:
+        ipv4_address: 172.20.20.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.nginx-proxy-manager.db.description: "is a MySQL database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  nginx-proxy-manager_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: nginx-proxy-manager
+    image: jc21/nginx-proxy-manager:latest
+    pull_policy: if_not_present
+    depends_on:
+      nginx-proxy-manager_db:
+        condition: service_healthy
+        restart: true
+    links:
+      - nginx-proxy-manager_db
+    volumes:
+      - /docker/nginx-proxy-manager/production/app:/data
+      - /etc/letsencrypt:/etc/letsencrypt
+    env_file:
+      # adds environment variables to the container based on the file content.
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam
+      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      INITIAL_ADMIN_EMAIL: ${ADMIN_EMAIL} # Fill in the value in both the .env and stack.env files
+      INITIAL_ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Fill in the value in both the .env and stack.env files
+      DISABLE_IPV6: "true"  # Set this to "true" if IPv6 is disabled on your host. (Default is "false")
+    domainname: npm.local
+    hostname: nginx-proxy-manager
+    networks:
+      nginx-proxy-manager_net:
+        ipv4_address: 172.20.20.3
+    ports:
+      - "80:80/tcp" # HTTP
+      - "80:80/udp" # HTTP
+      - "81:81/tcp" # web admin port
+      - "81:81/udp" # web admin port
+      - "443:443/tcp" # HTTPS
+      - "443:443/udp" # HTTPS
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "nginx-proxy-manager"
+      com.nginx-proxy-manager.description: "nginx proxy manager expose your services easily and securely."
+    healthcheck:
+      disable: false
+      test: ["CMD", "/usr/bin/check-health"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s

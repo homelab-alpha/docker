@@ -1,0 +1,137 @@
+---
+networks:
+  unifi-network-application_net:
+    attachable: false
+    internal: false
+    external: false
+    name: unifi-network-application
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.19.0/24
+          ip_range: 172.20.19.0/24
+          gateway: 172.20.19.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "unifi"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.unifi-network-application.network.description: "is an isolated bridge network."
+
+services:
+  unifi-network-application_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: unifi-network-application_db
+    image: mongo:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/unifi-network-application/production/db:/data/db
+      - /docker/unifi-network-application/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_DBNAME: ${NAME_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_PASS: ${PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_USER: ${USER_DB}  # Fill in the value in both the .env and stack.env files
+    hostname: unifi-network-application_db
+    networks:
+      unifi-network-application_net:
+        ipv4_address: 172.20.19.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.unifi-network-application.db.description: "is an Mongo database."
+    healthcheck:
+      disable: true
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  unifi-network-application_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: unifi-network-application
+    image: linuxserver/unifi-network-application:latest
+    pull_policy: if_not_present
+    depends_on:
+      unifi-network-application_db:
+        condition: service_started
+    links:
+      - unifi-network-application_db
+    volumes:
+      - /docker/unifi-network-application/production/app:/config
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_HOST: ${HOST_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_DBNAME: ${NAME_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_PASS: ${PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_PORT: ${PORT_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_USER: ${USER_DB}  # Fill in the value in both the .env and stack.env files
+      BASICAUTH: ${BASICAUTH_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_URL: ${MONGODB_URL}
+      MEM_LIMIT: 2048
+      MEM_STARTUP: 2048
+      # MONGO_TLS:
+    domainname: unifi-network-application.local # Customize this with your own domain, e.g., `unifi-network-application.local` to `unifi-network-application.your-fqdn-here.com`.
+    hostname: unifi-network-application
+    networks:
+      unifi-network-application_net:
+        ipv4_address: 172.20.19.3
+    ports:
+      - "1900:1900/udp" # Required for Make controller discoverable on L2
+      - "3478:3478/udp" # Unifi STUN port
+      - "5514:5514/tcp" # Remote syslog port
+      - "6789:6789/tcp" # For mobile throughput test
+      - "8080:8080/tcp" # Required for device communication
+      - "8443:8443/tcp" # Unifi web admin port
+      - "8843:8843/tcp" # Unifi guest portal HTTPS redirect port
+      - "8880:8880/tcp" # Unifi guest portal HTTP redirect port
+      - "10001:10001/udp" # Required for AP discovery
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "unifi-network-application"
+      com.unifi-network-application.description:
+        "is an end-to-end system of network devices across different locations —
+        all controlled from a single interface."
+    healthcheck:
+      disable: true

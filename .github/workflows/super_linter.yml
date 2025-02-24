@@ -44,6 +44,7 @@ jobs:
           VALIDATE_JSX_PRETTIER: false
           VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_POWERSHELL: false
+          VALIDATE_SHELL_SHFMT: false
           VALIDATE_TYPESCRIPT_PRETTIER: false
           VALIDATE_VUE_PRETTIER: false
           VALIDATE_YAML_PRETTIER: false

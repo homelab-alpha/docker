@@ -35,7 +35,7 @@ services:
     image: mongo:latest
     pull_policy: if_not_present
     volumes:
-      - /docker/unifi-network-application/db:/data/db
+      - /docker/unifi-network-application/production/db:/data/db
       - /docker/unifi-network-application/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     env_file:
       # Choose the correct environment file:

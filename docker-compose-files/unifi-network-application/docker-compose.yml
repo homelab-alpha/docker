@@ -36,7 +36,7 @@ services:
     pull_policy: if_not_present
     volumes:
       - /docker/unifi-network-application/db:/data/db
-      - /docker/unifi-network-application/db:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+      - /docker/unifi-network-application/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     env_file:
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.

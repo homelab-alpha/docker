@@ -107,7 +107,7 @@ services:
       MONGO_PORT: ${PORT_DB}  # Fill in the value in both the .env and stack.env files
       MONGO_USER: ${USER_DB}  # Fill in the value in both the .env and stack.env files
       BASICAUTH: ${BASICAUTH_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_URL: ${MONGODB_URL}
+      # MONGO_URL: ${MONGODB_URL}  # Fill in the value in both the .env and stack.env files
       MEM_LIMIT: 2048
       MEM_STARTUP: 2048
       # MONGO_TLS:

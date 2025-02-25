@@ -63,8 +63,8 @@ services:
     labels:
       com.unifi-network-application.db.description: "is an Mongo database."
     healthcheck:
-      disable: true
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      disable: false
+      test: ["CMD", "mongosh", "mongodb://${USER_DB}:${PASSWORD_DB}@${HOST_DB}:${PORT_DB}/?authSource=${ROOT_AUTHSOURCE_DB}", "--quiet", "--eval", "printjson(db.runCommand('ping').ok)"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -84,7 +84,7 @@ services:
     pull_policy: if_not_present
     depends_on:
       unifi-network-application_db:
-        condition: service_started
+        condition: service_healthy
     links:
       - unifi-network-application_db
     volumes:

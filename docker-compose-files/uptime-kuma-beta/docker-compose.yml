@@ -37,6 +37,7 @@ services:
     volumes:
       - /docker/uptime-kuma-beta/production/db:/var/lib/mysql
       - /docker/uptime-kuma-beta/production/my.cnf:/etc/my.cnf
+      - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.

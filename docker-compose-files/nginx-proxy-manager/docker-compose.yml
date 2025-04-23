@@ -24,6 +24,12 @@ networks:
 
 services:
   nginx-proxy-manager_db:
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 1G
     restart: unless-stopped
     logging:
       driver: "json-file"

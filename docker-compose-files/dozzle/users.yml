@@ -1,0 +1,25 @@
+# User Configuration
+#
+# To create a Bcrypt-hashed password, run:
+#
+#   htpasswd -nbB username 'StrongUniqueUserPassword1234'
+#
+# This will output: username:$2y$05$tK8ahNrufhDMcyrMGELXAONvKZ1ydGvwVxtyiwIO7wJYN50XoYsIG
+# Copy and paste only the Bcrypt-hashed (the part after the colon)
+# into the 'password' field for the corresponding user below.
+
+---
+users:
+  # Administrator Account
+  admin:                            # Change "admin" to a custom username if desired
+    email: admin@email.net          # Administrator email address
+    name: Admin                     # Display name in the UI
+    password:                       # Insert the Bcrypt-hashed password here
+    filter:                         # Optional: Custom filter rules for this user
+
+  # Guest Account
+  guest:                            # Change "guest" to a custom username if desired
+    email: guest@email.net          # Guest user email address
+    name: Guest                     # Display name in the UI
+    password:                       # Insert the Bcrypt-hashed password here
+    filter: "label=com.example.app" # Optional: Example filter to restrict guest access

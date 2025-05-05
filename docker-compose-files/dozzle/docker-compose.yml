@@ -36,12 +36,14 @@ services:
     pull_policy: if_not_present
     volumes:
       - /docker/dozzle/production/app:/data
+      - /docker/dozzle/users.yml:/data/users.yml
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      DOZZLE_AUTH_PROVIDER: "none" # none, simple, forward-proxy
+      DOZZLE_AUTH_PROVIDER: "none" # Options: none, simple, forward-proxy. Use "simple" to enable authentication via users.yml.
+      DOZZLE_AUTH_TTL: 48h
       DOZZLE_ENABLE_ACTIONS: "false"
       DOZZLE_HOSTNAME: docker-server
       DOZZLE_LEVEL: info

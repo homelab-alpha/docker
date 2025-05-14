@@ -55,8 +55,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "dockge"
-      com.dockge.description:
-        "a fancy, easy-to-use and reactive self-hosted docker compose.yml stack."
+      com.dockge.description: "a fancy, easy-to-use and reactive self-hosted docker compose.yml stack."
     healthcheck:
       disable: false
       test: ["CMD", "extra/healthcheck"]

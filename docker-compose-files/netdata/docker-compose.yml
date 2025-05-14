@@ -66,8 +66,7 @@ services:
       - SYS_ADMIN
     labels:
       com.docker.compose.project: "netdata"
-      com.netdata.description:
-        "is an infrastructure monitoring and troubleshooting."
+      com.netdata.description: "is an infrastructure monitoring and troubleshooting."
     healthcheck:
       disable: false
       test: ["CMD", "/usr/sbin/health.sh"]

@@ -53,8 +53,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "uptime-kuma"
-      com.uptime-kuma.description:
-        "it is a self-hosted monitoring tool like uptime robot."
+      com.uptime-kuma.description: "it is a self-hosted monitoring tool like uptime robot."
     healthcheck:
       disable: false
       test: ["CMD", "extra/healthcheck"]

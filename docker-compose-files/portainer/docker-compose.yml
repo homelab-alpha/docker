@@ -55,7 +55,6 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "portainer"
-      com.portainer.description:
-        "deploy, configure, troubleshoot and secure containers."
+      com.portainer.description: "deploy, configure, troubleshoot and secure containers."
     healthcheck:
       disable: true

@@ -114,7 +114,7 @@ services:
       MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
       INITIAL_ADMIN_EMAIL: ${ADMIN_EMAIL} # Fill in the value in both the .env and stack.env files
       INITIAL_ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Fill in the value in both the .env and stack.env files
-      DISABLE_IPV6: "true"  # Set this to "true" if IPv6 is disabled on your host. (Default is "false")
+      DISABLE_IPV6: "true" # Set this to "true" if IPv6 is disabled on your host. (Default is "false")
     domainname: npm.local # Customize this with your own domain, e.g., `npm.local` to `npm.your-fqdn-here.com`.
     hostname: nginx-proxy-manager
     networks:

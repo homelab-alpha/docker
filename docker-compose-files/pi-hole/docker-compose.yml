@@ -63,7 +63,16 @@ services:
         application which acts as a DNS sinkhole and optionally a DHCP server."
     healthcheck:
       disable: false
-      test: ["CMD", "dig", "+short", "+norecurse", "+retry=0", "@127.0.0.1", "pi.hole"]
+      test:
+        [
+          "CMD",
+          "dig",
+          "+short",
+          "+norecurse",
+          "+retry=0",
+          "@127.0.0.1",
+          "pi.hole",
+        ]
       interval: 10s
       timeout: 5s
       retries: 3

@@ -1,11 +1,15 @@
-# GitHub Workspace
+# GitLeaks ignore
+
+## GitHub Workspace
+
 /github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:41
 /github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:44
 /github/workspace/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:89
 /github/workspace/docker-compose-files/plex/.env:generic-api-key:2
 /github/workspace/docker-compose-files/plex/stack.env:generic-api-key:2
 
-# Super Linter Local
+## Super Linter Local
+
 /tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:41
 /tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:44
 /tmp/lint/docker-compose-files/freshrss/docker-compose.yml:generic-api-key:89

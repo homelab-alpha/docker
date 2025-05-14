@@ -48,12 +48,12 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_DBNAME: ${NAME_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_PASS: ${PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_USER: ${USER_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_INITDB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_INITDB_ROOT_USERNAME: ${ROOT_USER_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_DBNAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_PASS: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
     hostname: unifi-network-application_db
     networks:
       unifi-network-application_net:
@@ -64,7 +64,15 @@ services:
       com.unifi-network-application.db.description: "is an Mongo database."
     healthcheck:
       disable: false
-      test: ["CMD", "mongosh", "mongodb://${USER_DB}:${PASSWORD_DB}@${HOST_DB}:${PORT_DB}/?authSource=${ROOT_AUTHSOURCE_DB}", "--quiet", "--eval", "printjson(db.runCommand('ping').ok)"]
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "mongodb://${USER_DB}:${PASSWORD_DB}@${HOST_DB}:${PORT_DB}/?authSource=${ROOT_AUTHSOURCE_DB}",
+          "--quiet",
+          "--eval",
+          "printjson(db.runCommand('ping').ok)",
+        ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -100,13 +108,13 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_HOST: ${HOST_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_DBNAME: ${NAME_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_PASS: ${PASSWORD_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_PORT: ${PORT_DB}  # Fill in the value in both the .env and stack.env files
-      MONGO_USER: ${USER_DB}  # Fill in the value in both the .env and stack.env files
-      BASICAUTH: ${BASICAUTH_DB}  # Fill in the value in both the .env and stack.env files
+      MONGO_AUTHSOURCE: ${ROOT_AUTHSOURCE_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_DBNAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_PASS: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MONGO_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      BASICAUTH: ${BASICAUTH_DB} # Fill in the value in both the .env and stack.env files
       # MONGO_URL: ${MONGODB_URL}  # Fill in the value in both the .env and stack.env files
       MEM_LIMIT: 2048
       MEM_STARTUP: 2048

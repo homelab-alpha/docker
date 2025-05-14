@@ -1,8 +1,7 @@
 ---
-version: '3'
+version: "3"
 services:
   mijn_webserver:
     image: my_project
     ports:
       - "3000:3000"
-...

@@ -29,8 +29,7 @@ networks:
       com.docker.network.bridge.name: "change_me" # Custom bridge network name.
       com.docker.network.driver.mtu: "1500" # Maximum Transmission Unit for the network.
     labels: # Network label for description.
-      com.change_me.network.description:
-        "An isolated bridge network for internal communication."
+      com.change_me.network.description: "An isolated bridge network for internal communication."
 ```
 
 <br />

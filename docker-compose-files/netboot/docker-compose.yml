@@ -64,4 +64,10 @@ services:
         utility disk without the need of having to go spend time retrieving the
         ISO just to run it."
     healthcheck:
-      disable: true
+      disable: false
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

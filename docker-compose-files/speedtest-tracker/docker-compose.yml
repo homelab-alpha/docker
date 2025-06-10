@@ -1,0 +1,158 @@
+---
+networks:
+  speedtest-tracker_net:
+    attachable: false
+    internal: false
+    external: false
+    name: speedtest-tracker
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.7.0/24
+          ip_range: 172.20.7.0/24
+          gateway: 172.20.7.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "speed-tracker"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.speedtest-tracker.network.description: "is an isolated bridge network."
+
+services:
+  speedtest-tracker_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: speedtest-tracker_db
+    image: mariadb:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/speedtest-tracker/production/db:/var/lib/mysql
+      - /docker/speedtest-tracker/production/my.cnf:/etc/my.cnf
+      - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+    hostname: speedtest-tracker_db
+    networks:
+      speedtest-tracker_net:
+        ipv4_address: 172.20.7.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.speedtest-tracker.db.description: "is a MySQL database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  speedtest-tracker_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: speedtest-tracker
+    image: linuxserver/speedtest-tracker:latest
+    pull_policy: if_not_present
+    depends_on:
+      speedtest-tracker_db:
+        condition: service_healthy
+        restart: true
+    links:
+      - speedtest-tracker_db
+    volumes:
+      - /docker/speedtest-tracker/production/.cert:/config/keys
+      - /docker/speedtest-tracker/production/app:/config
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      APP_NAME: speedtest-tracker # This is the name of the application, it can be anything you like.
+      APP_KEY: ${APP_KEY} # Fill in the value in both the .env and stack.env files
+      ADMIN_NAME: ${ADMIN_NAME} # Fill in the value in both the .env and stack.env files
+      ADMIN_EMAIL: ${ADMIN_EMAIL} # Fill in the value in both the .env and stack.env files
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD} # Fill in the value in both the .env and stack.env files
+      # ALLOWED_IPS: ""
+      # APP_URL: https://speedtest-tracker.local # Adjust this to match your domain or IP address. If you are using a reverse proxy, make sure to set the correct URL.
+      # ASSET_URL: https://speedtest-tracker.local # Adjust this to match your domain or IP address. If you are using a reverse proxy, make sure to set the correct URL.
+      APP_TIMEZONE: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      CHART_BEGIN_AT_ZERO: "true"
+      CHART_DATETIME_FORMAT: "m/j G:i" # Example output: Month/Day Hour:Minutes
+      DATETIME_FORMAT: "M j, Y G:i:s" # Example output: Month Day, Full year Hour:Minutes:Seconds
+      DISPLAY_TIMEZONE: "Europe/Amsterdam" # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # CONTENT_WIDTH: "7x1"
+      PUBLIC_DASHBOARD: "true" # Default: false. Set to true to allow public access to the dashboard.
+      # SPEEDTEST_SKIP_IPS: ""
+      SPEEDTEST_SCHEDULE: "*/10 * * * *" # Run every 10 minutes - use https://crontab.guru/ for customizing the corn syntax.
+      # SPEEDTEST_SERVERS: ""
+      # SPEEDTEST_BLOCKED_SERVERS: ""
+      # SPEEDTEST_INTERFACE: ""
+      # SPEEDTEST_CHECKINTERNET_URL: ""
+      THRESHOLD_ENABLED: "true"
+      THRESHOLD_DOWNLOAD: "900" # in Mbps
+      THRESHOLD_UPLOAD: "900" # in Mbps
+      THRESHOLD_PING: "25" # in ms
+      PRUNE_RESULTS_OLDER_THAN: "31" # Keep results for 31 days, adjust as needed.
+      API_RATE_LIMIT: "30" # Default: 60 requests per minute
+    domainname: speedtest-tracker.local # Customize this with your own domain, e.g., `speedtest-tracker.local` to `speedtest-tracker.your-fqdn-here.com`.
+    hostname: speedtest-tracker
+    networks:
+      speedtest-tracker_net:
+        ipv4_address: 172.20.7.3
+    ports:
+      - "3013:80/tcp" # HTTP
+      - "3013:80/upd" # HTTP
+      - "3013:443/tcp" # HTTPS
+      - "3013:443/udp" # HTTPS
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "speedtest-tracker"
+      com.speedtest-tracker.description: "a self-hosted application that monitors the performance and uptime of your internet connection."
+    healthcheck:
+      disable: false
+      test: curl -fSs APP_URL/api/healthcheck | jq -r .message || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

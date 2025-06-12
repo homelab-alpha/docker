@@ -126,4 +126,11 @@ services:
       com.docker.compose.project: "freshrss"
       com.freshrss.description: "is a free, self-hostable feeds aggregator."
     healthcheck:
-      disable: true
+      disable: false
+      test: php -r "readfile('http://localhost/i/');" | grep -q 'jsonVars' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+

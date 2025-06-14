@@ -9,9 +9,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.13.0/24
-          ip_range: 172.20.13.0/24
-          gateway: 172.20.13.1
+        - subnet: 172.20.22.0/24
+          ip_range: 172.20.22.0/24
+          gateway: 172.20.22.1
     driver_opts:
       com.docker.network.bridge.default_bridge: "false"
       com.docker.network.bridge.enable_icc: "true"
@@ -42,7 +42,7 @@ services:
     hostname: it-tools
     networks:
       it-tools_net:
-        ipv4_address: 172.20.13.3
+        ipv4_address: 172.20.22.3
     ports:
       - "3014:80/tcp" # HTTP
       - "3014:80/udp" # HTTP

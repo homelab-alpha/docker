@@ -1,0 +1,55 @@
+---
+networks:
+  it-tools_net:
+    attachable: false
+    internal: false
+    external: false
+    name: it-tools
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.13.0/24
+          ip_range: 172.20.13.0/24
+          gateway: 172.20.13.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "it-tools"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.it-tools.network.description: "is an isolated bridge network."
+
+services:
+  it-tools_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: it-tools
+    image: corentinth/it-tools:latest
+    pull_policy: if_not_present
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: tools.local # Customize this with your own domain, e.g., `it-tools.local` to `it-tools.your-fqdn-here.com`.
+    hostname: it-tools
+    networks:
+      it-tools_net:
+        ipv4_address: 172.20.13.3
+    ports:
+      - "3014:80/tcp" # HTTP
+      - "3014:80/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "it-tools"
+      com.it-tools.description: "A collection of handy online tools for developers, with great UX."
+    healthcheck:
+      disable: true

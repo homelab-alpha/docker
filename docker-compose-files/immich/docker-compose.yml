@@ -1,0 +1,216 @@
+---
+networks:
+  immich_net:
+    attachable: false
+    internal: false
+    external: false
+    name: immich
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.8.0/24
+          ip_range: 172.20.8.0/24
+          gateway: 172.20.8.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "immich"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.immich.network.description: "is an isolated bridge network."
+
+services:
+  immich_db:
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          memory: 512M
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: immich_db
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0@sha256:fa4f6e0971f454cd95fec5a9aaed2ed93d8f46725cc6bc61e0698e97dba96da1
+    pull_policy: if_not_present
+    volumes:
+      - /docker/immich/production/db:/var/lib/postgresql/data
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      POSTGRES_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_DB: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+      # DB_STORAGE_TYPE: "HDD" # Uncomment if using HDD storage
+    hostname: database # DO NOT MODIFY – Essential for Immich stack functionality.
+    networks:
+      immich_net:
+        ipv4_address: 172.20.8.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "immich"
+      com.immich.db.description: "is a PostgreSQL database."
+    healthcheck:
+      disable: false
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  immich_redis:
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 32M
+        reservations:
+          memory: 16M
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: immich_redis
+    image: valkey/valkey:latest
+    pull_policy: if_not_present
+    volumes:
+      - /docker/immich/production/redis:/data
+      - /docker/immich/production/redis:/usr/local/etc/redis/redis.conf
+      - /docker/immich/production/redis:/var/lib/redis
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    hostname: redis # DO NOT MODIFY – Essential for Immich stack functionality.
+    networks:
+      immich_net:
+        ipv4_address: 172.20.8.3
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "immich"
+      com.immich.redis.description: "is a redis database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  immich_ml:
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2G
+        reservations:
+          memory: 1G
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: immich_ml
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    pull_policy: if_not_present
+    volumes:
+      - /docker/immich/production/ml:/cache
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    hostname: immich-machine-learning # DO NOT MODIFY – Essential for Immich stack functionality.
+    networks:
+      immich_net:
+        ipv4_address: 172.20.8.4
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "immich"
+      com.immich.ml.description: "a machine learning-powered component of immich, designed to enhance media management and automation."
+    healthcheck:
+      disable: false
+
+  immich_app:
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2G
+        reservations:
+          memory: 512M
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: immich
+    image: ghcr.io/immich-app/immich-server:release
+    pull_policy: if_not_present
+    depends_on:
+      immich_db:
+        condition: service_healthy
+        restart: true
+      immich_redis:
+        condition: service_healthy
+    links:
+      - immich_db
+      - immich_redis
+      - immich_ml
+    volumes:
+      - /docker/immich/production/app:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: photos.local # Customize this with your own domain, e.g., `photos.local` to `photos.your-fqdn-here.com`
+    hostname: photos
+    networks:
+      immich_net:
+        ipv4_address: 172.20.8.5
+    ports:
+      - "3015:2283/tcp" # HTTP
+      - "3015:2283/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "immich"
+      com.immich.description: "a self-hosted solution for seamless photo and video management, offering privacy and full control."
+    healthcheck:
+      disable: false

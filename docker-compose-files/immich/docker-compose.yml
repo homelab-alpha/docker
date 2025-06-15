@@ -9,9 +9,9 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.8.0/24
-          ip_range: 172.20.8.0/24
-          gateway: 172.20.8.1
+        - subnet: 172.20.24.0/24
+          ip_range: 172.20.24.0/24
+          gateway: 172.20.24.1
     driver_opts:
       com.docker.network.bridge.default_bridge: "false"
       com.docker.network.bridge.enable_icc: "true"
@@ -62,7 +62,7 @@ services:
     hostname: database # DO NOT MODIFY – Essential for Immich stack functionality.
     networks:
       immich_net:
-        ipv4_address: 172.20.8.2
+        ipv4_address: 172.20.24.2
     security_opt:
       - no-new-privileges:true
     labels:
@@ -106,7 +106,7 @@ services:
     hostname: redis # DO NOT MODIFY – Essential for Immich stack functionality.
     networks:
       immich_net:
-        ipv4_address: 172.20.8.3
+        ipv4_address: 172.20.24.3
     security_opt:
       - no-new-privileges:true
     labels:
@@ -155,7 +155,7 @@ services:
     hostname: immich-machine-learning # DO NOT MODIFY – Essential for Immich stack functionality.
     networks:
       immich_net:
-        ipv4_address: 172.20.8.4
+        ipv4_address: 172.20.24.4
     security_opt:
       - no-new-privileges:true
     labels:
@@ -203,7 +203,7 @@ services:
     hostname: photos
     networks:
       immich_net:
-        ipv4_address: 172.20.8.5
+        ipv4_address: 172.20.24.5
     ports:
       - "3015:2283/tcp" # HTTP
       - "3015:2283/udp" # HTTP

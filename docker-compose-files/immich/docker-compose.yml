@@ -39,7 +39,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_db
-    image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0@sha256:fa4f6e0971f454cd95fec5a9aaed2ed93d8f46725cc6bc61e0698e97dba96da1
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.2.0@sha256:8b0f658370a011d11f4951f950ff823ef881770f8a90dd1b23d85bd36f850f1d
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/db:/var/lib/postgresql/data

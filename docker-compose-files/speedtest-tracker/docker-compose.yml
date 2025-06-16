@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: speedtest-tracker_db
-    image: mariadb:latest
+    image: docker.io/mariadb:latest
     pull_policy: if_not_present
     volumes:
       - /docker/speedtest-tracker/production/db:/var/lib/mysql
@@ -49,10 +49,10 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
     hostname: speedtest-tracker_db
     networks:
       speedtest-tracker_net:
@@ -60,7 +60,7 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.speedtest-tracker.db.description: "is a MySQL database."
+      com.speedtest-tracker.db.description: "is a MariaDB database."
     healthcheck:
       disable: false
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -101,11 +101,11 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MYSQL_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
-      MYSQL_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      MARIADB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
       APP_NAME: speedtest-tracker # This is the name of the application, it can be anything you like.
       APP_KEY: ${APP_KEY} # Fill in the value in both the .env and stack.env files
       ADMIN_NAME: ${ADMIN_NAME} # Fill in the value in both the .env and stack.env files

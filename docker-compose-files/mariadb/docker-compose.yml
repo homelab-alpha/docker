@@ -38,7 +38,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mariadb_db
-    image: mariadb:latest
+    image: docker.io/mariadb:latest
     pull_policy: if_not_present
     volumes:
       - /docker/mariadb/production/db:/var/lib/mysql
@@ -55,10 +55,10 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
-      MYSQL_DATABASE: ${NAME_DB}
-      MYSQL_USER: ${USER_DB}
-      MYSQL_PASSWORD: ${PASSWORD_DB}
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
+      MARIADB_DATABASE: ${NAME_DB}
+      MARIADB_USER: ${USER_DB}
+      MARIADB_PASSWORD: ${PASSWORD_DB}
     hostname: mariadb_db
     networks:
       mariadb_net:
@@ -72,7 +72,7 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.mariadb.db.description: "is a MySQL database."
+      com.mariadb.db.description: "is a MariaDB database."
     healthcheck:
       disable: false
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]

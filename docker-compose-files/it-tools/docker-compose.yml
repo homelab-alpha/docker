@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: it-tools
-    image: corentinth/it-tools:latest
+    image: ghcr.io/corentinth/it-tools:latest
     pull_policy: if_not_present
     environment:
       PUID: "1000"

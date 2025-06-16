@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma
-    image: louislam/uptime-kuma:latest
+    image: ghcr.io/louislam/uptime-kuma:latest
     pull_policy: if_not_present
     volumes:
       - /docker/uptime-kuma/production/app:/app/data

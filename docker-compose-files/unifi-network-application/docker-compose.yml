@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application_db
-    image: mongo:latest
+    image: docker.io/mongo:latest
     pull_policy: if_not_present
     volumes:
       - /docker/unifi-network-application/production/db:/data/db
@@ -88,7 +88,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application
-    image: linuxserver/unifi-network-application:latest
+    image: ghcr.io/linuxserver/unifi-network-application:latest
     pull_policy: if_not_present
     depends_on:
       unifi-network-application_db:

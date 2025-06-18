@@ -47,7 +47,7 @@ services:
       POSTGRES_PASSWORD: ${PASSWORD_DB}
       POSTGRES_USER: ${USER_DB}
       POSTGRES_DB: ${NAME_DB}
-    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    # command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     hostname: postgresql_db
     networks:
       postgresql_net:

@@ -37,6 +37,7 @@ services:
     volumes:
       - /docker/postgresql/production/db:/var/lib/postgresql/data
       - /docker/postgresql/production/postgresql.conf:/etc/postgresql/postgresql.conf
+      - /docker/postgresql/init:/docker-entrypoint-initdb.d
     env_file:
       - .env
       - stack.env
@@ -46,7 +47,6 @@ services:
       TZ: Europe/Amsterdam
       POSTGRES_PASSWORD: ${PASSWORD_DB}
       POSTGRES_USER: ${USER_DB}
-      POSTGRES_DB: ${NAME_DB}
     # command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     hostname: postgresql_db
     networks:

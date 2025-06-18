@@ -26,6 +26,7 @@
 *.backup
 *.pid
 *.sql
+!docker-compose-files/*/*.sql
 
 ### Redis
 *.aof

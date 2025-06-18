@@ -24,12 +24,6 @@ networks:
 
 services:
   uptime-kuma-beta_db:
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 1G
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -77,12 +71,6 @@ services:
       start_interval: 5s
 
   uptime-kuma-beta_app:
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 1G
     restart: unless-stopped
     logging:
       driver: "json-file"

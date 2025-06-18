@@ -24,12 +24,6 @@ networks:
 
 services:
   freshrss_db:
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 1G
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -133,4 +127,3 @@ services:
       retries: 3
       start_period: 10s
       start_interval: 5s
-      

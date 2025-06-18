@@ -24,13 +24,6 @@ networks:
 
 services:
   immich_db:
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 1G
-        reservations:
-          memory: 512M
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -78,13 +71,6 @@ services:
       start_interval: 5s
 
   immich_redis:
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 32M
-        reservations:
-          memory: 16M
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -122,13 +108,6 @@ services:
       start_interval: 5s
 
   immich_ml:
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 2G
-        reservations:
-          memory: 1G
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -165,13 +144,6 @@ services:
       disable: false
 
   immich_app:
-    deploy:
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 2G
-        reservations:
-          memory: 512M
     restart: unless-stopped
     logging:
       driver: "json-file"

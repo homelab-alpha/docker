@@ -15,4 +15,4 @@
 ##
 
 [sqlfluff]
-#dialect = ansi
+dialect = postgres

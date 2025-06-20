@@ -101,11 +101,12 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MARIADB_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
-      MARIADB_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
-      MARIADB_NAME: ${NAME_DB} # Fill in the value in both the .env and stack.env files
-      MARIADB_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
-      MARIADB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      DB_CONNECTION: mysql # This is the database connection type, it can be either `mysql` or `pgsql`.
+      DB_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
+      DB_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
+      DB_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      DB_USERNAME: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      DB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
       APP_NAME: speedtest-tracker # This is the name of the application, it can be anything you like.
       APP_KEY: ${APP_KEY} # Fill in the value in both the .env and stack.env files
       ADMIN_NAME: ${ADMIN_NAME} # Fill in the value in both the .env and stack.env files

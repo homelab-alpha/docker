@@ -48,8 +48,8 @@ services:
     environment:
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       EDGE: 1
-      EDGE_ID: ${PORTAINER_AGENT_ID}
-      EDGE_KEY: ${PORTAINER_AGENT_KEY}
+      EDGE_ID: ${PORTAINER_AGENT_ID} # Fill in the value in both the .env and stack.env files
+      EDGE_KEY: ${PORTAINER_AGENT_KEY} # Fill in the value in both the .env and stack.env files
       EDGE_INSECURE_POLL: 1
     networks:
       edge-agent_net:

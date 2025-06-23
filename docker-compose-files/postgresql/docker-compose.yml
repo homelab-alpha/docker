@@ -38,6 +38,10 @@ services:
       - /docker/postgresql/production/db:/var/lib/postgresql/data
       - /docker/postgresql/production/postgresql.conf:/etc/postgresql/postgresql.conf
     env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
       - .env
       - stack.env
     environment:

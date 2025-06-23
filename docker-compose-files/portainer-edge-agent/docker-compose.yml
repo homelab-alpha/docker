@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: edge-agent
-    image: docker.io/portainer/agent:latest
+    image: docker.io/portainer/agent:2.27.7
     volumes:
       - /docker/portainer/edge-agent/production/app:/data
       - /var/run/docker.sock:/var/run/docker.sock

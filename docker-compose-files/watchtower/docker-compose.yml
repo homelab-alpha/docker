@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: watchtower
-    image: ghcr.io/containrrr/watchtower:latest
+    image: ghcr.io/containrrr/watchtower:1.7.1
     pull_policy: if_not_present
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

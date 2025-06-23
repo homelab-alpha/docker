@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: dockge
-    image: ghcr.io/louislam/dockge:latest
+    image: ghcr.io/louislam/dockge:1.5.0
     pull_policy: if_not_present
     volumes:
       - /docker/dockge/production/app/data:/app/data

@@ -4,7 +4,35 @@ This document describes how to create a Docker network of type `bridge`. This
 network uses a specified IP range and offers various configuration options for
 network settings.
 
-Use the following YAML configuration to create a Docker network of type`bridge`:
+## Docker
+
+To create a custom `bridge` network in Docker with specific configurations, use
+the following command:
+
+```bash
+sudo docker network create \
+  --driver=bridge \  # Specifies the network driver to use (bridge in this case)
+  --subnet=172.20.0.0/24 \  # Sets the subnet for the network (range of IP addresses)
+  --ip-range=172.20.0.128/25 \  # Defines the range of IP addresses that can be assigned to containers
+  --gateway=172.20.0.1 \  # Sets the gateway for the network
+  --attachable=true \  # Allows containers outside the network to attach to it
+  --internal=false \  # Allows external access to the network (set true for isolation)
+  --external=false \  # Ensures the network is not externally exposed
+  --opt "com.docker.network.bridge.default_bridge"="false" \  # Disables the default bridge network
+  --opt "com.docker.network.bridge.enable_icc"="true" \  # Enables inter-container communication
+  --opt "com.docker.network.bridge.enable_ip_masquerade"="true" \  # Allows IP masquerading for outbound traffic
+  --opt "com.docker.network.bridge.host_binding_ipv4"="0.0.0.0" \  # Binds the host to all available IPv4 addresses
+  --opt "com.docker.network.bridge.name"="change_me" \  # Custom name for the bridge (change to suit your needs)
+  --opt "com.docker.network.driver.mtu"="1500" \  # Sets the MTU (Maximum Transmission Unit)
+  --label "com.change_me.network.description"="is an isolated bridge network." \  # Label for network description
+  change_me_net  # Name of the network being created (change to a meaningful name)
+```
+
+<br />
+
+## Docker Compose
+
+Use the following YAML configuration to create a Docker network of type `bridge`:
 
 ```yml
 ---
@@ -29,7 +57,7 @@ networks:
       com.docker.network.bridge.name: "change_me" # Custom bridge network name.
       com.docker.network.driver.mtu: "1500" # Maximum Transmission Unit for the network.
     labels: # Network label for description.
-      com.change_me.network.description: "An isolated bridge network for internal communication."
+      com.change_me.network.description: "is an isolated bridge network."
 ```
 
 <br />
@@ -37,24 +65,17 @@ networks:
 ## Description of the Options
 
 - **`internal: false`**: Allows traffic to and from the internet.
-
   - **Example**: `internal: false` enables external communication, allowing
     containers to access the internet. Setting it to `true` restricts containers
     to internal communication only, useful for isolated applications that do not
     need external access.
-
 - **`name: change_me`**: The name of the network.
-
   - **Example**: `name: change_me` specifies the network's name, which Docker
     uses to identify it.
-
 - **`driver: bridge`**: Specifies the use of the `bridge` network driver.
-
   - **Example**: `driver: bridge` tells Docker to use the `bridge` driver to
     manage the network.
-
 - **`ipam`**: IPAM (IP Address Management) settings for the network.
-
   - **Example**:
     ```yml
     ipam:
@@ -65,9 +86,7 @@ networks:
           gateway: 172.20.0.1
     ```
     This section defines the network's subnet, IP range, and gateway.
-
 - **`driver_opts`**: Options for configuring the network driver.
-
   - **Example**:
     ```yml
     driver_opts:
@@ -80,10 +99,9 @@ networks:
     ```
     This includes options like disabling the default bridge, enabling
     inter-container communication (ICC), and configuring IP masquerading.
-
 - **`labels`**: Adds labels for the network.
   - **Example**:
-    `com.change_me.network.description: "An isolated bridge network for internal communication."`
+    `com.change_me.network.description: "is an isolated bridge network."`
     adds a description label for the network. This label can be used for
     identifying the network or for documentation purposes.
 

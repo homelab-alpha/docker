@@ -35,7 +35,7 @@ services:
     image: docker.io/mariadb:11.8.2
     pull_policy: if_not_present
     volumes:
-      - /docker/database/config/my.cnf:/etc/my.cnf
+      - /docker/mariadb/config/my.cnf:/etc/my.cnf
       - /docker/mariadb/production/db:/var/lib/mysql
       - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:

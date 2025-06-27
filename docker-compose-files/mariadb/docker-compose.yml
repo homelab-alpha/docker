@@ -1,8 +1,8 @@
 ---
 networks:
   mariadb_net:
-    attachable: false
-    internal: false
+    attachable: true
+    internal: true
     external: false
     name: mariadb
     driver: bridge
@@ -24,7 +24,7 @@ networks:
 
 services:
   mariadb_db:
-    restart: unless-stopped
+    restart: always
     logging:
       driver: "json-file"
       options:
@@ -35,8 +35,8 @@ services:
     image: docker.io/mariadb:11.8.2
     pull_policy: if_not_present
     volumes:
+      - /docker/database/config/my.cnf:/etc/my.cnf
       - /docker/mariadb/production/db:/var/lib/mysql
-      - /docker/mariadb/production/my.cnf:/etc/my.cnf
       - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:
       # Choose the correct environment file:
@@ -49,20 +49,17 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
-      MARIADB_DATABASE: ${NAME_DB}
-      MARIADB_USER: ${USER_DB}
-      MARIADB_PASSWORD: ${PASSWORD_DB}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD} # Fill in the value in both the .env and stack.env files
     hostname: mariadb_db
     networks:
       mariadb_net:
         ipv4_address: 172.20.16.2
-    # ports:
-    #   - target: 3306       # container port
-    #     host_ip: 127.0.0.1 # The Host IP mapping, unspecified means all network interfaces (0.0.0.0)
-    #     published: 3306    # publicly exposed port
-    #     protocol: tcp      # tcp or udp
-    #     mode: ingress      # host: For publishing a host port on each node
+    ports:
+      - target: 3306       # container port
+        host_ip: 127.0.0.1 # The Host IP mapping, unspecified means all network interfaces (0.0.0.0)
+        published: 3306    # publicly exposed port
+        protocol: tcp      # tcp or udp
+        mode: ingress      # host: For publishing a host port on each node
     security_opt:
       - no-new-privileges:true
     labels:

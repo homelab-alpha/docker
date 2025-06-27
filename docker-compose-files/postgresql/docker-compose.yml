@@ -1,8 +1,8 @@
 ---
 networks:
   postgresql_net:
-    attachable: false
-    internal: false
+    attachable: true
+    internal: true
     external: false
     name: postgresql
     driver: bridge
@@ -24,7 +24,7 @@ networks:
 
 services:
   postgresql_db:
-    restart: unless-stopped
+    restart: always
     logging:
       driver: "json-file"
       options:
@@ -35,8 +35,8 @@ services:
     image: docker.io/postgres:17.5
     pull_policy: if_not_present
     volumes:
+      - /docker/database/config/postgresql.conf:/etc/postgresql/postgresql.conf
       - /docker/postgresql/production/db:/var/lib/postgresql/data
-      - /docker/postgresql/production/postgresql.conf:/etc/postgresql/postgresql.conf
     env_file:
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.
@@ -48,19 +48,19 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      POSTGRES_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
-      POSTGRES_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD} # Fill in the value in both the .env and stack.env files
+      POSTGRES_USER: ${POSTGRES_SUPERUSER_NAME} # Fill in the value in both the .env and stack.env files
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     hostname: postgresql_db
     networks:
       postgresql_net:
         ipv4_address: 172.20.25.2
-    # ports:
-    #   - target: 5432
-    #     host_ip: 127.0.0.1
-    #     published: 5432
-    #     protocol: tcp
-    #     mode: ingress
+    ports:
+      - target: 5432       # container port
+        host_ip: 127.0.0.1 # The Host IP mapping, unspecified means all network interfaces (0.0.0.0)
+        published: 5432    # publicly exposed port
+        protocol: tcp      # tcp or udp
+        mode: ingress      # host: For publishing a host port on each node
     security_opt:
       - no-new-privileges:true
     labels:

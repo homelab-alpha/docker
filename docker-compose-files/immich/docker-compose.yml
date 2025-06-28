@@ -50,7 +50,7 @@ services:
       POSTGRES_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
       POSTGRES_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
       POSTGRES_DB: ${NAME_DB} # Fill in the value in both the .env and stack.env files
-      POSTGRES_INITDB_ARGS: '--data-checksums'
+      POSTGRES_INITDB_ARGS: "--data-checksums"
       # DB_STORAGE_TYPE: "HDD" # Uncomment if using HDD storage
     hostname: database # DO NOT MODIFY – Essential for Immich stack functionality.
     networks:

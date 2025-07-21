@@ -1,8 +1,9 @@
-# Homelab-Alpha
+# Docker
 
 [![Super Linter](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml)
+[![Last commit](https://img.shields.io/github/last-commit/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Last%20commit&labelColor=313A41&color=BA935B&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/commits/main/)
 
-Welcome to the Homelab-Alpha Docker Repository!
+Welcome to the Homelab-Alpha Docker repository!
 
 For all related documentation and more information about this repository, please
 visit [Homelab-Alpha/Docker].

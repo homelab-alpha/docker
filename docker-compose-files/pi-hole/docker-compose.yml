@@ -36,7 +36,7 @@ services:
     pull_policy: if_not_present
     volumes:
       - /docker/pi-hole/production/app:/etc/pihole
-      - ./etc-dnsmasq.d:/etc/dnsmasq.d
+      - /docker/pi-hole/production/etc-dnsmasq.d:/etc/dnsmasq.d
     environment:
       PUID: "1000"
       PGID: "1000"

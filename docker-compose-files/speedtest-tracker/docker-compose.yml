@@ -144,8 +144,8 @@ services:
     ports:
       - "3013:80/tcp" # HTTP
       - "3013:80/upd" # HTTP
-      - "3013:443/tcp" # HTTPS
-      - "3013:443/udp" # HTTPS
+      # - "3013:443/tcp" # HTTPS
+      # - "3013:443/udp" # HTTPS
     security_opt:
       - no-new-privileges:true
     labels:

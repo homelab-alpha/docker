@@ -121,7 +121,8 @@ services:
       com.freshrss.description: "is a free, self-hostable feeds aggregator."
     healthcheck:
       disable: false
-      test: php -r "readfile('http://localhost/i/');" | grep -q 'jsonVars' || exit 1
+      test:
+        php -r "readfile('http://localhost/i/');" | grep -q 'jsonVars' || exit 1
       interval: 10s
       timeout: 5s
       retries: 3

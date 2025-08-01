@@ -2,6 +2,8 @@
 
 ## Default Web Access
 
+Access the Pi Hole web interface using the following URL:
+
 ```bash
 http://your-ip-adress:3080/admin/login
 ```

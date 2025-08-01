@@ -1,7 +1,7 @@
 ---
 networks:
   cloudbeaver_net:
-    attachable: true
+    attachable: false
     internal: false
     external: false
     name: cloudbeaver
@@ -52,7 +52,8 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "cloudbeaver"
-      com.cloudbeaver.description: "is an lightweight web application for all-around data management."
+      com.cloudbeaver.description:
+        "is an lightweight web application for all-around data management."
     healthcheck:
       disable: false
       test: ["CMD", "curl", "-f", "http://localhost:8978/status"]

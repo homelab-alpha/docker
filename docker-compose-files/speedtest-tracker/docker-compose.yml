@@ -20,7 +20,8 @@ networks:
       com.docker.network.bridge.name: "speed-tracker"
       com.docker.network.driver.mtu: "1500"
     labels:
-      com.speedtest-tracker.network.description: "is an isolated bridge network."
+      com.speedtest-tracker.network.description:
+        "is an isolated bridge network."
 
 services:
   speedtest-tracker_db:
@@ -101,6 +102,7 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      # APP_DEBUG: true # Uncomment for debug mode
       DB_CONNECTION: mysql # This is the database connection type, it can be either `mysql` or `pgsql`.
       DB_HOST: ${HOST_DB} # Fill in the value in both the .env and stack.env files
       DB_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
@@ -148,7 +150,9 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "speedtest-tracker"
-      com.speedtest-tracker.description: "a self-hosted application that monitors the performance and uptime of your internet connection."
+      com.speedtest-tracker.description:
+        "a self-hosted application that monitors the performance and uptime of
+        your internet connection."
     healthcheck:
       disable: false
       test: curl -fSs APP_URL/api/healthcheck | jq -r .message || exit 1

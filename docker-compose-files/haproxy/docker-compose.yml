@@ -35,7 +35,7 @@ services:
     image: docker.io/haproxytech/haproxy-ubuntu:3.2.3
     pull_policy: if_not_present
     volumes:
-      - /docker/haproxy/production/app/hapoxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - /docker/haproxy/production/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
       - /docker/haproxy/production/certs:/certs
       - /etc/letsencrypt:/etc/letsencrypt
     environment:
@@ -64,6 +64,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "haproxy"
-      com.haproxy.description: "the reliable, high performance tcp/http load balancer."
+      com.haproxy.description:
+        "the reliable, high performance tcp/http load balancer."
     healthcheck:
       disable: false

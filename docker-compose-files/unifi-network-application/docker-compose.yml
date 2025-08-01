@@ -20,7 +20,8 @@ networks:
       com.docker.network.bridge.name: "unifi"
       com.docker.network.driver.mtu: "1500"
     labels:
-      com.unifi-network-application.network.description: "is an isolated bridge network."
+      com.unifi-network-application.network.description:
+        "is an isolated bridge network."
 
 services:
   unifi-network-application_db:

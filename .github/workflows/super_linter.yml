@@ -35,8 +35,9 @@ jobs:
           BASH_SEVERITY: warning
           VALIDATE_ALL_CODEBASE: true
           VALIDATE_GIT_COMMITLINT: false
-          VALIDATE_JAVASCRIPT_STANDARD: false
           VALIDATE_JSCPD: false
+          VALIDATE_MARKDOWN_PRETTIER: false
           VALIDATE_POWERSHELL: false
           VALIDATE_SHELL_SHFMT: false
+          VALIDATE_YAML_PRETTIER: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

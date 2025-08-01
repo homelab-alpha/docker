@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if which mongosh >/dev/null 2>&1; then
+if which mongosh > /dev/null 2>&1; then
   mongo_init_bin='mongosh'
 else
   mongo_init_bin='mongo'
 fi
-"${mongo_init_bin}" <<EOF
+"${mongo_init_bin}" << EOF
 use ${MONGO_AUTHSOURCE}
 db.auth("${MONGO_INITDB_ROOT_USERNAME}", "${MONGO_INITDB_ROOT_PASSWORD}")
 db.createUser({

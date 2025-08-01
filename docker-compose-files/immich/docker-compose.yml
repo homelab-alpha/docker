@@ -139,7 +139,9 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "immich"
-      com.immich.ml.description: "a machine learning-powered component of immich, designed to enhance media management and automation."
+      com.immich.ml.description:
+        "a machine learning-powered component of immich, designed to enhance
+        media management and automation."
     healthcheck:
       disable: false
 
@@ -165,6 +167,7 @@ services:
       - immich_redis
       - immich_ml
     volumes:
+      - /docker/immich/production/app:/data
       - /docker/immich/production/app:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     environment:
@@ -183,6 +186,8 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "immich"
-      com.immich.description: "a self-hosted solution for seamless photo and video management, offering privacy and full control."
+      com.immich.description:
+        "a self-hosted solution for seamless photo and video management,
+        offering privacy and full control."
     healthcheck:
       disable: false

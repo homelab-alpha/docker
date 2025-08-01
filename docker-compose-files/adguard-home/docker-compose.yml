@@ -66,6 +66,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "adguard-home"
-      com.adguard-home.description: "is a network-wide software for blocking ads and tracking."
+      com.adguard-home.description:
+        "is a network-wide software for blocking ads and tracking."
     healthcheck:
       disable: true

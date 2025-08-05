@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: pi-hole
-    image: ghcr.io/pi-hole/pihole:2025.07.1
+    image: ghcr.io/pi-hole/pihole:2025.08.0
     pull_policy: if_not_present
     volumes:
       - /docker/pi-hole/production/app:/etc/pihole

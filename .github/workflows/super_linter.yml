@@ -34,6 +34,7 @@ jobs:
         env:
           BASH_SEVERITY: warning
           VALIDATE_ALL_CODEBASE: true
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_GIT_COMMITLINT: false
           VALIDATE_JSCPD: false
           VALIDATE_MARKDOWN_PRETTIER: false

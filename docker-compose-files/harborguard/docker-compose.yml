@@ -1,0 +1,99 @@
+---
+networks:
+  harborguard_net:
+    attachable: false
+    internal: false
+    external: false
+    name: harborguard
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.14.0/24
+          ip_range: 172.20.14.0/24
+          gateway: 172.20.14.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "harborguard"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.harborguard.network.description: "is an isolated bridge network."
+
+services:
+  harborguard_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: harborguard
+    image: ghcr.io/harborguard/harborguard:latest
+    pull_policy: if_not_present
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    env_file:
+      # Choose the correct environment file:
+      # - Use '.env' for Docker Compose.
+      # - Use 'stack.env' for Portainer.
+      # Comment out the file you are not using in the Compose file to avoid issues.
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      POSTGRES_DB: ${NAME_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
+      POSTGRES_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      MAX_CONCURRENT_SCANS: 3
+      SCAN_TIMEOUT_MINUTES: 30
+      ENABLED_SCANNERS: trivy,grype,syft,dockle,osv,dive
+      VERSION_CHECK_ENABLED: true
+      TRIVY_CACHE_DIR: "/opt/trivy-cache"
+      GRYPE_DB_CACHE_DIR: "/opt/grype-cache"
+      SYFT_CACHE_DIR: "/opt/syft-cache"
+      LOG_LEVEL: info
+      CLEANUP_OLD_SCANS_DAYS: 30
+      STORE_RAW_SCAN_DATA: true
+      STORE_METADATA_JSON: true
+      USE_NORMALIZED_APIS: true
+      ENABLE_LEGACY_FALLBACK: true
+      AUTO_UPDATE_SUMMARIES: true
+      SUMMARY_CACHE_TTL_MINUTES: 5
+      ENABLE_CVE_DEDUPLICATION: true
+      DASHBOARD_API_TIMEOUT_MS: 105000
+      BATCH_SUMMARY_UPDATE_SIZE: 10
+    domainname: harborguard.local # Customize this with your own domain, e.g., `harborguard.local` to `harborguard.your-fqdn-here.com`.
+    hostname: harborguard
+    extra_hosts:
+      harborguard: "0.0.0.0"
+    networks:
+      harborguard_net:
+        ipv4_address: 172.20.14.3
+    ports:
+      - "3016:3000/tcp" # HTTP
+      - "3016:3000/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "harborguard"
+      com.harborguard.description:
+        "is a comprehensive container security scanning platform that provides
+        an intuitive web interface for managing and visualizing security
+        assessments of Docker images."
+    healthcheck:
+      disable: false
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s

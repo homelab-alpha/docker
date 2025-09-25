@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: netdata
-    image: ghcr.io/netdata/netdata:v2.6.3
+    image: ghcr.io/netdata/netdata:v2.7.0
     pull_policy: if_not_present
     volumes:
       - /docker/netdata/production/app/cache:/var/cache/netdata

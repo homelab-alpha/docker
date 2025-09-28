@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: freshrss
-    image: docker.io/freshrss/freshrss:1.27.0
+    image: docker.io/freshrss/freshrss:1.27.1
     pull_policy: if_not_present
     depends_on:
       freshrss_db:

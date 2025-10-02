@@ -154,7 +154,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v1.144.1
+    image: ghcr.io/immich-app/immich-server:v2.0.0
     pull_policy: if_not_present
     depends_on:
       immich_db:

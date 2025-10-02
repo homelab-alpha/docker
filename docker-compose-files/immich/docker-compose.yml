@@ -116,7 +116,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_ml
-    image: ghcr.io/immich-app/immich-machine-learning:v1.144.1
+    image: ghcr.io/immich-app/immich-machine-learning:v2.0.0
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/ml:/cache

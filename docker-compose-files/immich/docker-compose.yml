@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_redis
-    image: docker.io/valkey/valkey:8.1.3
+    image: docker.io/valkey/valkey:8.1.4
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/redis:/data
@@ -116,7 +116,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_ml
-    image: ghcr.io/immich-app/immich-machine-learning:v2.0.0
+    image: ghcr.io/immich-app/immich-machine-learning:v2.0.1
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/ml:/cache
@@ -154,7 +154,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v2.0.0
+    image: ghcr.io/immich-app/immich-server:v2.0.1
     pull_policy: if_not_present
     depends_on:
       immich_db:

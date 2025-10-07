@@ -5,14 +5,10 @@
 > ## ⚠️ Deprecated Project Notice
 >
 > The **IT Tools** project has been officially **deprecated** by the
-> **Homlabe-Alpha** team.
->
-> This decision was made because the
+> **Homlabe-Alpha** team. This decision was made because the
 > [official project](https://github.com/CorentinTh/it-tools) no longer being
-> actively maintained.
->
-> As a result, these tools may contain **unresolved issues**, **bugs**, or
-> **security vulnerabilities**.
+> actively maintained. As a result, these tools may contain **unresolved
+> issues**, **bugs**, or **security vulnerabilities**.
 >
 > ➤ **Proceed with caution and use at your own risk.**
 

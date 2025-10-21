@@ -1,10 +1,10 @@
 ---
 networks:
-  uptime-kuma-beta_net:
+  uptime-kuma_net:
     attachable: false
     internal: false
     external: false
-    name: uptime-kuma-beta
+    name: uptime-kuma
     driver: bridge
     ipam:
       driver: default
@@ -20,10 +20,10 @@ networks:
       com.docker.network.bridge.name: "uptimekuma-beta"
       com.docker.network.driver.mtu: "1500"
     labels:
-      com.uptime-kuma-beta.network.description: "is an isolated bridge network."
+      com.uptime-kuma.network.description: "is an isolated bridge network."
 
 services:
-  uptime-kuma-beta_db:
+  uptime-kuma_db:
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -31,12 +31,12 @@ services:
         max-size: "1M"
         max-file: "2"
     stop_grace_period: 1m
-    container_name: uptime-kuma-beta_db
+    container_name: uptime-kuma_db
     image: docker.io/mariadb:12.0.2
     pull_policy: if_not_present
     volumes:
-      - /docker/uptime-kuma-beta/production/db:/var/lib/mysql
-      - /docker/uptime-kuma-beta/production/my.cnf:/etc/my.cnf
+      - /docker/uptime-kuma/production/db:/var/lib/mysql
+      - /docker/uptime-kuma/production/my.cnf:/etc/my.cnf
       - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:
       # Choose the correct environment file:
@@ -53,14 +53,14 @@ services:
       MARIADB_DATABASE: ${NAME_DB} # Fill in the value in both the .env and stack.env files
       MARIADB_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
       MARIADB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
-    hostname: uptime-kuma-beta_db
+    hostname: uptime-kuma_db
     networks:
-      uptime-kuma-beta_net:
+      uptime-kuma_net:
         ipv4_address: 172.19.3.2
     security_opt:
       - no-new-privileges:true
     labels:
-      com.uptime-kuma-beta.db.description: "is an MariaDB database."
+      com.uptime-kuma.db.description: "is an MariaDB database."
     healthcheck:
       disable: false
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
@@ -70,7 +70,7 @@ services:
       start_period: 10s
       start_interval: 5s
 
-  uptime-kuma-beta_app:
+  uptime-kuma_app:
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -78,16 +78,16 @@ services:
         max-size: "1M"
         max-file: "2"
     stop_grace_period: 1m
-    container_name: uptime-kuma-beta
-    image: ghcr.io/louislam/uptime-kuma:2.0.0-beta-slim.3
+    container_name: uptime-kuma
+    image: ghcr.io/louislam/uptime-kuma:2.0.1-slim
     pull_policy: if_not_present
     depends_on:
-      uptime-kuma-beta_db:
+      uptime-kuma_db:
         condition: service_healthy
     links:
-      - uptime-kuma-beta_db
+      - uptime-kuma_db
     volumes:
-      - /docker/uptime-kuma-beta/production/app:/app/data
+      - /docker/uptime-kuma/production/app:/app/data
       - /usr/local/share/ca-certificates:/app/data/docker-tls
       - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file:
@@ -111,7 +111,7 @@ services:
     domainname: status.local # Customize this with your own domain, e.g., `status.local` to `status.your-fqdn-here.com`.
     hostname: status
     networks:
-      uptime-kuma-beta_net:
+      uptime-kuma_net:
         ipv4_address: 172.19.3.3
     ports:
       - "3001:3001/tcp" # HTTP
@@ -119,8 +119,8 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "uptime-kuma-beta"
-      com.uptime-kuma-beta.description:
+      com.docker.compose.project: "uptime-kuma"
+      com.uptime-kuma.description:
         "is an self-hosted monitoring tool that allows you to monitor uptime,
         status, and notifications for various services and domains."
     healthcheck:

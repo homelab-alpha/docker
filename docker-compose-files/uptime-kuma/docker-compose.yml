@@ -17,7 +17,7 @@ networks:
       com.docker.network.bridge.enable_icc: "true"
       com.docker.network.bridge.enable_ip_masquerade: "true"
       com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
-      com.docker.network.bridge.name: "uptimekuma-beta"
+      com.docker.network.bridge.name: "uptimekuma"
       com.docker.network.driver.mtu: "1500"
     labels:
       com.uptime-kuma.network.description: "is an isolated bridge network."

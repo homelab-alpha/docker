@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: jellyfin
-    image: ghcr.io/jellyfin/jellyfin:10.11.0
+    image: ghcr.io/jellyfin/jellyfin:10.11.1
     pull_policy: if_not_present
     volumes:
       - /docker/jellyfin/production/app:/config

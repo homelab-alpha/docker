@@ -33,7 +33,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application_db
-    image: docker.io/mongo:8.0.15
+    image: docker.io/mongo:8.2.1
     pull_policy: if_not_present
     volumes:
       - /docker/unifi-network-application/production/db:/data/db

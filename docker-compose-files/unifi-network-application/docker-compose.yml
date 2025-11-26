@@ -89,7 +89,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application
-    image: ghcr.io/linuxserver/unifi-network-application:9.5.21
+    image: ghcr.io/linuxserver/unifi-network-application:10.0.160
     pull_policy: if_not_present
     depends_on:
       unifi-network-application_db:

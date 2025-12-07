@@ -119,8 +119,8 @@ services:
       # ASSET_URL: https://speedtest-tracker.local # Adjust this to match your domain or IP address. If you are using a reverse proxy, make sure to set the correct URL.
       APP_TIMEZONE: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       CHART_BEGIN_AT_ZERO: "true"
-      CHART_DATETIME_FORMAT: "m/j G:i" # Example output: Month/Day Hour:Minutes
-      DATETIME_FORMAT: "M j, Y G:i:s" # Example output: Month Day, Full year Hour:Minutes:Seconds
+      CHART_DATETIME_FORMAT: "M jS, H:i" # Example output: Month/Day Hour:Minutes
+      DATETIME_FORMAT: "F jS, Y, H:i" # Example output: Month Day, Full year Hour:Minutes
       DISPLAY_TIMEZONE: "Europe/Amsterdam" # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       # CONTENT_WIDTH: "7x1"
       PUBLIC_DASHBOARD: "true" # Default: false. Set to true to allow public access to the dashboard.

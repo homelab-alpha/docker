@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: adguard-home
-    image: docker.io/adguard/adguardhome:v0.107.70
+    image: docker.io/adguard/adguardhome:v0.107.71
     pull_policy: if_not_present
     volumes:
       - /docker/adguard-home/production/app:/opt/adguard-home/work

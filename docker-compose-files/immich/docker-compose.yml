@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_redis
-    image: docker.io/valkey/valkey:9.0.0
+    image: docker.io/valkey/valkey:9.0.1
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/redis:/data

@@ -5,7 +5,7 @@
 Access the Speedtest Tracker web interface using the following URL:
 
 ```bash
-http://your-ip-adress
+http://localhost
 ```
 
 ## Default Login Credentials

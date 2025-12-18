@@ -77,6 +77,7 @@ services:
     stop_grace_period: 1m
     container_name: speedtest-tracker
     image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.13.1-beta.2
+    # image: ghcr.io/alexjustesen/docker-speedtest-tracker:dev-amd64
     pull_policy: if_not_present
     depends_on:
       speedtest-tracker_db:

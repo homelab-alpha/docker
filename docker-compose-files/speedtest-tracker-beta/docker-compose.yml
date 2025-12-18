@@ -116,8 +116,8 @@ services:
       SPEEDTEST_SCHEDULE: "*/10 * * * *"
       PRUNE_RESULTS_OLDER_THAN: "31"
       API_RATE_LIMIT: "30"
-    domainname: speedtest-tracker.local
-    hostname: speedtest-tracker
+    domainname: speedtest-tracker-beta.local
+    hostname: speedtest-tracker-beta
     networks:
       speedtest-tracker_net:
         ipv4_address: 172.21.23.3

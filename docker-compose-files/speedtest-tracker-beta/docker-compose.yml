@@ -1,0 +1,143 @@
+---
+networks:
+  speedtest-tracker_net:
+    attachable: false
+    internal: false
+    external: false
+    name: speedtest-tracker
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.23.0/24
+          ip_range: 172.21.23.0/24
+          gateway: 172.21.23.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "speedtest"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.speedtest-tracker.network.description:
+        "is an isolated bridge network."
+
+services:
+  speedtest-tracker_db:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: speedtest-tracker_db
+    image: docker.io/mariadb:12.1.2
+    pull_policy: if_not_present
+    volumes:
+      - /docker/speedtest-tracker/production/db:/var/lib/mysql
+      - /docker/speedtest-tracker/production/my.cnf:/etc/my.cnf
+      - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
+    env_file:
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD_DB}
+      MARIADB_DATABASE: ${NAME_DB}
+      MARIADB_USER: ${USER_DB}
+      MARIADB_PASSWORD: ${PASSWORD_DB}
+    hostname: speedtest-tracker_db
+    networks:
+      speedtest-tracker_net:
+        ipv4_address: 172.21.23.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.speedtest-tracker.db.description: "is a MariaDB database."
+    healthcheck:
+      disable: false
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s
+
+  speedtest-tracker_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: speedtest-tracker
+    image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.13.1-beta.2
+    pull_policy: if_not_present
+    depends_on:
+      speedtest-tracker_db:
+        condition: service_healthy
+        restart: true
+    links:
+      - speedtest-tracker_db
+    volumes:
+      - /docker/speedtest-tracker/production/.cert:/config/keys
+      - /docker/speedtest-tracker/production/app:/config
+    env_file:
+      - .env
+      - stack.env
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam
+      DB_CONNECTION: mysql
+      DB_HOST: ${HOST_DB}
+      DB_PORT: ${PORT_DB}
+      DB_DATABASE: ${NAME_DB}
+      DB_USERNAME: ${USER_DB}
+      DB_PASSWORD: ${PASSWORD_DB}
+      APP_NAME: "Speedtest Tracker Beta"
+      APP_KEY: ${APP_KEY}
+      ADMIN_NAME: ${ADMIN_NAME}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      APP_URL: http://localhost
+      ASSET_URL: http://localhost
+      APP_TIMEZONE: Europe/Amsterdam
+      CHART_BEGIN_AT_ZERO: "true"
+      CHART_DATETIME_FORMAT: "M jS, H:i"
+      DATETIME_FORMAT: "F jS, Y, H:i"
+      DISPLAY_TIMEZONE: "Europe/Amsterdam"
+      PUBLIC_DASHBOARD: "true"
+      SPEEDTEST_SCHEDULE: "*/10 * * * *"
+      PRUNE_RESULTS_OLDER_THAN: "31"
+      API_RATE_LIMIT: "30"
+    domainname: speedtest-tracker.local
+    hostname: speedtest-tracker
+    networks:
+      speedtest-tracker_net:
+        ipv4_address: 172.21.23.3
+    ports:
+      - "80:8080/tcp"
+      - "80:8080/upd"
+      # - "443:443/tcp"
+      # - "443:443/udp"
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "speedtest-tracker"
+      com.speedtest-tracker.description:
+        "a self-hosted application that monitors the performance and uptime of
+        your internet connection."
+    healthcheck:
+      disable: false
+      test: curl -fSs APP_URL/api/healthcheck | jq -r .message || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+      start_interval: 5s

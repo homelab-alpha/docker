@@ -124,8 +124,8 @@ services:
     ports:
       - "80:8080/tcp"
       - "80:8080/upd"
-      # - "443:443/tcp"
-      # - "443:443/udp"
+      - "443:8443/tcp"
+      - "443:8443/udp"
     security_opt:
       - no-new-privileges:true
     labels:

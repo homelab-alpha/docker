@@ -20,8 +20,7 @@ networks:
       com.docker.network.bridge.name: "speedtest"
       com.docker.network.driver.mtu: "1500"
     labels:
-      com.speedtest-tracker.network.description:
-        "is an isolated bridge network."
+      com.speedtest-tracker.network.description: "is an isolated bridge network."
 
 services:
   speedtest-tracker_db:
@@ -76,7 +75,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: speedtest-tracker
-    image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.13.1-beta.2
+    image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.13.3
     # image: ghcr.io/alexjustesen/docker-speedtest-tracker:dev-amd64
     pull_policy: if_not_present
     depends_on:
@@ -101,20 +100,24 @@ services:
       DB_DATABASE: ${NAME_DB}
       DB_USERNAME: ${USER_DB}
       DB_PASSWORD: ${PASSWORD_DB}
-      APP_NAME: "Speedtest Tracker Beta"
       APP_KEY: ${APP_KEY}
-      ADMIN_NAME: ${ADMIN_NAME}
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      APP_LOCALE: en_EN
+      APP_NAME: "Speedtest Tracker Beta"
+      APP_TIMEZONE: Europe/Amsterdam
       APP_URL: http://localhost
       ASSET_URL: http://localhost
-      APP_TIMEZONE: Europe/Amsterdam
+      APP_DEBUG: true
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_NAME: ${ADMIN_NAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SPEEDTEST_INTERNET_CHECK_HOSTNAME: "google.com"
+      SPEEDTEST_SCHEDULE: "*/10 * * * *"
+      # SPEEDTEST_SCHEDULE: "*/1 * * * *"
+      PUBLIC_DASHBOARD: "true"
       CHART_BEGIN_AT_ZERO: "true"
       CHART_DATETIME_FORMAT: "M jS, H:i"
       DATETIME_FORMAT: "F jS, Y, H:i"
       DISPLAY_TIMEZONE: "Europe/Amsterdam"
-      PUBLIC_DASHBOARD: "true"
-      SPEEDTEST_SCHEDULE: "*/10 * * * *"
       PRUNE_RESULTS_OLDER_THAN: "31"
       API_RATE_LIMIT: "30"
     domainname: speedtest-tracker-beta.local

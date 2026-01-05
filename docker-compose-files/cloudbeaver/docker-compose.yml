@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: cloudbeaver
-    image: docker.io/dbeaver/cloudbeaver:25.3.1
+    image: docker.io/dbeaver/cloudbeaver:25.3.2
     pull_policy: if_not_present
     volumes:
       - /docker/cloudbeaver/production/app:/opt/cloudbeaver/workspace

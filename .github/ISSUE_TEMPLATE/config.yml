@@ -20,7 +20,7 @@ contact_links:
     url: https://github.com/homelab-alpha/homelab-alpha/discussions/categories/ideas
     about: This is the playground for new ideas. If you have a concept, improvement, or wild thought worth exploring, drop it here and let’s talk about it.
   - name: 🗳️ Polls
-    url: https://github.com/homelab-alpha/docker/discussions/categories/polls
+    url: https://github.com/homelab-alpha/homelab-alpha/discussions/categories/polls
     about: Have a question you want the community to weigh in on? Create a poll and get everyone's opinion!
   - name: 🙏 Q&A
     url: https://github.com/homelab-alpha/docker/discussions/categories/q-a

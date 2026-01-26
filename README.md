@@ -1,10 +1,10 @@
 # Docker
 
 [![Super Linter](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml)
-[![Last commit](https://img.shields.io/github/last-commit/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Last%20commit&labelColor=313A41&color=BA935B&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/commits/main/)
-[![Repo Size](https://img.shields.io/github/repo-size/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Repo%20size&labelColor=313A41&color=BA935B&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/tree/main?tab=readme-ov-file#docker)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-3.0-313A41?style=flat&logo=contributorcovenant&logoColor=96a1a9&&labelColor=313A41&color=BA935B)](https://github.com/homelab-alpha/docker/blob/main/CODE_OF_CONDUCT.md)
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-313A41?style=flat&logo=conventionalcommits&logoColor=96a1a9&&labelColor=313A41&color=BA935B)](https://conventionalcommits.org)
+[![Last commit](https://img.shields.io/github/last-commit/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Last%20commit&labelColor=313A41&color=3955CD&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/commits/main/)
+[![Repo Size](https://img.shields.io/github/repo-size/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Repo%20size&labelColor=313A41&color=3955CD&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/tree/main?tab=readme-ov-file#docker)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-3.0-313A41?style=flat&logo=contributorcovenant&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://github.com/homelab-alpha/docker/blob/main/CODE_OF_CONDUCT.md)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-313A41?style=flat&logo=conventionalcommits&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://conventionalcommits.org)
 
 Welcome to the Homelab-Alpha Docker repository!
 

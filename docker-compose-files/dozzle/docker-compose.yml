@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: dozzle
-    image: ghcr.io/amir20/dozzle:v9.0.2
+    image: ghcr.io/amir20/dozzle:v9.0.3
     pull_policy: if_not_present
     volumes:
       - /docker/dozzle/production/app:/data

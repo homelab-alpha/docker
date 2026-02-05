@@ -1,0 +1,105 @@
+---
+networks:
+  mini-qr_net:
+    attachable: false
+    internal: false
+    external: false
+    name: mini-qr
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.14.0/24
+          ip_range: 172.20.14.0/24
+          gateway: 172.20.14.1
+    driver_opts:
+      com.docker.network.bridge.default_bridge: "false"
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.bridge.name: "mini-qr"
+      com.docker.network.driver.mtu: "1500"
+    labels:
+      com.mini-qr.network.description: "is an isolated bridge network."
+
+services:
+  mini-qr_app:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: mini-qr
+    image: ghcr.io/lyqht/mini-qr:v0.26.4
+    pull_policy: if_not_present
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    hostname: mini-qr
+    networks:
+      mini-qr_net:
+        ipv4_address: 172.20.14.2
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "mini-qr"
+      com.mini-qr.description:
+        "A user-friendly and customizable QR code generator that allows you to
+        create styled QR codes with ease."
+    healthcheck:
+      disable: true
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
+  mini-qr_nginx:
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: mini-qr_nginx
+    image: docker.io/nginx:1.29.5-alpine3.23-perl
+    pull_policy: if_not_present
+    depends_on:
+      mini-qr_app:
+        condition: service_started
+    links:
+      - mini-qr_app
+    volumes:
+      - /docker/mini-qr/nginx-proxy.conf:/etc/nginx/nginx.conf
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+    domainname: mini-qr.local # Customize this with your own domain, e.g., `mini-qr.local` to `mini-qr.your-fqdn-here.com`.
+    hostname: mini-qr-nginx
+    networks:
+      mini-qr_net:
+        ipv4_address: 172.20.14.3
+    ports:
+      - "3017:80/tcp" # HTTP
+      - "3017:80/udp" # HTTP
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.docker.compose.project: "mini-qr-nginx"
+      com.mini-qr.description:
+        "a flexible and high-performance server that can handle HTTP, mail, TCP,
+        and UDP traffic."
+    healthcheck:
+      disable: true
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s

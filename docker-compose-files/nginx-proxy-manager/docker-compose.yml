@@ -80,7 +80,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: nginx-proxy-manager
-    image: docker.io/jc21/nginx-proxy-manager:2.13.6
+    image: docker.io/jc21/nginx-proxy-manager:2.13.7
     pull_policy: if_not_present
     depends_on:
       nginx-proxy-manager_db:

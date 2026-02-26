@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: portainer
-    image: docker.io/portainer/portainer-ee:2.38.1
+    image: docker.io/portainer/portainer-ee:2.39.0
     pull_policy: if_not_present
     volumes:
       - /docker/portainer/production/app:/data

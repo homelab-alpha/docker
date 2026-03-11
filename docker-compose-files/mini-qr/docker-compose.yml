@@ -67,7 +67,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr_nginx
-    image: docker.io/nginx:1.29.5-alpine3.23-perl
+    image: docker.io/nginx:1.29.6-alpine3.23-perl
     pull_policy: if_not_present
     depends_on:
       mini-qr_app:

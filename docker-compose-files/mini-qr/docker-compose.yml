@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr
-    image: ghcr.io/lyqht/mini-qr:v0.27.0
+    image: ghcr.io/lyqht/mini-qr:v0.28.0
     pull_policy: if_not_present
     environment:
       PUID: "1000"

@@ -20,8 +20,7 @@ networks:
       com.docker.network.bridge.name: "npm"
       com.docker.network.driver.mtu: "1500"
     labels:
-      com.nginx-proxy-manager.network.description:
-        "is an isolated bridge network."
+      com.nginx-proxy-manager.network.description: "is an isolated bridge network."
 
 services:
   nginx-proxy-manager_db:
@@ -126,8 +125,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "nginx-proxy-manager"
-      com.nginx-proxy-manager.description:
-        "nginx proxy manager expose your services easily and securely."
+      com.nginx-proxy-manager.description: "nginx proxy manager expose your services easily and securely."
     healthcheck:
       disable: false
       test: ["CMD", "/usr/bin/check-health"]

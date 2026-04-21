@@ -58,7 +58,6 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "portainer agent"
-      com.edge-agent.description:
-        "a remote environment is not directly accessible from docker server."
+      com.edge-agent.description: "a remote environment is not directly accessible from docker server."
     healthcheck:
       disable: true

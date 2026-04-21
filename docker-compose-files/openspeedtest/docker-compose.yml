@@ -59,7 +59,6 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "openspeedtest"
-      com.openspeedtest.description:
-        "is a Free and Open-Source HTML5 Network Speed Test Software."
+      com.openspeedtest.description: "is a Free and Open-Source HTML5 Network Speed Test Software."
     healthcheck:
       disable: true

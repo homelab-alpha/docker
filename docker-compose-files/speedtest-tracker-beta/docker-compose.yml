@@ -127,7 +127,7 @@ services:
         ipv4_address: 172.21.23.3
     ports:
       - "80:8080/tcp"
-      - "80:8080/upd"
+      - "80:8080/udp"
       - "443:8443/tcp"
       - "443:8443/udp"
     security_opt:

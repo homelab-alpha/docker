@@ -36,7 +36,7 @@ services:
     pull_policy: if_not_present
     volumes:
       - /docker/postgresql/config/postgresql.conf:/etc/postgresql/postgresql.conf
-      - /docker/postgresql/17/production/db:/var/lib/postgresql/data
+      - /docker/postgresql/18/production/db:/var/lib/postgresql
     env_file:
       # Choose the correct environment file:
       # - Use '.env' for Docker Compose.

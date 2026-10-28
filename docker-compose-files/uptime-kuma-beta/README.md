@@ -17,7 +17,7 @@
 Access the Uptime Kuma web interface using the following URL:
 
 ```bash
-http://your-ip-adress:3001
+http://your-ip-adress:3003
 ```
 
 ## Default Login Credentials

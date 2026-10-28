@@ -114,8 +114,8 @@ services:
       uptime-kuma-beta_net:
         ipv4_address: 172.21.3.3
     ports:
-      - "3001:3001/tcp" # HTTP
-      - "3001:3001/udp" # HTTP
+      - "3003:3001/tcp" # HTTP
+      - "3003:3001/udp" # HTTP
     security_opt:
       - no-new-privileges:true
     labels:

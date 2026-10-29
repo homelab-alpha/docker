@@ -58,7 +58,7 @@ for more information.
 ## License
 
 This project is licensed under the MIT License - see the
-[LICENSE](https://github.com/homelab-alpha/docker/blob/main/LICENSE.md) file for
+[LICENSE](https://github.com/homelab-alpha/docker/blob/main/LICENSE) file for
 details.
 
 ## Contact

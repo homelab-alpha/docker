@@ -1,183 +1,343 @@
-# Docker
+<!-- markdownlint-disable MD041 -->
 
-[![Linting](https://github.com/homelab-alpha/docker/actions/workflows/linting.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/linting.yml)
-[![Last commit](https://img.shields.io/github/last-commit/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Last%20commit&labelColor=313A41&color=3955CD&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/commits/main/)
-[![Repo Size](https://img.shields.io/github/repo-size/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&label=Repo%20size&labelColor=313A41&color=3955CD&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/tree/main?tab=readme-ov-file#docker)
+[![Super Linter](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/super_linter.yml)
+[![CodeQL](https://github.com/homelab-alpha/docker/actions/workflows/codeql.yml/badge.svg)](https://github.com/homelab-alpha/docker/actions/workflows/codeql.yml)
+[![Last commit](https://img.shields.io/github/last-commit/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&labelColor=313A41&color=3955CD&label=Last%20commit&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/commits/main/)
+[![Repo Size](https://img.shields.io/github/repo-size/homelab-alpha/docker?style=flat&logo=github&logoColor=96a1a9&labelColor=313A41&color=3955CD&label=Repo%20size&cacheSeconds=3600)](https://github.com/homelab-alpha/docker/tree/main)
+[![Changelog](https://img.shields.io/badge/Changelog-Keep%20a%20Changelog%20v1.1.0-313A41?style=flat&logo=keepachangelog&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://github.com/homelab-alpha/docker/blob/main/CHANGELOG.md)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-3.0-313A41?style=flat&logo=contributorcovenant&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://github.com/homelab-alpha/docker/blob/main/CODE_OF_CONDUCT.md)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-313A41?style=flat&logo=conventionalcommits&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://conventionalcommits.org)
+[![Semantic Versioning](https://img.shields.io/badge/SemVer-2.0.0-313A41?style=flat&logo=semver&logoColor=96a1a9&&labelColor=313A41&color=3955CD)](https://semver.org/spec/v2.0.0.html)
+[![License](https://img.shields.io/github/license/homelab-alpha/docker?style=flat&logo=creativecommons&logoColor=96a1a9&labelColor=313A41&color=3955CD&label=License)](https://github.com/homelab-alpha/docker/blob/main/LICENSE)
 
-Welcome to the Homelab-Alpha Docker repository!
+# Docker
 
-For all related documentation and more information about this repository, please
-visit [Homelab-Alpha/Docker].
+Docker Compose stacks, network guides, and an image template for a self-hosted
+homelab.
 
-## User Responsibilities
+<details>
+  <summary>Table of Contents (click to expand)</summary>
+  <p>
 
-### Ethical and Legal Use
+1. [Docker](#docker)
+   1. [Description](#description)
+   2. [Features](#features)
+      1. [Stacks](#stacks)
+   3. [Project Status](#project-status)
+   4. [Getting Started](#getting-started)
+      1. [Requirements](#requirements)
+      2. [Installation](#installation)
+   5. [Development](#development)
+   6. [Project Structure](#project-structure)
+   7. [CI/CD and Automation](#cicd-and-automation)
+      1. [Workflows](#workflows)
+      2. [Linting](#linting)
+      3. [Dependency Management](#dependency-management)
+   8. [Policies and Standards](#policies-and-standards)
+   9. [Known Issues](#known-issues)
+      1. [Currently Being Addressed](#currently-being-addressed)
+   10. [Contributing](#contributing)
+   11. [Support](#support)
+   12. [Security](#security)
+   13. [Roadmap](#roadmap)
+   14. [License](#license)
 
-Users are expected to use the services provided by Homelab-Alpha in an ethical
-and lawful manner.
+  </p>
+</details>
 
-### Respect for Others
+## Description
 
-Users must respect the rights and privacy of other users and refrain from
-engaging in any behavior that may harass, intimidate, or harm others.
+**docker** is a collection of Docker Compose stacks for a self-hosted homelab,
+together with guides for Docker networks and a template for building your own
+container image. It helps you package, distribute, and manage containerized
+applications.
 
-### Abuse Prevention
+More documentation is on the
+[Homelab-Alpha documentation site](https://homelab-alpha.nl/docs/docker/).
 
-Users are prohibited from abusing or misusing the services of Homelab-Alpha,
-including attempting to gain unauthorized access to accounts or systems,
-distributing malware or other harmful content, or engaging in any form of
-cyberbullying.
+## Features
 
-### Compliance with Policies
+- **28 Docker Compose stacks** in `docker-compose-files/`, each in its own
+  directory with a `docker-compose.yml` and its environment files.
+- **Network guides** — Setup guides for `bridge`, `ipvlan`, and `macvlan` Docker
+  networks in `docker-network-configurations/`.
+- **Image template** — A simple Node.js and Express web server in a Docker
+  container, as a starting point for your own image, in `image-template/`.
 
-Users are required to comply with all applicable policies and guidelines
-provided by Homelab-Alpha, including the Terms of Use, Privacy Policy, and any
-community guidelines or rules.
+### Stacks
 
-### User Feedback
+`adguard-home`, `cloudbeaver`, `dockge`, `dozzle`, `freshrss`, `haproxy`,
+`harborguard`, `immich`, `it-tools`, `jellyfin`, `mariadb`, `mini-qr`,
+`netboot`, `netdata`, `nginx-proxy-manager`, `openspeedtest`, `pi-hole`, `plex`,
+`portainer`, `portainer-edge-agent`, `postgresql`, `speedtest-tracker`,
+`speedtest-tracker-beta`, `unifi-network-application`, `uptime-kuma`,
+`uptime-kuma-beta`, `watchtower`, `xen-orchestra`
 
-We’d love to hear your feedback. Please file documentation issues only in the
-docker GitHub repository. You can file a new issue to suggest improvements or if
-you see any errors in the existing documentation.
+## Project Status
 
-Before submitting a new issue, check whether the issue has already been
-reported. You can join the discussion using an emoji, or by adding a comment to
-an existing issue. If possible, we recommend that you suggest a fix to the issue
-by creating a pull request.
+> [!NOTE]
+>
+> **Status:** Maintained
+>
+> The repository is maintained and updated through pull requests and automated
+> dependency updates. Planned work is listed in [ROADMAP.md](./ROADMAP.md).
 
-You can ask general questions and get community support through our [community].
+## Getting Started
 
-If you have an idea for a new feature or behavior change in a specific aspect of
-Homelab-Alpha Docker or have found a bug, file that issue in the project's code
-repository.
+### Requirements
 
-We've made it easy for you to file new issues.
+Docker with the Docker Compose plugin.
 
-- **Bug report:** Thanks for taking the time to help us improve our Docker
-  project or documentation. To ensure we can address your issue effectively,
-  please fill out the entire form use the link [bug report]. Don't forget to
-  attach any relevant screenshots and provide a clear description of the bug or
-  typo you encountered.
-- **Reporting a Vulnerability:** Please report any vulnerabilities you discover
-  to Homelab-Alpha by [security report]. We appreciate detailed reports that
-  include steps to reproduce the vulnerability and any potential impact.
-- **Give feedback:** Your feedback is invaluable to us as we strive to enhance
-  your experience. Please take a moment to share your thoughts with us using the
-  link [give feedback]. Whether it's praise, criticism, or suggestions for
-  improvement, we want to hear it all!
-- **Feature request:** We love hearing your ideas for making our project even
-  better. Please use the link [feature request] to share your feature request
-  with us. Be sure to provide as much detail as possible to help us understand
-  your suggestion and its potential impact.
+### Installation
 
-## Contribute to Homelab-Alpha Docker repository
+Copy the directory of a stack, review the values in its environment files
+(`.env` and `stack.env`), and start it:
 
-We value your contribution. We want to make it as easy as possible to submit
-your contributions to the Homelab-Alpha Docker repository. Changes to the docker
-are handled through pull requests against the `main` branch. To learn how to
-contribute, see [contributing].
+```bash
+git clone https://github.com/homelab-alpha/docker.git
+cd docker/docker-compose-files/<stack>
+docker compose up -d
+```
 
-## Reporting Vulnerabilities
+> [!IMPORTANT]
+>
+> Change the passwords and secrets in the environment files before you start a
+> stack.
 
-Users are obligated to promptly report any security vulnerabilities or issues
-found on [Homelab-Alpha's website] or [Homelab-Alpha's GitHub repositories] to
-Homelab-Alpha using the designated reporting channels.
+## Development
 
-## Supported Versions
+Set up the dev tooling on any computer. It needs Node.js 24 (see `engines` in
+`package.json`):
 
-Users are encouraged to utilize either the latest stable release or the
-preceding stable release for security reasons. Homelab-Alpha provides security
-updates for these supported versions and urges users to promptly apply patches
-and updates.
+```bash
+git clone https://github.com/homelab-alpha/docker.git
+cd docker
+npm ci
+npm run lint
+```
 
-## Third-Party Dependencies
+Linting has two parts. Every pull request runs `npm run lint` (Prettier,
+textlint terminology, and merge conflict markers on the changed files), which
+you can also run locally. `npm run lint:fix` repairs formatting and terminology
+for you. Every push to `main` runs the full Super Linter, which you can run
+locally with Docker:
 
-Users acknowledge that [Homelab-Alpha's website] and [Homelab-Alpha's GitHub
-repositories] may incorporate third-party components beyond Homelab-Alpha's
-control. While efforts are made to maintain the integrity and security of these
-dependencies, Homelab-Alpha cannot guarantee their absolute safety.
+```bash
+docker run --rm -e RUN_LOCAL=true -e USE_FIND_ALGORITHM=true \
+  -e VALIDATE_ALL_CODEBASE=true --env-file .github/super_linter.env \
+  -v "$PWD":/tmp/lint ghcr.io/super-linter/super-linter:v9.0.0
+```
 
-## Limitation of Liability
+For quick formatting of a single file, `npx prettier --write <file>` uses the
+same `.prettierrc`.
 
-By utilizing [Homelab-Alpha's website] and [Homelab-Alpha's GitHub
-repositories], you expressly acknowledge and agree that Homelab-Alpha and its
-contributors shall not be held liable for any damages, losses, or security
-breaches arising from the use of [Homelab-Alpha's website] and [Homelab-Alpha's
-GitHub repositories] or related components. This includes, but is not limited
-to, any direct, indirect, incidental, special, or consequential damages, as well
-as any loss of profits, data, or business opportunities.
+## Project Structure
 
-### Indemnification
+```treeview
+docker/
+├── .claude/                                    # Claude Code project settings
+│   └── settings.json                           # Shared permissions for Claude Code
+├── .github/                                    # GitHub-specific configuration and automation
+│   ├── DISCUSSION_TEMPLATE/                    # GitHub Discussions templates
+│   │   ├── announcements.yml                   # Template for announcements
+│   │   ├── feature-request.yml                 # Template for feature requests
+│   │   ├── feedback.yml                        # Template for feedback
+│   │   ├── help-support.yml                    # Template for help and support
+│   │   └── q-a.yml                             # Template for Q&A
+│   ├── ISSUE_TEMPLATE/                         # GitHub issue templates
+│   │   ├── bug_report.yml                      # Template for bug reports
+│   │   ├── config.yml                          # Issue template configuration
+│   │   ├── i18n_issue.yml                      # Template for translation & localization
+│   │   └── security_report.yml                 # Template for security issues
+│   ├── linters/                                # Configuration files for Super Linter
+│   │   ├── .checkov.yaml                       # Infrastructure-as-code security rules
+│   │   ├── .gitleaks.toml                      # Gitleaks secret scanning configuration
+│   │   ├── .markdown-lint.yml                  # Markdown linting rules
+│   │   ├── .powershell-psscriptanalyzer.psd1   # PowerShell static analysis rules
+│   │   ├── .textlintrc                         # Text/grammar linting configuration
+│   │   ├── .yaml-lint.yml                      # YAML linting rules
+│   │   └── actionlint.yml                      # GitHub Actions workflow linting rules
+│   ├── policies/                               # Internal policies and documentation
+│   │   ├── github_actions.md                   # Workflow standards (ENG-CI-001)
+│   │   ├── labels.md                           # Label color strategy and rules
+│   │   ├── logs.md                             # Logging policies and practices
+│   │   ├── review_process.md                   # Code review process
+│   │   ├── security.md                         # Security policy
+│   │   └── tests.md                            # Testing policy
+│   ├── workflows/                              # GitHub Actions workflows
+│   │   ├── codeql.yml                          # CodeQL security analysis
+│   │   ├── contributors.yml                    # Contributors list generator
+│   │   ├── dependency_review.yml               # Dependency review
+│   │   ├── housekeeping.yml                    # Cache and run cleanup
+│   │   ├── issues.yml                          # Issue automation
+│   │   ├── labels.yml                          # Label synchronization
+│   │   ├── lint_pull_request.yml               # npm linting for pull requests
+│   │   ├── merge_conflicts.yml                 # Merge conflict detection
+│   │   ├── milestone_manager.yml               # Milestone automation
+│   │   ├── pull_request.yml                    # Pull request automation
+│   │   ├── release_manager.yml                 # Release automation
+│   │   ├── signing_test.yml                    # Test API-based commit and tag signing
+│   │   ├── stale_issues_and_pull_requests.yml  # Stale issue management
+│   │   ├── super_linter.yml                    # Super Linter
+│   │   └── unreproducible_issues.yml           # Unreproducible issue management
+│   ├── CODEOWNERS                              # Code ownership definitions
+│   ├── labels.yml                              # Repository label definitions
+│   ├── pull_request_template.md                # Pull request template
+│   ├── renovate.json                           # Renovate dependency automation
+│   └── super_linter.env                        # Super Linter environment configuration
+├── docker-compose-files/                       # 28 Docker Compose stacks
+├── docker-network-configurations/              # Docker network setup guides
+│   ├── bridge_network_setup.md                 # Create a bridge network
+│   ├── ipvlan_network_setup.md                 # Create an ipvlan network
+│   └── macvlan_network_setup.md                # Create a macvlan network
+├── image-template/                             # Template for a Node.js container image
+│   ├── app.js                                  # Express web server
+│   ├── docker-compose.yml                      # Compose file for the template
+│   ├── Dockerfile                              # Image build instructions
+│   ├── package.json                            # Node.js dependencies of the template
+│   └── README.md                               # Usage of the template
+├── scripts/                                    # Utility and automation shell scripts
+│   ├── lint.sh                                 # Local lint (Prettier, textlint, conflict markers)
+│   ├── setup_gpg.sh                            # Configures API or GPG signing for Git operations
+│   └── verify_signatures.sh                    # Verifies commit and tag signatures
+├── .editorconfig                               # Editor settings (indent, line endings)
+├── .gitignore                                  # Git ignore rules
+├── .gitleaksignore                             # Gitleaks secret scanning allowlist
+├── .npmrc                                      # npm supply-chain hardening
+├── .pre-commit-config.yaml                     # Local pre-commit hooks (mirrors CI)
+├── .prettierignore                             # Files excluded from Prettier formatting
+├── .prettierrc                                 # Prettier configuration file
+├── AI_CONTRIBUTION_POLICY.md                   # Rules for contributions made with AI assistance
+├── CHANGELOG.md                                # Project change history
+├── CODE_OF_CONDUCT.md                          # Contributor Covenant Code of Conduct
+├── CODE_STYLE_AND_STANDARDS_GUIDES.md          # Coding standards and style guidelines
+├── CONTRIBUTING.md                             # Contribution guidelines
+├── CONTRIBUTORS.md                             # Auto-generated contributors list
+├── GOVERNANCE.md                               # Project governance model
+├── LICENSE                                     # Creative Commons BY-NC-SA 4.0 license
+├── MAINTAINERS.md                              # Project maintainer list and process
+├── NOTICE                                      # Attribution and license notice
+├── package-lock.json                           # Locked versions of the dev tooling
+├── package.json                                # Dev tooling (Prettier, textlint) and lint scripts
+├── README.md                                   # Primary repository documentation
+├── ROADMAP.md                                  # Planned features and milestones
+├── SECURITY.md                                 # Security policy and reporting guidelines
+├── SUPPORT.md                                  # Support channels and response times
+└── TERMS_OF_SERVICE.md                         # Terms of service
+```
 
-You agree to indemnify and hold harmless Homelab-Alpha and its affiliates,
-directors, officers, employees, agents, and contributors from and against any
-claims, liabilities, damages, losses, costs, or expenses (including reasonable
-attorneys' fees) arising from or related to your use of [Homelab-Alpha's
-website] and [Homelab-Alpha's GitHub repositories], including but not limited to
-any breaches of security, violations of applicable laws or regulations, or
-infringement of third-party rights.
+## CI/CD and Automation
 
-## Security Best Practices
+The repository includes a set of GitHub Actions workflows that run automatically
+on push, pull request, and scheduled triggers.
 
-Users are advised to adhere to security best practices, including but not
-limited to regular software updates, strong password policies, and secure coding
-practices. Homelab-Alpha recommends following these practices to enhance
-deployment security and minimize the risk of breaches or unauthorized access.
+### Workflows
 
-## Disclaimer
+| Workflow                             | Trigger                 | Purpose                                              |
+| :----------------------------------- | :---------------------- | :--------------------------------------------------- |
+| `codeql.yml`                         | Push, PR, schedule      | CodeQL static analysis for security vulnerabilities  |
+| `contributors.yml`                   | Push to `main`          | Auto-generates `CONTRIBUTORS.md`                     |
+| `dependency_review.yml`              | PR                      | Reviews dependency changes for known vulnerabilities |
+| `housekeeping.yml`                   | Weekly schedule, manual | Cleans up old workflow runs and Actions caches       |
+| `issues.yml`                         | Issue events            | Automates issue labeling and triage                  |
+| `labels.yml`                         | Push, manual            | Synchronizes repository labels from `labels.yml`     |
+| `lint_pull_request.yml`              | PR, manual              | Runs `npm run lint` on the changed files             |
+| `merge_conflicts.yml`                | Push, PR                | Detects merge conflicts in open pull requests        |
+| `milestone_manager.yml`              | Manual                  | Automates milestone creation and lifecycle           |
+| `pull_request.yml`                   | PR events               | Pull request automation and validation               |
+| `release_manager.yml`                | Manual                  | Automates GitHub Releases                            |
+| `signing_test.yml`                   | Manual                  | Tests API-based commit and tag signing               |
+| `stale_issues_and_pull_requests.yml` | Schedule                | Marks and closes stale issues and pull requests      |
+| `super_linter.yml`                   | Push to `main`, manual  | Runs Super Linter across the codebase                |
+| `unreproducible_issues.yml`          | Schedule                | Manages issues that cannot be reproduced             |
 
-### No Warranty
+All workflows follow the standards documented in
+[`.github/policies/github_actions.md`](./.github/policies/github_actions.md),
+including actions pinned to a commit SHA, concurrency controls, timeout limits,
+bot filtering, and structured job summaries.
 
-[Homelab-Alpha's website] and [Homelab-Alpha's GitHub repositories] are provided
-"as is" without any warranty, express or implied. Homelab-Alpha makes no
-warranties regarding the accuracy, reliability, or suitability of the services.
+### Linting
 
-### Changes to Terms
+Pull requests are linted with `npm run lint` (`scripts/lint.sh`), which uses
+Prettier, textlint, and a merge conflict marker check with the configuration
+files below. Pushes to `main` run
+[Super Linter](https://github.com/super-linter/super-linter), configured through
+`.github/super_linter.env`. The following linters are enabled: Checkov, ENV,
+GitHub Actions (actionlint), Gitleaks, Git merge conflict markers, JSON
+(Prettier), Markdown (Prettier), Natural Language (textlint), Pre-commit,
+Renovate, and YAML (Prettier).
 
-Homelab-Alpha reserves the right to amend these terms of use pages at any time
-without prior notice. Continued use of [Homelab-Alpha's website] and
-[Homelab-Alpha's GitHub repositories] constitutes acceptance of the revised
-terms.
+Linter-specific configuration files are stored in `.github/linters/` and include
+rules for Checkov, Gitleaks, markdownlint, textlint, yamllint, actionlint, and
+PowerShell.
 
-### Changes to Privacy Policy
+### Dependency Management
 
-We may update our Privacy Policy periodically. We will notify you of any changes
-by posting the new Privacy Policy on this page. It is advisable to periodically
-review this Privacy Policy for any changes. Changes to this Privacy Policy
-become effective when posted on this page.
+Dependency updates are managed by [Renovate](https://github.com/apps/renovate).
+The configuration in `.github/renovate.json` pins GitHub Actions to commit SHAs
+and npm packages to exact versions, waits 7 days before it proposes a new
+release, merges patch, pin, and digest updates automatically with squash, and
+prioritizes security updates. Major and minor updates are never merged
+automatically. Renovate also keeps a dependency dashboard issue.
 
-### Contact Us
+## Policies and Standards
 
-If you have any questions about our Privacy Policy or this repository, please
-contact us by emailing the
-**[Homelab-Alpha team](mailto:homelab.api@gmail.com)**.
+The repository includes internal policies that define how the project operates.
+These are documented in `.github/policies/` and in root-level files:
 
-## Governing Law
+| Document                                                                     | Purpose                                              |
+| :--------------------------------------------------------------------------- | :--------------------------------------------------- |
+| [`.github/policies/github_actions.md`](./.github/policies/github_actions.md) | Workflow structure, security, and logging standards  |
+| [`.github/policies/labels.md`](./.github/policies/labels.md)                 | Label naming, color strategy, and usage rules        |
+| [`.github/policies/logs.md`](./.github/policies/logs.md)                     | Logging conventions for workflows and scripts        |
+| [`.github/policies/review_process.md`](./.github/policies/review_process.md) | Code review stages, criteria, and merge strategy     |
+| [`.github/policies/security.md`](./.github/policies/security.md)             | Security scanning and vulnerability management       |
+| [`.github/policies/tests.md`](./.github/policies/tests.md)                   | Testing standards, structure, and conventions        |
+| [`CODE_STYLE_AND_STANDARDS_GUIDES.md`](./CODE_STYLE_AND_STANDARDS_GUIDES.md) | Coding style guidelines and Prettier configuration   |
+| [`AI_CONTRIBUTION_POLICY.md`](./AI_CONTRIBUTION_POLICY.md)                   | Rules for contributions made with AI assistance      |
+| [`GOVERNANCE.md`](./GOVERNANCE.md)                                           | Project governance model and decision-making process |
+| [`MAINTAINERS.md`](./MAINTAINERS.md)                                         | Maintainer roles, responsibilities, and current list |
+| [`TERMS_OF_SERVICE.md`](./TERMS_OF_SERVICE.md)                               | Terms of use for the repository                      |
 
-These legal pages are governed by the laws of the Netherlands. Any disputes
-arising from the use of [Homelab-Alpha's website] and [Homelab-Alpha's GitHub
-repositories] shall be subject to the exclusive jurisdiction of the courts of
-the Netherlands.
+## Known Issues
 
-## Copyright and License
+The maintainers strive to provide a seamless experience. Below are any known
+bugs, limitations, or issues you might encounter. This section is updated
+regularly.
 
-&copy; 2024 **Homelab-Alpha**. This repository is licensed under the **Creative
-Commons Attribution–NonCommercial–ShareAlike 4.0 (CC BY-NC-SA 4.0)** license.
-See the [LICENSE] file for more details.
+### Currently Being Addressed
 
-[Homelab-Alpha/Docker]: https://homelab-alpha.nl/docker
-[Homelab-Alpha's website]: https://homelab-alpha.nl
-[Homelab-Alpha's GitHub repositories]: https://github.com/homelab-alpha
-[community]: https://github.com/homelab-alpha/docker/discussions
-[bug report]:
-  https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=bug&projects=&template=bug_report.yml
-[security report]:
-  https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=security&projects=&template=security_report.yml
-[give feedback]:
-  https://github.com/homelab-alpha/docker/discussions/categories/feedback
-[feature request]:
-  https://github.com/homelab-alpha/docker/discussions/categories/feature-request
-[LICENSE]: https://github.com/homelab-alpha/docker/blob/main/LICENSE
-[contributing]: CONTRIBUTING.md
+No known issues at this time.
+
+If you discover a bug or experience an issue not listed here, please
+[open an issue on GitHub](https://github.com/homelab-alpha/docker/issues/new/choose).
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md) for
+contribution guidelines, branch naming conventions, commit message format, and
+the review process. AI-assisted contributions follow
+[AI_CONTRIBUTION_POLICY.md](./AI_CONTRIBUTION_POLICY.md).
+
+## Support
+
+For setup questions, troubleshooting, and general help, see
+[SUPPORT.md](./SUPPORT.md).
+
+## Security
+
+To report a security vulnerability, please follow the process described in
+[SECURITY.md](./SECURITY.md). Do **not** report security issues via public
+GitHub issues or discussions.
+
+## Roadmap
+
+Planned features, milestones, and the long-term direction of the project are
+documented in [ROADMAP.md](./ROADMAP.md).
+
+## License
+
+This project is licensed under the **Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License** (CC BY-NC-SA
+4.0). See the [LICENSE](./LICENSE) and [NOTICE](./NOTICE) files for the full
+license text and attribution requirements.

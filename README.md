@@ -39,8 +39,8 @@ community guidelines or rules.
 ### User Feedback
 
 We’d love to hear your feedback. Please file documentation issues only in the
-docker GitHub repository. You can file a new issue to suggest improvements or
-if you see any errors in the existing documentation.
+docker GitHub repository. You can file a new issue to suggest improvements or if
+you see any errors in the existing documentation.
 
 Before submitting a new issue, check whether the issue has already been
 reported. You can join the discussion using an emoji, or by adding a comment to
@@ -50,8 +50,8 @@ by creating a pull request.
 You can ask general questions and get community support through our [community].
 
 If you have an idea for a new feature or behavior change in a specific aspect of
-Homelab-Alpha Docker or have found a bug, file that issue in the project's
-code repository.
+Homelab-Alpha Docker or have found a bug, file that issue in the project's code
+repository.
 
 We've made it easy for you to file new issues.
 
@@ -171,9 +171,13 @@ See the [LICENSE] file for more details.
 [Homelab-Alpha's website]: https://homelab-alpha.nl
 [Homelab-Alpha's GitHub repositories]: https://github.com/homelab-alpha
 [community]: https://github.com/homelab-alpha/docker/discussions
-[bug report]: https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=bug&projects=&template=bug_report.yml
-[security report]: https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=security&projects=&template=security_report.yml
-[give feedback]: https://github.com/homelab-alpha/docker/discussions/categories/feedback
-[feature request]: https://github.com/homelab-alpha/docker/discussions/categories/feature-request
+[bug report]:
+  https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=bug&projects=&template=bug_report.yml
+[security report]:
+  https://github.com/homelab-alpha/docker/issues/new?assignees=homelab-alpha&labels=security&projects=&template=security_report.yml
+[give feedback]:
+  https://github.com/homelab-alpha/docker/discussions/categories/feedback
+[feature request]:
+  https://github.com/homelab-alpha/docker/discussions/categories/feature-request
 [LICENSE]: https://github.com/homelab-alpha/docker/blob/main/LICENSE
 [contributing]: CONTRIBUTING.md

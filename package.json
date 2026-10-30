@@ -1,0 +1,25 @@
+{
+  "name": "docker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dockerized applications, Docker Compose files, and container network configurations for a self-hosted homelab.",
+  "license": "CC-BY-NC-SA-4.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/homelab-alpha/docker.git"
+  },
+  "scripts": {
+    "lint": "bash scripts/lint.sh",
+    "lint:fix": "bash scripts/lint.sh --fix"
+  },
+  "devDependencies": {
+    "prettier": "3.9.10",
+    "textlint": "15.8.0",
+    "textlint-filter-rule-allowlist": "4.0.0",
+    "textlint-filter-rule-comments": "1.3.0",
+    "textlint-rule-terminology": "5.2.16"
+  },
+  "engines": {
+    "node": "^24.22.1"
+  }
+}

@@ -15,7 +15,7 @@ everything you need to know to contribute effectively.
   <summary>Table of Contents (click to expand)</summary>
   <p>
 
-1. [Contributing to {{PROJECT\_NAME}}](#contributing-to-project_name)
+1. [Contributing to docker](#contributing-to-docker)
    1. [Code of Conduct](#code-of-conduct)
    2. [Getting Started](#getting-started)
       1. [Prerequisites](#prerequisites)

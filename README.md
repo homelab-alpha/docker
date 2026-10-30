@@ -190,6 +190,8 @@ docker/
 │   ├── bridge_network_setup.md                 # Create a bridge network
 │   ├── ipvlan_network_setup.md                 # Create an ipvlan network
 │   └── macvlan_network_setup.md                # Create a macvlan network
+├── docs/                                       # Project documentation (API, usage, guides)
+│   └── code_style_and_standards_guides.md      # Coding standards and style guidelines
 ├── image-template/                             # Template for a Node.js container image
 │   ├── app.js                                  # Express web server
 │   ├── docker-compose.yml                      # Compose file for the template
@@ -210,7 +212,6 @@ docker/
 ├── AI_CONTRIBUTION_POLICY.md                   # Rules for contributions made with AI assistance
 ├── CHANGELOG.md                                # Project change history
 ├── CODE_OF_CONDUCT.md                          # Contributor Covenant Code of Conduct
-├── CODE_STYLE_AND_STANDARDS_GUIDES.md          # Coding standards and style guidelines
 ├── CONTRIBUTING.md                             # Contribution guidelines
 ├── CONTRIBUTORS.md                             # Auto-generated contributors list
 ├── GOVERNANCE.md                               # Project governance model
@@ -285,19 +286,19 @@ automatically. Renovate also keeps a dependency dashboard issue.
 The repository includes internal policies that define how the project operates.
 These are documented in `.github/policies/` and in root-level files:
 
-| Document                                                                     | Purpose                                              |
-| :--------------------------------------------------------------------------- | :--------------------------------------------------- |
-| [`.github/policies/github_actions.md`](./.github/policies/github_actions.md) | Workflow structure, security, and logging standards  |
-| [`.github/policies/labels.md`](./.github/policies/labels.md)                 | Label naming, color strategy, and usage rules        |
-| [`.github/policies/logs.md`](./.github/policies/logs.md)                     | Logging conventions for workflows and scripts        |
-| [`.github/policies/review_process.md`](./.github/policies/review_process.md) | Code review stages, criteria, and merge strategy     |
-| [`.github/policies/security.md`](./.github/policies/security.md)             | Security scanning and vulnerability management       |
-| [`.github/policies/tests.md`](./.github/policies/tests.md)                   | Testing standards, structure, and conventions        |
-| [`CODE_STYLE_AND_STANDARDS_GUIDES.md`](./CODE_STYLE_AND_STANDARDS_GUIDES.md) | Coding style guidelines and Prettier configuration   |
-| [`AI_CONTRIBUTION_POLICY.md`](./AI_CONTRIBUTION_POLICY.md)                   | Rules for contributions made with AI assistance      |
-| [`GOVERNANCE.md`](./GOVERNANCE.md)                                           | Project governance model and decision-making process |
-| [`MAINTAINERS.md`](./MAINTAINERS.md)                                         | Maintainer roles, responsibilities, and current list |
-| [`TERMS_OF_SERVICE.md`](./TERMS_OF_SERVICE.md)                               | Terms of use for the repository                      |
+| Document                                                                               | Purpose                                              |
+| :------------------------------------------------------------------------------------- | :--------------------------------------------------- |
+| [`.github/policies/github_actions.md`](./.github/policies/github_actions.md)           | Workflow structure, security, and logging standards  |
+| [`.github/policies/labels.md`](./.github/policies/labels.md)                           | Label naming, color strategy, and usage rules        |
+| [`.github/policies/logs.md`](./.github/policies/logs.md)                               | Logging conventions for workflows and scripts        |
+| [`.github/policies/review_process.md`](./.github/policies/review_process.md)           | Code review stages, criteria, and merge strategy     |
+| [`.github/policies/security.md`](./.github/policies/security.md)                       | Security scanning and vulnerability management       |
+| [`.github/policies/tests.md`](./.github/policies/tests.md)                             | Testing standards, structure, and conventions        |
+| [`docs/code_style_and_standards_guides.md`](./docs/code_style_and_standards_guides.md) | Coding style guidelines and Prettier configuration   |
+| [`AI_CONTRIBUTION_POLICY.md`](./AI_CONTRIBUTION_POLICY.md)                             | Rules for contributions made with AI assistance      |
+| [`GOVERNANCE.md`](./GOVERNANCE.md)                                                     | Project governance model and decision-making process |
+| [`MAINTAINERS.md`](./MAINTAINERS.md)                                                   | Maintainer roles, responsibilities, and current list |
+| [`TERMS_OF_SERVICE.md`](./TERMS_OF_SERVICE.md)                                         | Terms of use for the repository                      |
 
 ## Known Issues
 

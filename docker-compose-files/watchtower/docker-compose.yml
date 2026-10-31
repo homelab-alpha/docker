@@ -47,9 +47,7 @@ services:
       - no-new-privileges:true
     labels:
       com.docker.compose.project: "watchtower"
-      com.watchtower.description:
-        "a container-based solution for automating Docker container base image
-        updates."
+      com.watchtower.description: "a container-based solution for automating Docker container base image updates."
     healthcheck:
       disable: false
       test: ["CMD", "/watchtower", "--health-check"]

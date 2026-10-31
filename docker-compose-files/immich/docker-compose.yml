@@ -140,8 +140,7 @@ services:
     labels:
       com.docker.compose.project: "immich"
       com.immich.ml.description:
-        "a machine learning-powered component of immich, designed to enhance
-        media management and automation."
+        "a machine learning-powered component of immich, designed to enhance media management and automation."
     healthcheck:
       disable: false
 
@@ -187,7 +186,6 @@ services:
     labels:
       com.docker.compose.project: "immich"
       com.immich.description:
-        "a self-hosted solution for seamless photo and video management,
-        offering privacy and full control."
+        "a self-hosted solution for seamless photo and video management, offering privacy and full control."
     healthcheck:
       disable: false

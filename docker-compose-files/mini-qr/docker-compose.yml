@@ -47,8 +47,7 @@ services:
     labels:
       com.docker.compose.project: "mini-qr"
       com.mini-qr.description:
-        "A user-friendly and customizable QR code generator that allows you to
-        create styled QR codes with ease."
+        "A user-friendly and customizable QR code generator that allows you to create styled QR codes with ease."
     healthcheck:
       disable: true
       test: ["CMD", "curl", "-f", "http://localhost"]
@@ -93,8 +92,7 @@ services:
     labels:
       com.docker.compose.project: "mini-qr-nginx"
       com.mini-qr.description:
-        "a flexible and high-performance server that can handle HTTP, mail, TCP,
-        and UDP traffic."
+        "a flexible and high-performance server that can handle HTTP, mail, TCP, and UDP traffic."
     healthcheck:
       disable: true
       test: ["CMD", "curl", "-f", "http://localhost"]

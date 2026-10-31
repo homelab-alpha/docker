@@ -61,7 +61,7 @@ container image. It helps you package, distribute, and manage containerized
 applications.
 
 More documentation is on the
-[Homelab-Alpha documentation site](https://homelab-alpha.nl/docs/docker/).
+[Homelab-Alpha documentation site](https://homelab-alpha.nl/docker/).
 
 ## Features
 

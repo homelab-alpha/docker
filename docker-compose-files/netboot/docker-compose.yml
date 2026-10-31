@@ -60,9 +60,8 @@ services:
     labels:
       com.docker.compose.project: "netboot"
       com.netboot.description:
-        "is a convenient place to boot into any type of operating system or
-        utility disk without the need of having to go spend time retrieving the
-        ISO just to run it."
+        "is a convenient place to boot into any type of operating system or utility disk without the need of having to
+        go spend time retrieving the ISO just to run it."
     healthcheck:
       disable: false
       test: ["CMD", "/healthcheck.sh"]

@@ -86,9 +86,8 @@ services:
     labels:
       com.docker.compose.project: "harborguard"
       com.harborguard.description:
-        "is a comprehensive container security scanning platform that provides
-        an intuitive web interface for managing and visualizing security
-        assessments of Docker images."
+        "is a comprehensive container security scanning platform that provides an intuitive web interface for managing
+        and visualizing security assessments of Docker images."
     healthcheck:
       disable: false
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]

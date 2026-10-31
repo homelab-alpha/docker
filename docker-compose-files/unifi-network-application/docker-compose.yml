@@ -139,7 +139,6 @@ services:
     labels:
       com.docker.compose.project: "unifi-network-application"
       com.unifi-network-application.description:
-        "is an end-to-end system of network devices across different locations —
-        all controlled from a single interface."
+        "is an end-to-end system of network devices across different locations — all controlled from a single interface."
     healthcheck:
       disable: true

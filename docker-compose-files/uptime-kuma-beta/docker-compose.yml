@@ -121,8 +121,8 @@ services:
     labels:
       com.docker.compose.project: "uptime-kuma-beta"
       com.uptime-kuma-beta.description:
-        "is an self-hosted monitoring tool that allows you to monitor uptime,
-        status, and notifications for various services and domains."
+        "is an self-hosted monitoring tool that allows you to monitor uptime, status, and notifications for various
+        services and domains."
     healthcheck:
       disable: false
       test: ["CMD", "extra/healthcheck"]

@@ -135,8 +135,7 @@ services:
     labels:
       com.docker.compose.project: "speedtest-tracker"
       com.speedtest-tracker.description:
-        "a self-hosted application that monitors the performance and uptime of
-        your internet connection."
+        "a self-hosted application that monitors the performance and uptime of your internet connection."
     healthcheck:
       disable: false
       test: curl -fSs APP_URL/api/healthcheck | jq -r .message || exit 1

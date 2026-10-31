@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-labelledby="t">
+  <title id="t">docker app icon</title>
+  <rect width="1024" height="1024" rx="224" fill="#F5F5F7"/>
+  <g transform="translate(12 172) scale(10)"><path d="M22 22 L50 8 L78 22 L50 36 Z M22 34 L50 48 L78 34 M22 46 L50 60 L78 46" fill="none" stroke="#1D1D1F" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="22" r="6.5" fill="#AF52DE"/></g>
+</svg>

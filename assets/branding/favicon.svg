@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>docker</title>
+  <style>
+    .line { stroke: #1D1D1F; }
+    .dot { fill: #AF52DE; }
+    @media (prefers-color-scheme: dark) {
+      .line { stroke: #F5F5F7; }
+      .dot { fill: #BF5AF2; }
+    }
+  </style>
+  <path class="line" d="M10 22 L32 10 L54 22 L32 34 Z M10 34 L32 46 L54 34 M10 46 L32 58 L54 46" fill="none"
+    stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle class="dot" cx="32" cy="22" r="6"/>
+</svg>

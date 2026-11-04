@@ -65,6 +65,8 @@ Select the type of change this pull request introduces by replacing [ ] with
 - [ ] 🧪 `test` — Adding or updating tests
 - [ ] 🔧 `chore` — Maintenance, build updates, or dependency changes
 - [ ] ⏪ `revert` — Reverting a previous commit
+- [ ] 🏗️ `build` — Build tool or dependency changes
+- [ ] 👷 `ci` — CI configuration and workflow changes
 
 ---
 
@@ -116,7 +118,7 @@ without review.
 
 ### Code Quality
 
-- [ ] My code follows the style and conventions described in [code_style_and_standards_guides.md](https://github.com/homelab-alpha/docker/blob/main/docs/code_style_and_standards_guides.md).
+- [ ] My code follows the style and conventions described in [code_style_and_standards_guides.md](https://github.com/homelab-alpha/docker/blob/main/.github/docs/code_style_and_standards_guides.md).
 - [ ] I have added comments to complex or non-obvious parts of my code.
 - [ ] I have removed all debugging statements, console logs, and temporary code.
 
@@ -129,7 +131,7 @@ without review.
 ### Documentation
 
 - [ ] I have updated the relevant documentation to reflect my changes.
-- [ ] I have updated the [CHANGELOG.md](https://github.com/homelab-alpha/docker/blob/main/CHANGELOG.md) under `[Unreleased]` with a brief description of my changes.
+- [ ] The title of this pull request is a conventional commit, because it becomes the [CHANGELOG.md](https://github.com/homelab-alpha/docker/blob/main/CHANGELOG.md) entry when it is merged.
 
 ### Git Hygiene
 

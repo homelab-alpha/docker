@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: watchtower
-    image: ghcr.io/nicholas-fedor/watchtower:1.24.0
+    image: ghcr.io/nicholas-fedor/watchtower:1.24.0@sha256:e96976bcbeaf0a9adeddc9016a539c27a2245ef6bb7d3ca97ed106783350d387
     pull_policy: if_not_present
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

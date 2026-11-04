@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: harborguard
-    image: ghcr.io/harborguard/harborguard:latest
+    image: ghcr.io/harborguard/harborguard:latest@sha256:706d6f34eee522fc6824fda772be68a0777c7f1e7cfbfa4954f97afde064187c
     pull_policy: if_not_present
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro

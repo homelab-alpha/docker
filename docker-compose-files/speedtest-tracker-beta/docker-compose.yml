@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: speedtest-tracker_db
-    image: docker.io/mariadb:13.0.2
+    image: docker.io/mariadb:13.0.2@sha256:f4054da26e3a9dd6c8b5cc97363e544408b15c0fb369d7359c25dc04826eb6e1
     pull_policy: if_not_present
     volumes:
       - /docker/speedtest-tracker/production/db:/var/lib/mysql
@@ -75,7 +75,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: speedtest-tracker
-    image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.15.1
+    image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.15.1@sha256:53177596e0ca033fc05f35706f84de5bbf7f35a04c5f06240356597241485c3b
     # image: ghcr.io/alexjustesen/docker-speedtest-tracker:dev-amd64
     pull_policy: if_not_present
     depends_on:

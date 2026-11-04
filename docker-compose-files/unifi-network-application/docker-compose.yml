@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application_db
-    image: docker.io/mongo:9.0.4
+    image: docker.io/mongo:9.0.4@sha256:452bdaf2127b8ff851e31410a267809b9829eded219979f2210e7c7efb85a058
     pull_policy: if_not_present
     volumes:
       - /docker/unifi-network-application/production/db:/data/db
@@ -88,7 +88,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: unifi-network-application
-    image: ghcr.io/linuxserver/unifi-network-application:10.6.109
+    image: ghcr.io/linuxserver/unifi-network-application:10.6.109@sha256:3a6a1b86b30070fb2e635e44047801626bc224e7c129c2310f236efaa38c58aa
     pull_policy: if_not_present
     depends_on:
       unifi-network-application_db:

@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr
-    image: ghcr.io/lyqht/mini-qr:v0.32.0
+    image: ghcr.io/lyqht/mini-qr:v0.32.0@sha256:bca2ac7ccbec8899e6e9a6b91d45d0286238fa0fccf357fa10ca9640d2d09916
     pull_policy: if_not_present
     environment:
       PUID: "1000"
@@ -66,7 +66,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr_nginx
-    image: docker.io/nginx:1.31.2-alpine3.23-perl
+    image: docker.io/nginx:1.31.2-alpine3.23-perl@sha256:b3b337e1ef5b1bc8253dec68bc4522d9027920666a428bf51a022ceb7e3396bc
     pull_policy: if_not_present
     depends_on:
       mini-qr_app:

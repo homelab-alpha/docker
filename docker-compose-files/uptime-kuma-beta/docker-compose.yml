@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma-beta_db
-    image: docker.io/mariadb:13.0.2
+    image: docker.io/mariadb:13.0.2@sha256:f4054da26e3a9dd6c8b5cc97363e544408b15c0fb369d7359c25dc04826eb6e1
     pull_policy: if_not_present
     volumes:
       - /docker/uptime-kuma-beta/testing/db:/var/lib/mysql
@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma-beta
-    image: ghcr.io/louislam/uptime-kuma:2.1.0-beta-slim.2
+    image: ghcr.io/louislam/uptime-kuma:2.1.0-beta-slim.2@sha256:34e39455ad3524efb4ac043545ce50b78ea2c215f8878c30e51ee02fca02d034
     pull_policy: if_not_present
     depends_on:
       uptime-kuma-beta_db:

@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: nginx-proxy-manager_db
-    image: docker.io/mariadb:13.0.2
+    image: docker.io/mariadb:13.0.2@sha256:f4054da26e3a9dd6c8b5cc97363e544408b15c0fb369d7359c25dc04826eb6e1
     pull_policy: if_not_present
     volumes:
       - /docker/nginx-proxy-manager/production/db:/var/lib/mysql
@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: nginx-proxy-manager
-    image: docker.io/jc21/nginx-proxy-manager:2.16.0
+    image: docker.io/jc21/nginx-proxy-manager:2.16.0@sha256:4393e642e233e5efd5adeb7f10918d4aaea71c9ed875b94190273fc8e87f9594
     pull_policy: if_not_present
     depends_on:
       nginx-proxy-manager_db:

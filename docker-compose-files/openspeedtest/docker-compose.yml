@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: openspeedtest
-    image: docker.io/openspeedtest/latest:v2.0.8
+    image: docker.io/openspeedtest/latest:v2.0.8@sha256:1127de0693c36bcf8c297c73d09891df8ec243680d027a6b6fab13fa0954ff46
     pull_policy: if_not_present
     volumes:
       - /docker/openspeedtest/production/config/nginx.conf:/etc/nginx.conf

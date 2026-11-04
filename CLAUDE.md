@@ -30,8 +30,8 @@ Linting has two parts. Pull requests run `npm run lint` (workflow
 `lint_pull_request.yml`, script `.github/scripts/lint.sh`): Prettier, textlint
 terminology, and merge conflict markers, with the same configuration as Super
 Linter. Pushes to `main` run the full Super Linter (`.github/super_linter.env`,
-workflow `super_linter.yml`), which adds actionlint, Gitleaks, Checkov, and the
-other linters. For one file, `npx prettier --write <file>` uses the same
+workflow `lint_repository.yml`), which adds actionlint, Gitleaks, Checkov, and
+the other linters. For one file, `npx prettier --write <file>` uses the same
 `.prettierrc`.
 
 ## Working agreement
@@ -84,8 +84,11 @@ These come from the repository blueprint and are mandatory.
 - Every pull request uses `.github/pull_request_template.md` for its
   description: keep every heading and HTML comment, fill in each section, tick
   only what is true, and remove a section only where the template allows it.
-- Update `CHANGELOG.md` under `[Unreleased]` for every change that alters
-  behavior. Entries are imperative: `Add export command`.
+- The Update Changelog workflow (`update_changelog.yml`) adds an entry to
+  `CHANGELOG.md` under `[Unreleased]` for every merged pull request, made from
+  its title. It runs every 8 hours, not on every merge. Write the title as a
+  conventional commit (`feat(app): add export command`), and do not add the
+  entry by hand.
 - Releases are made with the Release Manager workflow (`release_manager.yml`).
   Never tag or release without the maintainer's request.
 - Workflows follow `.github/policies/github_actions.md`: only `gh`, the GitHub

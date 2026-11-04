@@ -116,7 +116,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich_ml
-    image: ghcr.io/immich-app/immich-machine-learning:v3.3.5@sha256:5b28c9352c8374b8a1ed96fbdd8d6755fea6e43510ec43fdf6538aa02ea40f56
+    image: ghcr.io/immich-app/immich-machine-learning:v3.3.6@sha256:14367bfb374b8576ddf49abd67c5ca0190a4c7fcf6303cdad65d7f7bf1a50bc2
     pull_policy: if_not_present
     volumes:
       - /docker/immich/production/ml:/cache
@@ -153,7 +153,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: immich
-    image: ghcr.io/immich-app/immich-server:v3.3.5@sha256:485d546a2e31d6a8b4db8423fcba5c109de8c218d93410af115fd1ccfc4352a6
+    image: ghcr.io/immich-app/immich-server:v3.3.6@sha256:e1981983b1c13f6024b57d72e7ecae3342eed1581201ab09fb248932d86c593a
     pull_policy: if_not_present
     depends_on:
       immich_db:

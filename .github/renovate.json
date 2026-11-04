@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended",
     "helpers:pinGitHubActionDigests",
+    "docker:pinDigests",
     ":semanticCommits",
     ":rebaseStalePrs"
   ],
@@ -41,6 +42,12 @@
       "automerge": true,
       "platformAutomerge": true,
       "addLabels": ["automerge"]
+    },
+    {
+      "description": "Group the first digest pins of all container images in one pull request",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["pin"],
+      "groupName": "container image digests"
     },
     {
       "description": "Prioritize security updates",

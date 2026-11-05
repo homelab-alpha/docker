@@ -46,6 +46,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(blueprint): sync with the blueprint [9e442c9](https://github.com/homelab-alpha/docker/commit/9e442c985bc059c511936dd199bed4ba65591672) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(renovate): pin docker image digests [918591b](https://github.com/homelab-alpha/docker/commit/918591bc39b9e716674b02bcd2f14692b6e60cfb) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(plex): update pms-docker to 1.43.5.11079 [35004ff](https://github.com/homelab-alpha/docker/commit/35004ff73ee5af8da7a14980bcf22d904ddeaaa4) by [@homelab-alpha](https://github.com/homelab-alpha)
+- ci(workflows): request a reviewer on bot PRs [b3d6d04](https://github.com/homelab-alpha/docker/commit/b3d6d0454f2389340979da1dced62c0814f3b00b) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(github): sync Hugo and Dart Sass rules [ffa8ef9](https://github.com/homelab-alpha/docker/commit/ffa8ef91ac71ed84da27ebc803bef43759f99f1b) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(image-template): update node to 24.22.2 [dbecbcc](https://github.com/homelab-alpha/docker/commit/dbecbcc09427044f831d9821b35c71dd2d5d44ba) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(github): sync runners, Renovate, and linters [3946992](https://github.com/homelab-alpha/docker/commit/3946992e8e0d332f5ff1de80eeb60991c6e62b56) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 
@@ -66,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix(changelog): remove the date from Unreleased [12c130a](https://github.com/homelab-alpha/docker/commit/12c130affffcfdadf0da78352e5bb98a4831a964) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(scripts): restore pull_request_body.py logic [fcf5256](https://github.com/homelab-alpha/docker/commit/fcf52568b802acce61b3b755b2b82b39e9578275) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(changelog): remove the Unreleased link [06661e0](https://github.com/homelab-alpha/docker/commit/06661e030840fe5403923878145d62ba58f6f389) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(image-template): use node 24 base image [2c570c1](https://github.com/homelab-alpha/docker/commit/2c570c191d1bf845c4499bfeaaeea2a3981a1eee) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Security
 

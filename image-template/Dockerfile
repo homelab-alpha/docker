@@ -1,4 +1,4 @@
-FROM node:24.4.0@sha256:e7db48bc35ee8d2e8d1511dfe779d78076966bd101ab074ea2858da8d59efb7f
+FROM node:24.22.2
 
 # Create a new user named 'appuser'
 RUN useradd -ms /bin/bash appuser

@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(workflows): replace deny-licenses with allow-licenses [dd12b26](https://github.com/homelab-alpha/docker/commit/dd12b269a053053b913fea9cbdc7d45d7849dfd7) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(blueprint): sync with the blueprint [9e442c9](https://github.com/homelab-alpha/docker/commit/9e442c985bc059c511936dd199bed4ba65591672) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(renovate): pin docker image digests [918591b](https://github.com/homelab-alpha/docker/commit/918591bc39b9e716674b02bcd2f14692b6e60cfb) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(plex): update pms-docker to 1.43.5.11079 [35004ff](https://github.com/homelab-alpha/docker/commit/35004ff73ee5af8da7a14980bcf22d904ddeaaa4) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 

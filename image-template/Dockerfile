@@ -1,4 +1,4 @@
-FROM node:3.19
+FROM node:24
 
 # Create a new user named 'appuser'
 RUN useradd -ms /bin/bash appuser

@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: plex
-    image: docker.io/plexinc/pms-docker:1.43.5.11029-6bf8af3f0
+    image: docker.io/plexinc/pms-docker:1.43.5.11079-b3b13e506@sha256:6d778d41daae68f89115aa87a44ae14a96b23e71a2093da173b5a9aac4091336
     pull_policy: if_not_present
     volumes:
       - /docker/plex/production/app/config:/config

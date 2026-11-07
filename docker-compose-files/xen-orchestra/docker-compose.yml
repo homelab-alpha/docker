@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: xen-orchestra
-    image: docker.io/ronivay/xen-orchestra:5.213.0@sha256:3a16d7ecc7b082772153030b1a48c20648245bcb4de981fc24c6719fdaea5b9f
+    image: docker.io/ronivay/xen-orchestra:5.213.0@sha256:c751601e284f1e74948d58c20977867f50b4a3338cb44bb81da4d16af573cfc4
     pull_policy: if_not_present
     volumes:
       # - /docker/xen-orchestra/production/.cert/client-cert.pem:/client-cert.pem

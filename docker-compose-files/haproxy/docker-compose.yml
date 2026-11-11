@@ -32,7 +32,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: haproxy
-    image: docker.io/haproxytech/haproxy-ubuntu:3.4.7@sha256:04319aba1def37a995b9a567b1f82db8d5553710f8d03d69d07ecdd0ac127cee
+    image: docker.io/haproxytech/haproxy-ubuntu:3.4.7@sha256:b1ea3e4beda03e9659418abaee8a7308671ffae253c97e15fc79d115aeb0cf05
     pull_policy: if_not_present
     volumes:
       - /docker/haproxy/production/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg

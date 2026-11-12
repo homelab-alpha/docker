@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma
-    image: ghcr.io/louislam/uptime-kuma:2.5.10-slim@sha256:93c2feefba1edca89f782c80fb8b912b626dc62007f49d0c02155167c48bdb26
+    image: ghcr.io/louislam/uptime-kuma:2.5.11-slim@sha256:3c3a54a7338a41129163d933295076424e51b07f861a4cdf96a68b50bdde7a73
     pull_policy: if_not_present
     depends_on:
       uptime-kuma_db:

@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ci(workflows): allow BlueOak-1.0.0 license [03d2927](https://github.com/homelab-alpha/docker/commit/03d292778fab415edadd8239cf60a535f43b03dc) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(labels): add dependency update labels [4ba535c](https://github.com/homelab-alpha/docker/commit/4ba535c9c521796a9a0f627db095e3e10d3990db) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(renovate): remove default assignees [ce35f66](https://github.com/homelab-alpha/docker/commit/ce35f665d42efa713a7ffe6b66b6560f57510a91) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(renovate): group and automerge updates [4270a95](https://github.com/homelab-alpha/docker/commit/4270a95abbb4848bb8dc7eb067826a9a988d9631) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 
@@ -75,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix(scripts): restore pull_request_body.py logic [fcf5256](https://github.com/homelab-alpha/docker/commit/fcf52568b802acce61b3b755b2b82b39e9578275) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(changelog): remove the Unreleased link [06661e0](https://github.com/homelab-alpha/docker/commit/06661e030840fe5403923878145d62ba58f6f389) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(image-template): use node 24 base image [2c570c1](https://github.com/homelab-alpha/docker/commit/2c570c191d1bf845c4499bfeaaeea2a3981a1eee) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(workflow): do not draft Renovate PRs [b51be2a](https://github.com/homelab-alpha/docker/commit/b51be2a7bacadcff00ba674bacab75ebaf33df06) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Security
 

@@ -79,7 +79,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: speedtest-tracker
-    image: ghcr.io/linuxserver/speedtest-tracker:1.15.1@sha256:b7833e43bcf53859efd08605a48740a5cfa741916019373e4dbe730fc59bedf0
+    image: ghcr.io/linuxserver/speedtest-tracker:1.15.1@sha256:2bab9283fb51ac866048028516e542da3bdb7d1858fa2a6b2009972143716433
     pull_policy: if_not_present
     depends_on:
       speedtest-tracker_db:

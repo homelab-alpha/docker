@@ -85,7 +85,6 @@ services:
         ipv4_address: 172.20.26.3
     ports:
       - "3017:80/tcp" # HTTP
-      - "3017:80/udp" # HTTP
     security_opt:
       - no-new-privileges:true
     cap_drop:

@@ -183,6 +183,9 @@ Each production stack has its own `/24` subnet, so the networks never overlap:
 | `speedtest-tracker`      | `speedtest-tracker` | `172.20.23.2` | `172.20.23.3` |
 | `speedtest-tracker-beta` | `speedtest-tracker` | `172.20.23.4` | `172.20.23.5` |
 
+The read-only Docker socket proxies use `172.19.3.6` (`uptime-kuma`),
+`172.19.3.7` (`uptime-kuma-beta`), and `172.20.4.3` (`netdata`).
+
 To add a stack, pick a free `<n>` (for example `172.20.13.0/24` or
 `172.20.28.0/24`) and check that no other network on the host uses it with
 `docker network ls` and `docker network inspect`.

@@ -73,7 +73,6 @@ services:
     volumes:
       - /docker/uptime-kuma-beta/testing/app:/app/data
       - /usr/local/share/ca-certificates:/app/data/docker-tls
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file:
       # Compose loads each file that exists and skips a missing one:
       # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
@@ -114,3 +113,35 @@ services:
       retries: 3
       start_period: 10s
       start_interval: 5s
+
+  uptime-kuma-beta_socket-proxy:
+    # Read-only proxy for the Docker API. The app reaches Docker through this proxy instead of the socket.
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: uptime-kuma-beta_socket-proxy
+    image: lscr.io/linuxserver/socket-proxy:3.4.2-r0-ls89
+    pull_policy: if_not_present
+    read_only: true
+    tmpfs:
+      - /run
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      CONTAINERS: 1 # Allow GET /containers (list and inspect).
+      INFO: 1 # Allow GET /info, used to test the Docker host.
+      POST: 0 # Read-only: only GET and HEAD requests reach Docker.
+    hostname: uptime-kuma-beta_socket-proxy
+    networks:
+      uptime-kuma_net:
+        ipv4_address: 172.19.3.7
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.uptime-kuma-beta.socket-proxy.description: "is a read-only Docker API proxy for Uptime Kuma Beta."

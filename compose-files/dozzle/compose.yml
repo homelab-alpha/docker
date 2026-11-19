@@ -62,6 +62,8 @@ services:
     pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     labels:
       com.dozzle.description: "is a small lightweight application with a web based interface to monitor Docker logs."
     healthcheck:

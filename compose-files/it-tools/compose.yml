@@ -50,6 +50,14 @@ services:
     pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add: # The minimum for nginx: bind port 80 and switch to the nginx user.
+      - CHOWN
+      - DAC_OVERRIDE
+      - NET_BIND_SERVICE
+      - SETGID
+      - SETUID
     labels:
       com.it-tools.description: "A collection of handy online tools for developers, with great UX."
     healthcheck:

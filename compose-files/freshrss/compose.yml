@@ -113,7 +113,6 @@ services:
         ipv4_address: 172.20.6.3
     ports:
       - "3002:80/tcp" # HTTP
-      - "3002:80/udp" # HTTP
     security_opt:
       - no-new-privileges:true
     labels:

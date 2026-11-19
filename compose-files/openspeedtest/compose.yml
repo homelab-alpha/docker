@@ -54,9 +54,7 @@ services:
         ipv4_address: 172.20.10.2
     ports:
       - "3009:3000/tcp" # HTTP
-      - "3009:3000/udp" # HTTP
       - "3010:3001/tcp" # HTTPS
-      - "3010:3001/udp" # HTTPS
     security_opt:
       - no-new-privileges:true
     labels:

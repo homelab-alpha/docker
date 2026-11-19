@@ -39,6 +39,11 @@ The beta version of Uptime Kuma, with a MariaDB database.
    docker compose up -d
    ```
 
+5. To monitor containers, open **Settings → Docker Hosts** in Uptime Kuma and
+   add a Docker host with the connection type **TCP / HTTP** and the Docker
+   daemon `http://uptime-kuma-beta_socket-proxy:2375`. The stack has no direct
+   access to the Docker socket; this read-only proxy is the only way in.
+
 ## Default Web Access
 
 Access the Uptime Kuma Beta web interface using the following URL:

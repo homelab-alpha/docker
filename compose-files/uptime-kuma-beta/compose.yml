@@ -124,7 +124,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma-beta_socket-proxy
-    image: lscr.io/linuxserver/socket-proxy:3.4.2-r0-ls89
+    image: lscr.io/linuxserver/socket-proxy:3.4.2-r0-ls89@sha256:b3c91258489c6d6ef26f20e9681177e3e861798466a2b85a3572ee0464c5e088
     pull_policy: if_not_present
     read_only: true
     tmpfs:

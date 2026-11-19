@@ -42,6 +42,16 @@ for a line similar to:
 No password set in environment or config file, assigning random password: <password>
 ```
 
+Change it afterwards with:
+
+```bash
+docker exec -it pi-hole pihole setpassword
+```
+
+The Compose file does not set a password on purpose: a password in
+`FTLCONF_webserver_api_password` is visible in the Compose file and can no
+longer be changed from inside the container.
+
 > [!IMPORTANT]
 >
 > **For security reasons, it is strongly recommended that you change the default

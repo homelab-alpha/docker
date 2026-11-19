@@ -209,6 +209,7 @@ docker/
 │   │   ├── issues.yml                          # Issue automation
 │   │   ├── lint_pull_request.yml               # npm linting for pull requests
 │   │   ├── lint_repository.yml                 # Super Linter
+│   │   ├── manage_workflows.yml                # Switches the other workflows on or off
 │   │   ├── merge_conflicts.yml                 # Merge conflict detection
 │   │   ├── milestone_manager.yml               # Milestone automation
 │   │   ├── pull_request.yml                    # Pull request automation
@@ -278,6 +279,7 @@ on push, pull request, and scheduled triggers.
 | `issues.yml`                         | Issue events, manual         | Automates issue labeling and triage                           |
 | `lint_pull_request.yml`              | PR, manual                   | Runs `npm run lint` on the changed files                      |
 | `lint_repository.yml`                | Push to `main`, manual       | Runs Super Linter across the codebase                         |
+| `manage_workflows.yml`               | Manual                       | Switches the other workflows on or off, one checkbox each     |
 | `merge_conflicts.yml`                | Push, PR                     | Detects merge conflicts in open pull requests                 |
 | `milestone_manager.yml`              | Manual                       | Automates milestone creation and lifecycle                    |
 | `pull_request.yml`                   | PR events, reviews, manual   | Pull request automation and validation                        |

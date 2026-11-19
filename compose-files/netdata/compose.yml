@@ -63,9 +63,9 @@ services:
         ipv4_address: 172.20.4.2
     ports:
       - "19999:19999/tcp" # HTTP
-      - "19999:19999/udp" # HTTP
     security_opt:
       - apparmor:unconfined
+      - no-new-privileges:true
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN

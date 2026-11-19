@@ -59,6 +59,10 @@ on:
         description: "🔒 Dependency Review: checks the dependencies of a pull request"
         type: boolean
         default: false
+      validate_compose_files:
+        description: "🐳 Validate Compose Files: docker compose config on pull requests"
+        type: boolean
+        default: false
       # Code quality and security
       lint_repository:
         description: "🔍 Lint Repository: Super Linter on pushes to main"

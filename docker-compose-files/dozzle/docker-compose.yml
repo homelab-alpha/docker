@@ -1,4 +1,6 @@
 ---
+name: dozzle
+
 networks:
   dozzle_net:
     attachable: false
@@ -61,7 +63,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "dozzle"
       com.dozzle.description: "is a small lightweight application with a web based interface to monitor Docker logs."
     healthcheck:
       disable: false

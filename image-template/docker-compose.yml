@@ -1,4 +1,6 @@
 ---
+name: image-template
+
 services:
   mijn_webserver:
     image: my_project

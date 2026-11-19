@@ -1,4 +1,6 @@
 ---
+name: unifi-network-application
+
 networks:
   unifi-network-application_net:
     attachable: false
@@ -135,7 +137,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "unifi-network-application"
       com.unifi-network-application.description:
         "is an end-to-end system of network devices across different locations — all controlled from a single interface."
     healthcheck:

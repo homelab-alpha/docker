@@ -1,4 +1,6 @@
 ---
+name: mini-qr
+
 networks:
   mini-qr_net:
     attachable: false
@@ -45,7 +47,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "mini-qr"
       com.mini-qr.description:
         "A user-friendly and customizable QR code generator that allows you to create styled QR codes with ease."
     healthcheck:
@@ -88,7 +89,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "mini-qr-nginx"
       com.mini-qr.description:
         "a flexible and high-performance server that can handle HTTP, mail, TCP, and UDP traffic."
     healthcheck:

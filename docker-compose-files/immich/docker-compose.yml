@@ -1,4 +1,6 @@
 ---
+name: immich
+
 networks:
   immich_net:
     attachable: false
@@ -59,7 +61,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.db.description: "is a PostgreSQL database."
     healthcheck:
       disable: false
@@ -96,7 +97,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.redis.description: "is a redis database."
     healthcheck:
       disable: false
@@ -138,7 +138,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.ml.description:
         "a machine learning-powered component of immich, designed to enhance media management and automation."
     healthcheck:
@@ -183,7 +182,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.description:
         "a self-hosted solution for seamless photo and video management, offering privacy and full control."
     healthcheck:

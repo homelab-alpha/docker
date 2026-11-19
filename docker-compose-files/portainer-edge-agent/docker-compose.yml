@@ -1,4 +1,6 @@
 ---
+name: portainer-edge-agent
+
 networks:
   edge-agent_net:
     attachable: false
@@ -57,7 +59,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "portainer agent"
       com.edge-agent.description: "a remote environment is not directly accessible from docker server."
     healthcheck:
       disable: true

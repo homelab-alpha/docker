@@ -1,4 +1,6 @@
 ---
+name: speedtest-tracker
+
 networks:
   speedtest-tracker_net:
     attachable: false
@@ -141,7 +143,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "speedtest-tracker"
       com.speedtest-tracker.description:
         "a self-hosted application that monitors the performance and uptime of your internet connection."
     healthcheck:

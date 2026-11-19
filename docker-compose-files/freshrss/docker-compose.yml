@@ -1,4 +1,6 @@
 ---
+name: freshrss
+
 networks:
   freshrss_net:
     attachable: false
@@ -115,7 +117,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "freshrss"
       com.freshrss.description: "is a free, self-hostable feeds aggregator."
     healthcheck:
       disable: false

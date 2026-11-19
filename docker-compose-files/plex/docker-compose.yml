@@ -1,4 +1,6 @@
 ---
+name: plex
+
 networks:
   plex_net:
     attachable: false
@@ -74,7 +76,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "plex"
       com.plex.description: "organizes all of your personal media so you can enjoy it no matter where you are."
     healthcheck:
       disable: false

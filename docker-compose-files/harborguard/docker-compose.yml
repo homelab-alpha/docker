@@ -1,4 +1,6 @@
 ---
+name: harborguard
+
 networks:
   harborguard_net:
     attachable: false
@@ -84,7 +86,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "harborguard"
       com.harborguard.description:
         "is a comprehensive container security scanning platform that provides an intuitive web interface for managing
         and visualizing security assessments of Docker images."

@@ -1,4 +1,6 @@
 ---
+name: postgresql
+
 networks:
   postgresql_net:
     attachable: true

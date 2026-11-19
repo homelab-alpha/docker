@@ -1,4 +1,6 @@
 ---
+name: uptime-kuma
+
 networks:
   uptime-kuma_net:
     attachable: false
@@ -117,7 +119,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "uptime-kuma"
       com.uptime-kuma.description:
         "is an self-hosted monitoring tool that allows you to monitor uptime, status, and notifications for various
         services and domains."

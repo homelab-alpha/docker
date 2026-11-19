@@ -1,4 +1,6 @@
 ---
+name: nginx-proxy-manager
+
 networks:
   nginx-proxy-manager_net:
     attachable: true
@@ -122,7 +124,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "nginx-proxy-manager"
       com.nginx-proxy-manager.description: "nginx proxy manager expose your services easily and securely."
     healthcheck:
       disable: false

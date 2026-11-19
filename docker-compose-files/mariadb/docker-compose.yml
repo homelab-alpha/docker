@@ -1,4 +1,6 @@
 ---
+name: mariadb
+
 networks:
   mariadb_net:
     attachable: true

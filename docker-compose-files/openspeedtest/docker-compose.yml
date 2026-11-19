@@ -1,4 +1,6 @@
 ---
+name: openspeedtest
+
 networks:
   openspeedtest_net:
     attachable: false
@@ -58,7 +60,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "openspeedtest"
       com.openspeedtest.description: "is a Free and Open-Source HTML5 Network Speed Test Software."
     healthcheck:
       disable: true

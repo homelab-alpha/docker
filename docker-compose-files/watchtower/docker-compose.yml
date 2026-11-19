@@ -1,4 +1,6 @@
 ---
+name: watchtower
+
 networks:
   watchtower_net:
     attachable: false
@@ -46,7 +48,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "watchtower"
       com.watchtower.description: "a container-based solution for automating Docker container base image updates."
     healthcheck:
       disable: false

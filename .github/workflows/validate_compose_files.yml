@@ -1,0 +1,157 @@
+---
+name: 🐳 Validate Compose Files
+
+# Checks every Compose file in the repository against the Compose Specification with `docker compose config`.
+# The command parses each file, fills in the variables from the `.env` file of its stack, and stops with an error
+# on an unknown key, a wrong type, or a reference to a service, network, or volume that does not exist. A warning
+# (an obsolete key or a variable that is not set) becomes a warning annotation on the file, but does not fail the
+# run. The workflow finds the files by name (compose.yml, compose.yaml, docker-compose.yml, docker-compose.yaml),
+# so it keeps working when the files or folders are renamed.
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+concurrency:
+  group: >
+    ${{
+      github.event_name == 'pull_request' &&
+      format('compose-validation-pr-{0}', github.event.pull_request.number) ||
+      format('compose-validation-manual-{0}', github.run_id)
+    }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: 🐳 Validate Compose files
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+
+    steps:
+      - name: 🏁 Notify start of process
+        run: |
+          echo "::notice title=Workflow started::🐳 Compose validation started"
+          echo "::group::ℹ️ Execution context"
+          echo "Repository: ${GITHUB_REPOSITORY}"
+          echo "Workflow ref: $GITHUB_REF"
+          echo "Runner OS: ${RUNNER_OS}"
+          echo "Event: ${GITHUB_EVENT_NAME}"
+          echo "::endgroup::"
+
+      - name: 🏁 Checkout repository source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: 🔎 Check the Docker Compose version
+        id: version
+        run: |
+          set -Eeuo pipefail
+          if ! COMPOSE_VERSION=$(docker compose version --short 2>/dev/null); then
+            echo "::error title=Docker Compose missing::❌ The runner image has no Docker Compose plugin"
+            exit 1
+          fi
+          echo "Docker Compose: ${COMPOSE_VERSION}"
+          echo "compose_version=${COMPOSE_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: 🐳 Validate the Compose files
+        id: validate
+        run: |
+          set -Eeuo pipefail
+
+          RESULTS="${RUNNER_TEMP}/compose_results.md"
+          : > "$RESULTS"
+          total=0
+          failed=0
+          warned=0
+
+          mapfile -t FILES < <(
+            find . \( -path ./.git -o -path ./node_modules -o -path '*/node_modules' \) -prune -o -type f \
+              \( -name compose.yml -o -name compose.yaml -o -name docker-compose.yml -o -name docker-compose.yaml \) \
+              -print | sed 's|^\./||' | sort
+          )
+
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "::error title=No Compose files::❌ No Compose files were found"
+            exit 1
+          fi
+
+          for file in "${FILES[@]}"; do
+            total=$((total + 1))
+            directory=$(dirname "$file")
+            echo "::group::🐳 ${file}"
+
+            status="✅ valid"
+            if output=$(docker compose --project-directory "$directory" --file "$file" config --quiet 2>&1); then
+              if [ -n "$output" ]; then
+                warned=$((warned + 1))
+                status="⚠️ valid, with warnings"
+                while IFS= read -r line; do
+                  # Keep only the message of a log line such as: time="..." level=warning msg="..."
+                  message=$(printf '%s' "$line" | sed -E 's/^.*msg="(.*)"$/\1/; s/\\"/"/g')
+                  echo "::warning file=${file},title=Compose warning::⚠️ ${message}"
+                done <<< "$output"
+              fi
+            else
+              failed=$((failed + 1))
+              status="❌ invalid"
+              while IFS= read -r line; do
+                echo "::error file=${file},title=Invalid Compose file::❌ ${line}"
+              done <<< "$output"
+            fi
+
+            echo "${status}"
+            echo "| \`${file}\` | ${status} |" >> "$RESULTS"
+            echo "::endgroup::"
+          done
+
+          {
+            echo "total=${total}"
+            echo "failed=${failed}"
+            echo "warned=${warned}"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$failed" -gt 0 ]; then
+            echo "::error title=Compose validation::❌ ${failed} of ${total} Compose files are invalid"
+            exit 1
+          fi
+
+      - name: 📊 Generate summary report
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          COMPOSE_VERSION: ${{ steps.version.outputs.compose_version }}
+          TOTAL: ${{ steps.validate.outputs.total }}
+          FAILED: ${{ steps.validate.outputs.failed }}
+          WARNED: ${{ steps.validate.outputs.warned }}
+        run: |
+          set -Eeuo pipefail
+          RESULTS="${RUNNER_TEMP}/compose_results.md"
+          {
+            echo "## 🐳 Compose Validation"
+            echo ""
+            echo "- **Status:** ${JOB_STATUS}"
+            echo "- **Docker Compose:** ${COMPOSE_VERSION:-unknown}"
+            echo "- **Files checked:** ${TOTAL:-0}"
+            echo "- **Invalid:** ${FAILED:-0}"
+            echo "- **With warnings:** ${WARNED:-0}"
+            echo "- **Check:** \`docker compose config --quiet\` against the Compose Specification"
+            if [ -s "$RESULTS" ]; then
+              echo ""
+              echo "| File | Result |"
+              echo "| :--- | :----- |"
+              cat "$RESULTS"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$JOB_STATUS" = "success" ]; then
+            echo "::notice title=Compose validation::✅ All Compose files are valid"
+          else
+            echo "::error title=Compose validation::❌ Validation failed. See the annotations and the summary."
+          fi

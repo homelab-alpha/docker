@@ -85,6 +85,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix(image-template): use node 24 base image [2c570c1](https://github.com/homelab-alpha/docker/commit/2c570c191d1bf845c4499bfeaaeea2a3981a1eee) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(workflow): do not draft Renovate PRs [b51be2a](https://github.com/homelab-alpha/docker/commit/b51be2a7bacadcff00ba674bacab75ebaf33df06) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(ci): harden the CodeQL workflow [e404c9b](https://github.com/homelab-alpha/docker/commit/e404c9bb0ff522909e85fe0fcc62e5b84b3c94b0) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(renovate): remove invalid security rule that disabled grouping [8c63aec](https://github.com/homelab-alpha/docker/commit/8c63aec67a0912f414494d94532f686b6b035d5c) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(renovate): label all updates in a group [160275d](https://github.com/homelab-alpha/docker/commit/160275da6fd3d7e613c680b24074efe256b06bc0) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Security
 

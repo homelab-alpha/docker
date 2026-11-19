@@ -66,7 +66,8 @@ More documentation is on the
 ## Features
 
 - **28 Docker Compose stacks** in `compose-files/`, each in its own directory
-  with a `compose.yml` and its environment files.
+  with a `compose.yml`, a `README.md` with a quick start, and its environment
+  files.
 - **Network guides** — Setup guides for `bridge`, `ipvlan`, and `macvlan` Docker
   networks in `docker-network-configurations/`.
 - **Image template** — A simple Node.js and Express web server in a Docker

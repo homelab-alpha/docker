@@ -54,12 +54,11 @@ services:
         ipv4_address: 172.20.5.2
     ports:
       - "8096:8096/tcp" # HTTP
-      - "8096:8096/udp" # HTTP
       - "8920:8920/tcp" # HTTPS
-      - "8920:8920/udp" # HTTPS
     devices:
       - /dev/dri:/dev/dri
       - /dev/dri/renderD128:/dev/dri/renderD128
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

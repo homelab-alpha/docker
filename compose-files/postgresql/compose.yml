@@ -63,6 +63,7 @@ services:
         published: 5432 # publicly exposed port
         protocol: tcp # tcp or udp
         mode: ingress # host: For publishing a host port on each node
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

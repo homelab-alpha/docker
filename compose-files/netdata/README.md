@@ -12,7 +12,8 @@ Real-time monitoring of the host and its containers.
 >
 > Requires Docker Compose 2.24.0 or later.
 
-1. Start the stack:
+1. Start the stack. Netdata reads the container names through the read-only
+   socket proxy (`netdata_socket-proxy`) instead of the Docker socket:
 
    ```bash
    docker compose up -d

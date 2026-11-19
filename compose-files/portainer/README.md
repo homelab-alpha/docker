@@ -22,17 +22,12 @@ A web interface to manage Docker environments.
 
 Access the Portainer web interface using the following URL:
 
-**HTTPS**:
-
 ```bash
 https://your-ip-address:9443
 ```
 
-**HTTP**:
-
-```bash
-http://your-ip-address:9000
-```
+Portainer is only published over HTTPS. It uses a self-signed certificate by
+default, so your browser shows a warning on the first visit.
 
 Port 8000 is the tunnel server for Edge Agents.
 

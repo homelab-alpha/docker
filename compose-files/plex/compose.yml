@@ -62,7 +62,6 @@ services:
         ipv4_address: 172.20.12.2
     ports:
       - 32400:32400/tcp # HTTP
-      - 32400:32400/udp # HTTP
       - 5353:5353/udp # older Bonjour/Avahi network discovery (not is use anymore)
       - 8324:8324/tcp # controlling Plex for Roku via Plex Companion
       - 1900:1900/udp # Plex DLNA Server
@@ -73,6 +72,7 @@ services:
       - 32414:32414/udp # GDM network discovery
     devices:
       - /dev/dri:/dev/dri
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

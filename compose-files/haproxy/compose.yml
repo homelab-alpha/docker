@@ -57,11 +57,9 @@ services:
       - 149.112.112.112 # Secondary DNS server (Quad9 - Redundant)
     ports:
       - "80:80/tcp" # HTTP
-      - "80:80/udp" # HTTP
       - "443:443/tcp" # HTTPS
-      - "443:443/udp" # HTTPS
       - "8404:8404/tcp" # Statistics Report
-      - "8404:8404/udp" # Statistics Report
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

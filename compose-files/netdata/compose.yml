@@ -36,11 +36,13 @@ services:
     container_name: netdata
     image: ghcr.io/netdata/netdata:v2.12.3@sha256:dea39b58b1892113360f27dffb3afb84bbdbda3b00e03e9e6163d2cfac848e91
     pull_policy: if_not_present
+    depends_on:
+      netdata_socket-proxy:
+        condition: service_started
     volumes:
       - /docker/netdata/production/app/cache:/var/cache/netdata
       - /docker/netdata/production/app/config:/etc/netdata
       - /docker/netdata/production/app/lib:/var/lib/netdata
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/group:/host/etc/group:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/os-release:/host/etc/os-release:ro
@@ -52,6 +54,7 @@ services:
     environment:
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       DOCKER_USR: root
+      DOCKER_HOST: netdata_socket-proxy:2375 # Resolves container names through the read-only socket proxy.
       NETDATA_EXTRA_APK_PACKAGES: lm-sensors
     domainname: netdata.local # Customize this with your own domain, e.g., `netdata.local` to `netdata.your-fqdn-here.com`.
     hostname: netdata
@@ -60,9 +63,10 @@ services:
         ipv4_address: 172.20.4.2
     ports:
       - "19999:19999/tcp" # HTTP
-      - "19999:19999/udp" # HTTP
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - apparmor:unconfined
+      - no-new-privileges:true
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
@@ -76,3 +80,34 @@ services:
       retries: 3
       start_period: 10s
       start_interval: 5s
+
+  netdata_socket-proxy:
+    # Read-only proxy for the Docker API. The app reaches Docker through this proxy instead of the socket.
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "2"
+    stop_grace_period: 1m
+    container_name: netdata_socket-proxy
+    image: lscr.io/linuxserver/socket-proxy:3.4.2-r0-ls89
+    pull_policy: if_not_present
+    read_only: true
+    tmpfs:
+      - /run
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
+      CONTAINERS: 1 # Allow GET /containers (list and inspect).
+      POST: 0 # Read-only: only GET and HEAD requests reach Docker.
+    hostname: netdata_socket-proxy
+    networks:
+      netdata_net:
+        ipv4_address: 172.20.4.3
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      com.netdata.socket-proxy.description: "is a read-only Docker API proxy for Netdata."

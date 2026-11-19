@@ -36,6 +36,11 @@ services:
     container_name: openspeedtest
     image: docker.io/openspeedtest/latest:v2.0.8@sha256:1127de0693c36bcf8c297c73d09891df8ec243680d027a6b6fab13fa0954ff46
     pull_policy: if_not_present
+    read_only: true # Read-only root file system; nginx writes only to the tmpfs paths below.
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
     volumes:
       - /docker/openspeedtest/production/config/nginx.conf:/etc/nginx.conf
       - /docker/openspeedtest/production/config/OpenSpeedTest-Server.conf:/etc/nginx/conf.d/OpenSpeedTest-Server.conf
@@ -54,9 +59,8 @@ services:
         ipv4_address: 172.20.10.2
     ports:
       - "3009:3000/tcp" # HTTP
-      - "3009:3000/udp" # HTTP
       - "3010:3001/tcp" # HTTPS
-      - "3010:3001/udp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

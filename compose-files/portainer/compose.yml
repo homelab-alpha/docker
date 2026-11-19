@@ -49,6 +49,7 @@ services:
     ports:
       - "8000:8000/tcp" # Edge agents
       - "9443:9443/tcp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

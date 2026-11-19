@@ -45,6 +45,7 @@ services:
     networks:
       watchtower_net:
         ipv4_address: 172.20.2.2
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

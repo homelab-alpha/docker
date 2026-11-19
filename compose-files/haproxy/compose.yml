@@ -62,6 +62,7 @@ services:
       - "443:443/udp" # HTTPS
       - "8404:8404/tcp" # Statistics Report
       - "8404:8404/udp" # Statistics Report
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

@@ -54,6 +54,7 @@ services:
       - "5353:53/udp" # plain DNS
       - "67:67/udp" # DHCP
       - "3080:80/tcp" # HTTP
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     cap_add:

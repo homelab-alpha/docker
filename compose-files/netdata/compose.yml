@@ -61,6 +61,7 @@ services:
     ports:
       - "19999:19999/tcp" # HTTP
       - "19999:19999/udp" # HTTP
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - apparmor:unconfined
     cap_add:

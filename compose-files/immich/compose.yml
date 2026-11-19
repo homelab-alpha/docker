@@ -58,6 +58,7 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.2
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -94,6 +95,7 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.3
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -135,6 +137,7 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.4
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -179,6 +182,7 @@ services:
     ports:
       - "3015:2283/tcp" # HTTP
       - "3015:2283/udp" # HTTP
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

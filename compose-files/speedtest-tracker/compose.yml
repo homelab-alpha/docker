@@ -59,6 +59,7 @@ services:
     networks:
       speedtest-tracker_net:
         ipv4_address: 172.20.23.2
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -140,6 +141,7 @@ services:
       - "3013:80/udp" # HTTP
       # - "3013:443/tcp" # HTTPS
       # - "3013:443/udp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

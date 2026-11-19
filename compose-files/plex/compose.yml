@@ -73,6 +73,7 @@ services:
       - 32414:32414/udp # GDM network discovery
     devices:
       - /dev/dri:/dev/dri
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

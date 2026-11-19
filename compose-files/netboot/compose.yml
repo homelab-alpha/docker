@@ -57,6 +57,7 @@ services:
       - "3011:3000/udp" # Web configuration interface.
       # - "3012:80/tcp" # NGINX server for hosting assets.
       # - "3012:80/udp" # NGINX server for hosting assets.
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

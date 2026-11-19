@@ -53,6 +53,7 @@ services:
       - "9000:9000/udp" # HTTP
       - "9443:9443/tcp" # HTTPS
       - "9443:9443/udp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

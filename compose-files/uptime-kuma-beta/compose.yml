@@ -42,6 +42,7 @@ services:
     networks:
       uptime-kuma_net:
         ipv4_address: 172.19.3.4
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -99,6 +100,7 @@ services:
     ports:
       - "3003:3001/tcp" # HTTP
       - "3003:3001/udp" # HTTP
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

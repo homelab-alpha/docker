@@ -83,6 +83,7 @@ services:
     ports:
       - "3016:3000/tcp" # HTTP
       - "3016:3000/udp" # HTTP
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

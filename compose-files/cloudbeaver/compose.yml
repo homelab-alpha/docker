@@ -50,6 +50,7 @@ services:
     ports:
       - "3978:8978/tcp" # HTTP(s)
       - "3978:8978/udp" # HTTP(s)
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

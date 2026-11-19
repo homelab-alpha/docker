@@ -60,6 +60,7 @@ services:
     ports:
       - "3008:8080/tcp" # HTTP
       - "3008:8080/udp" # HTTP
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

@@ -57,6 +57,7 @@ services:
       - "3009:3000/udp" # HTTP
       - "3010:3001/tcp" # HTTPS
       - "3010:3001/udp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

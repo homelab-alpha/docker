@@ -1,144 +1,168 @@
 # Docker - Macvlan Network Setup
 
-This document describes how to create a Docker network of type `macvlan`. This
-network uses a specified IP range and offers various configuration options for
-network settings.
+A `macvlan` network makes each container a separate device on your network, with
+its own MAC address and IP address. Use it when a container must look like a
+real host on the LAN, for example a DHCP server, or an app that finds devices
+with broadcasts.
 
-## Command to Create the Network
+See [Choosing a network driver](./choosing_a_network_driver.md) for a comparison
+with `bridge` and `ipvlan`.
 
-Use the following command to create a Docker network of type `macvlan`:
+> [!IMPORTANT]
+>
+> The network interface of the host and your switch must accept several MAC
+> addresses on one port (promiscuous mode). Many Wi-Fi interfaces and some
+> hypervisors (for example with MAC filtering on the virtual switch) do not. Use
+> `ipvlan` in that case.
 
-```bash
-sudo docker network create macvlan \
-  --scope="local" \  # Restrict network to local communication
-  --driver="macvlan" \  # Use macvlan driver for networking
-  --ipam-driver="default" \  # Use default IPAM driver for IP management
-  --ipam-opt= \  # (Optional) Specify custom IPAM options
-  --subnet="192.168.1.0/24" \  # Set the subnet for the network
-  --ip-range="192.168.1.128/25" \  # Specify range for containers
-  --gateway="192.168.1.1" \  # Set the gateway IP
-  --aux-address="web-server=192.168.1.2" \  # Assign static IPs for hosts
-  --aux-address="db-server=192.168.1.3" \  # Assign static IPs for hosts
-  --internal=false \  # Allow traffic to and from the internet
-  --attachable=true \  # Allow containers to manually connect to the network
-  --ingress=false \  # Not for use with Docker Swarm mode
-  --config-from= \  # (Optional) Specify external config source
-  --config-only=false \  # Ensure network and configuration are created
-  --opt ipv6=disable \  # Disable IPv6 support
-  --opt parent=eno1 \  # Bind to physical network interface eno1
-  --label com.macvlan.network.description="is a non-isolated network."  # Custom network label
-```
+The examples use this LAN:
 
-<br />
+| Setting                   | Value                                   |
+| :------------------------ | :-------------------------------------- |
+| LAN subnet                | `192.168.1.0/24`                        |
+| Router (gateway)          | `192.168.1.1`                           |
+| Parent interface          | `eth0` (check yours with `ip -br link`) |
+| Addresses for containers  | `192.168.1.192/27` (`.192` to `.223`)   |
+| Address for the host shim | `192.168.1.223`                         |
 
-## Description of the Options
+> [!IMPORTANT]
+>
+> Keep the container range outside the DHCP pool of your router, so that no
+> other device gets one of these addresses.
 
-- `--scope="local"`: Limit the network to local communication.
-  - **Example**: `--scope="local"` restricts the network to communication within
-    a single host.
-- `--driver="macvlan"`: Use the `macvlan` network driver.
-  - **Example**: `--driver="macvlan"` specifies that the `macvlan` driver will
-    be used to manage the network.
-- `--ipam-driver="default"`: Use the default IPAM driver.
-  - **Example**: `--ipam-driver="default"` uses Docker's default IP address
-    management for allocating IPs.
-- `--ipam-opt=`: Specify IPAM options (empty in this case).
-  - **Example**: `--ipam-opt="subnet=192.168.1.0/24"` can be used to specify
-    custom IPAM options, such as a custom subnet.
-- `--subnet="192.168.1.0/24"`: The subnet for the network.
-  - **Example**: `--subnet="192.168.1.0/24"` defines the range of IP addresses
-    that will be used by the network.
-- `--ip-range="192.168.1.128/25"`: The range of available IP addresses for
-  containers.
-  - **Example**: `--ip-range="192.168.1.128/25"` ensures containers only use IP
-    addresses between `192.168.1.128` and `192.168.1.255`.
-- `--gateway="192.168.1.1"`: The IP address of the network gateway.
-  - **Example**: `--gateway="192.168.1.1"` specifies the gateway IP that
-    containers will use to access the outside network.
-- `--aux-address`: Specify specific IP addresses for hosts within the network.
-  - **Example**:
-    ```bash
-    --aux-address="web-server=192.168.1.2"
-    --aux-address="db-server=192.168.1.3"
-    ```
-    This input assigns specific IP addresses (`192.168.1.2`, `192.168.1.3`) to
-    `web-server` and `db-server`, ensuring they have static IPs within the
-    network.
-- `--internal=false`: Allow traffic to and from the internet.
-  - **Example**: `--internal=false` allows external communication, enabling
-    containers to access the internet.
-- `--attachable=true`: Allow containers to connect to this network.
-  - **Example**: `--attachable=true` lets containers manually connect to the
-    network using `docker network connect`.
-- `--ingress=false`: The network configuration is not intended for use with
-  Docker Swarm mode.
-  - **Example**: `--ingress=false` specifies that the network should not be used
-    for Docker Swarm services.
-- `--config-from=`: Specify an external configuration source (not used in this
-  example).
-  - **Example**: `--config-from="my_config"` can be used when a predefined
-    configuration file is used to define the network settings.
-- `--config-only=false`: Do not create just the configuration.
-  - **Example**: `--config-only=false` ensures that both the network and the
-    configuration are created.
-- `--opt ipv6=disable`: Disable IPv6.
-  - **Example**: `--opt ipv6=disable` disables IPv6 support, ensuring that only
-    IPv4 is used.
-- `--opt parent=eno1`: The physical network interface on which the network is
-  based.
-  - **Example**: `--opt parent=eno1` binds the network to the physical interface
-    `eno1` on your host.
-    - **How to find it**: Run `ip a` to list all network interfaces on the host.
-      Look for the name of the active network interface that is connected to
-      your local network (e.g., `eno1`, `eth0`, or `ens33`).
-- `--label com.macvlan.network.description="is a non-isolated network."`: A
-  label to describe the network.
-  - **Example**:
-    `--label com.macvlan.network.description="is a non-isolated network."` adds
-    a custom label to describe the network for organizational purposes.
+## Create the Network with the CLI
 
-<br />
-
-## Applications and Considerations
-
-- **Macvlan Mode**: Using `macvlan` allows containers to communicate as separate
-  devices on the network, with their own MAC addresses. This is beneficial when
-  you want containers to appear as independent network devices.
-- **Limitations**: Ensure the specified network interface (`eno1`) is available
-  and suitable for use with Macvlan. Macvlan works by creating a virtual NIC for
-  each container, so the physical interface must be capable of handling multiple
-  MAC addresses.
-- **Network Security**: By setting `--internal=false`, containers can
-  communicate outside the network, which is important for applications that need
-  internet access or need to interact with other devices on the network.
-
-<br />
-
-### Practical Example
-
-To create a Docker network for a web application and a database, where the web
-server (`web-server`) and database server (`db-server`) are assigned static IPs:
+Create the network once, outside the stacks, so that `docker compose down` does
+not remove it:
 
 ```bash
-sudo docker network create macvlan \
-  --scope="local" \
-  --driver="macvlan" \
-  --subnet="192.168.2.0/24" \
-  --ip-range="192.168.2.128/25" \
-  --gateway="192.168.2.1" \
-  --aux-address="web-server=192.168.2.2" \
-  --aux-address="db-server=192.168.2.3" \
-  --internal=false \
-  --attachable=true \
-  --opt parent=eno1
+docker network create \
+  --driver macvlan \
+  --subnet 192.168.1.0/24 \
+  --gateway 192.168.1.1 \
+  --ip-range 192.168.1.192/27 \
+  --aux-address host-shim=192.168.1.223 \
+  --opt parent=eth0 \
+  --opt macvlan_mode=bridge \
+  --label com.macvlan.network.description="is a macvlan network on the LAN." \
+  macvlan
 ```
 
-This setup assigns specific IP addresses to `web-server` and `db-server`, and
-ensures that containers can access the internet.
+- `--ip-range` limits the addresses that Docker hands out.
+- `--aux-address` reserves an address, here for the
+  [host shim](#reach-the-containers-from-the-host).
+- `macvlan_mode=bridge` (the default) lets containers on the same parent talk to
+  each other directly.
 
-## Conclusion
+## Use the Network in a Stack
 
-Using a `macvlan` network in Docker allows containers to function as separate
-devices with their own MAC addresses. This makes it suitable for applications
-that need full integration with the physical network. Be mindful of network
-interface availability and configuration to ensure proper operation.
+```yaml
+networks:
+  macvlan:
+    external: true
+    name: macvlan
+
+services:
+  example_app:
+    image: docker.io/library/nginx:stable
+    networks:
+      macvlan:
+        ipv4_address: 192.168.1.201
+    mac_address: 02:42:c0:a8:01:c9
+```
+
+The service is now reachable at `http://192.168.1.201` from your LAN. `ports`
+has no effect on this network: every port that the container listens on is
+reachable.
+
+`mac_address` is optional. A fixed MAC address keeps the same entry in your
+router (for example a DHCP reservation or a firewall rule) when the container is
+recreated. Use a locally administered address, which starts with `02`.
+
+## Define the Network in Compose
+
+You can also define the network in `compose.yml`. Docker Compose then removes it
+on `docker compose down`:
+
+```yaml
+networks:
+  macvlan:
+    name: macvlan
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+      macvlan_mode: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+          ip_range: 192.168.1.192/27
+          aux_addresses:
+            host-shim: 192.168.1.223
+```
+
+## VLANs
+
+Use a parent such as `eth0.20` to put the network on VLAN 20 (802.1Q trunk
+mode). Docker creates the sub-interface and removes it again with
+`docker network rm`. The switch port of the host must carry that VLAN.
+
+```bash
+docker network create \
+  --driver macvlan \
+  --subnet 192.168.20.0/24 \
+  --gateway 192.168.20.1 \
+  --opt parent=eth0.20 \
+  macvlan20
+```
+
+## IPv6
+
+Add an IPv6 subnet of your LAN next to the IPv4 subnet:
+
+```bash
+docker network create \
+  --driver macvlan --ipv6 \
+  --subnet 192.168.1.0/24 --gateway 192.168.1.1 --ip-range 192.168.1.192/27 \
+  --subnet 2001:db8:1::/64 --gateway 2001:db8:1::1 \
+  --opt parent=eth0 \
+  macvlan
+```
+
+Replace `2001:db8:1::/64` (a documentation prefix) with the IPv6 prefix of your
+LAN. In Compose, add `enable_ipv6: true` and a second entry under `ipam.config`.
+
+## Reach the Containers from the Host
+
+Linux blocks traffic between the parent interface and its macvlan containers.
+The host cannot reach the containers, and the containers cannot reach the host,
+while other devices on the LAN can. To fix this, add a macvlan interface (a
+_shim_) on the host, on the same parent, with the reserved address:
+
+```bash
+sudo ip link add macvlan-shim link eth0 type macvlan mode bridge
+sudo ip addr add 192.168.1.223/32 dev macvlan-shim
+sudo ip link set macvlan-shim up
+sudo ip route add 192.168.1.192/27 dev macvlan-shim
+```
+
+These commands do not survive a reboot. Add them to the network configuration of
+the host (for example systemd-networkd or NetworkManager) to make them
+permanent.
+
+Another option is to connect the container to a `bridge` network as well, and
+let the host reach it through that network.
+
+## Troubleshooting
+
+| Problem                               | Check                                                                                           |
+| :------------------------------------ | :---------------------------------------------------------------------------------------------- |
+| The host cannot reach the container   | Expected: add the [host shim](#reach-the-containers-from-the-host).                             |
+| The LAN cannot reach the container    | Check `parent`, the subnet, and the gateway, and that the switch accepts several MAC addresses. |
+| It works on a cable, not on Wi-Fi     | Most Wi-Fi interfaces do not accept extra MAC addresses; use `ipvlan`.                          |
+| It does not work in a virtual machine | Allow promiscuous mode or MAC address changes on the virtual switch, or use `ipvlan`.           |
+| Two devices use the same IP address   | Move the container range out of the DHCP pool of the router.                                    |
+
+See also the
+[troubleshooting section](./choosing_a_network_driver.md#troubleshooting) of the
+overview.

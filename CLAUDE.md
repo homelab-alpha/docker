@@ -50,9 +50,12 @@ the other linters. For one file, `npx prettier --write <file>` uses the same
 - `compose-files/<stack>/` has one directory per stack with a `compose.yml`, a
   `README.md`, and, where needed, `.env`, `stack.env`, and `my.cnf`. Every
   README follows the same layout: description, links, quick start, access, and
-  default login credentials. `docker-network-configurations/` has the guides for
-  bridge, ipvlan, and macvlan networks. `image-template/` is a Node.js image
-  template with its own `package.json`.
+  default login credentials. `docker-network-configurations/` has an overview
+  (`choosing_a_network_driver.md`) and the guides for bridge (with the IP plan
+  of the stacks), ipvlan, and macvlan networks. The docs site
+  (`content/docs/docker/network-information/` in `homelab-alpha/docs`) shows the
+  same text; keep both in line, and update the IP plan when you add a stack.
+  `image-template/` is a Node.js image template with its own `package.json`.
 - The environment files hold example values. Never commit real passwords or
   keys. `.gitignore` tracks `.env`, `stack.env`, and `*.sql` in the stack
   directories on purpose.

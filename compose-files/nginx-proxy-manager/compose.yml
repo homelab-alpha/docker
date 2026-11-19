@@ -59,6 +59,7 @@ services:
     networks:
       nginx-proxy-manager_net:
         ipv4_address: 172.20.20.2
+    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -118,6 +119,7 @@ services:
       - "80:80/tcp" # HTTP
       - "81:81/tcp" # web admin port
       - "443:443/tcp" # HTTPS
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

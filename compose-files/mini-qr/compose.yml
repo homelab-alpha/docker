@@ -44,6 +44,7 @@ services:
     networks:
       mini-qr_net:
         ipv4_address: 172.20.26.2
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -85,6 +86,7 @@ services:
         ipv4_address: 172.20.26.3
     ports:
       - "3017:80/tcp" # HTTP
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     cap_drop:

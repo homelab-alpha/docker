@@ -55,6 +55,7 @@ services:
       - "69:69/udp" # TFTP Port
       - "3011:3000/tcp" # Web configuration interface.
       # - "3012:80/tcp" # NGINX server for hosting assets.
+    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

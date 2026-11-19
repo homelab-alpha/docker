@@ -18,7 +18,12 @@ Connects this Docker host to a Portainer server as an Edge environment.
 2. In Portainer, add an Edge Agent environment and copy its Edge ID and Edge key
    to `PORTAINER_AGENT_ID` and `PORTAINER_AGENT_KEY`.
 
-3. Start the stack:
+3. The agent checks the TLS certificate of the Portainer server
+   (`EDGE_INSECURE_POLL=0`). If your server still uses the self-signed
+   certificate of Portainer, give it a trusted certificate, or set
+   `EDGE_INSECURE_POLL=1` in `.env` or `stack.env` at your own risk.
+
+4. Start the stack:
 
    ```bash
    docker compose up -d

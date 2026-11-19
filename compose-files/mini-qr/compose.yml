@@ -87,6 +87,14 @@ services:
       - "3017:80/tcp" # HTTP
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add: # The minimum for nginx: bind port 80 and switch to the nginx user.
+      - CHOWN
+      - DAC_OVERRIDE
+      - NET_BIND_SERVICE
+      - SETGID
+      - SETUID
     labels:
       com.mini-qr.description:
         "a flexible and high-performance server that can handle HTTP, mail, TCP, and UDP traffic."

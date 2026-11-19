@@ -87,15 +87,15 @@ Every pull request targeting `main` triggers the following automated checks. The
 full Super Linter (`lint_repository.yml`) runs on `main` after the merge and
 adds actionlint, zizmor, Gitleaks, Checkov, and the other linters:
 
-| Check               | Workflow                     | Purpose                                                                                              |
-| :------------------ | :--------------------------- | :--------------------------------------------------------------------------------------------------- |
-| Linting             | `lint_pull_request.yml`      | Runs `npm run lint` on the changed files: Prettier, textlint terminology, and merge conflict markers |
-| Pull request checks | `pull_request.yml`           | Validates the title and handles the labels and messages                                              |
-| Merge conflicts     | `merge_conflicts.yml`        | Labels a pull request that has a merge conflict                                                      |
-| Dependency review   | `dependency_review.yml`      | Reviews the dependency changes of the pull request                                                   |
-| Code scanning       | `codeql.yml`                 | CodeQL analysis of the changes                                                                       |
-| Compose validation  | `validate_compose_files.yml` | Checks every Compose file against the Compose Specification with `docker compose config`             |
-| Concurrency control | The checks above             | Cancels duplicate lint, dependency review, and merge conflict runs for the same pull request         |
+| Check               | Workflow                     | Purpose                                                                                                                                       |
+| :------------------ | :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------- |
+| Linting             | `lint_pull_request.yml`      | Runs `npm run lint` on the changed files: Prettier, textlint terminology, and merge conflict markers                                          |
+| Pull request checks | `pull_request.yml`           | Validates the title and handles the labels and messages                                                                                       |
+| Merge conflicts     | `merge_conflicts.yml`        | Labels a pull request that has a merge conflict                                                                                               |
+| Dependency review   | `dependency_review.yml`      | Reviews the dependency changes of the pull request                                                                                            |
+| Code scanning       | `codeql.yml`                 | CodeQL analysis of the changes                                                                                                                |
+| Compose validation  | `validate_compose_files.yml` | Checks every Compose file against the Compose Specification with `docker compose config`; a repository without Compose files gets a green run |
+| Concurrency control | The checks above             | Cancels duplicate lint, dependency review, and merge conflict runs for the same pull request                                                  |
 
 A workflow that is switched off in the Actions settings does not run, and its
 check does not report. A branch rule must not require a check that is off.

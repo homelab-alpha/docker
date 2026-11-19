@@ -7,6 +7,7 @@ name: 🐳 Validate Compose Files
 # (an obsolete key or a variable that is not set) becomes a warning annotation on the file, but does not fail the
 # run. The workflow finds the files by name (compose.yml, compose.yaml, docker-compose.yml, docker-compose.yaml),
 # so it keeps working when the files or folders are renamed.
+# A repository without Compose files gets a notice and a green run.
 
 on:
   pull_request:
@@ -78,8 +79,14 @@ jobs:
           )
 
           if [ "${#FILES[@]}" -eq 0 ]; then
-            echo "::error title=No Compose files::❌ No Compose files were found"
-            exit 1
+            # A repository without Compose files has nothing to check. The run stays green.
+            echo "::notice title=No Compose files::ℹ️ No Compose files were found, so there is nothing to validate"
+            {
+              echo "total=0"
+              echo "failed=0"
+              echo "warned=0"
+            } >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
           for file in "${FILES[@]}"; do
@@ -142,7 +149,10 @@ jobs:
             echo "- **Invalid:** ${FAILED:-0}"
             echo "- **With warnings:** ${WARNED:-0}"
             echo "- **Check:** \`docker compose config --quiet\` against the Compose Specification"
-            if [ -s "$RESULTS" ]; then
+            if [ "${TOTAL:-0}" = "0" ]; then
+              echo ""
+              echo "No Compose files were found in this repository."
+            elif [ -s "$RESULTS" ]; then
               echo ""
               echo "| File | Result |"
               echo "| :--- | :----- |"
@@ -150,7 +160,9 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-          if [ "$JOB_STATUS" = "success" ]; then
+          if [ "$JOB_STATUS" = "success" ] && [ "${TOTAL:-0}" = "0" ]; then
+            echo "::notice title=Compose validation::ℹ️ No Compose files to validate"
+          elif [ "$JOB_STATUS" = "success" ]; then
             echo "::notice title=Compose validation::✅ All Compose files are valid"
           else
             echo "::error title=Compose validation::❌ Validation failed. See the annotations and the summary."

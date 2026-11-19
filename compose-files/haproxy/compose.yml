@@ -58,8 +58,8 @@ services:
     ports:
       - "80:80/tcp" # HTTP
       - "80:80/udp" # HTTP
-      - "443:433/tcp" # HTTPS
-      - "443:433/udp" # HTTPS
+      - "443:443/tcp" # HTTPS
+      - "443:443/udp" # HTTPS
       - "8404:8404/tcp" # Statistics Report
       - "8404:8404/udp" # Statistics Report
     security_opt:

@@ -84,8 +84,6 @@ services:
     depends_on:
       uptime-kuma-beta_db:
         condition: service_healthy
-    links:
-      - uptime-kuma-beta_db
     volumes:
       - /docker/uptime-kuma-beta/testing/app:/app/data
       - /usr/local/share/ca-certificates:/app/data/docker-tls

@@ -84,8 +84,6 @@ services:
     depends_on:
       freshrss_db:
         condition: service_healthy
-    links:
-      - freshrss_db
     volumes:
       - /docker/freshrss/production/app/data:/var/www/FreshRSS/data
       - /docker/freshrss/extensions:/var/www/FreshRSS/extensions

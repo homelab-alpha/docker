@@ -85,8 +85,6 @@ services:
       speedtest-tracker_db:
         condition: service_healthy
         restart: true
-    links:
-      - speedtest-tracker_db
     volumes:
       - /docker/speedtest-tracker/production/.cert:/config/keys
       - /docker/speedtest-tracker/production/app:/config

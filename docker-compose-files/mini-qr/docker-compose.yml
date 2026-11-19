@@ -71,8 +71,6 @@ services:
     depends_on:
       mini-qr_app:
         condition: service_started
-    links:
-      - mini-qr_app
     volumes:
       - /docker/mini-qr/nginx-proxy.conf:/etc/nginx/nginx.conf
     environment:

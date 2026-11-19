@@ -93,8 +93,6 @@ services:
     depends_on:
       unifi-network-application_db:
         condition: service_healthy
-    links:
-      - unifi-network-application_db
     volumes:
       - /docker/unifi-network-application/production/app:/config
     env_file:

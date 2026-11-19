@@ -99,7 +99,6 @@ services:
         ipv4_address: 172.19.3.5
     ports:
       - "3003:3001/tcp" # HTTP
-      - "3003:3001/udp" # HTTP
     pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true

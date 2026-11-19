@@ -48,11 +48,8 @@ services:
         ipv4_address: 172.20.1.2
     ports:
       - "8000:8000/tcp" # Edge agents
-      - "8000:8000/udp" # Edge agents
       - "9000:9000/tcp" # HTTP
-      - "9000:9000/udp" # HTTP
       - "9443:9443/tcp" # HTTPS
-      - "9443:9443/udp" # HTTPS
     pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true

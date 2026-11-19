@@ -1,4 +1,6 @@
 ---
+name: plex
+
 networks:
   plex_net:
     attachable: false
@@ -39,12 +41,12 @@ services:
       - /docker/plex/production/app/temp:/transcode
       - /docker/media:/data:ro
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -74,7 +76,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "plex"
       com.plex.description: "organizes all of your personal media so you can enjoy it no matter where you are."
     healthcheck:
       disable: false

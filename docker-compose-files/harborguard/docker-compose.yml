@@ -1,4 +1,6 @@
 ---
+name: harborguard
+
 networks:
   harborguard_net:
     attachable: false
@@ -37,12 +39,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -84,7 +86,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "harborguard"
       com.harborguard.description:
         "is a comprehensive container security scanning platform that provides an intuitive web interface for managing
         and visualizing security assessments of Docker images."

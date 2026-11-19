@@ -1,4 +1,6 @@
 ---
+name: it-tools
+
 networks:
   it-tools_net:
     attachable: false
@@ -49,7 +51,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "it-tools"
       com.it-tools.description: "A collection of handy online tools for developers, with great UX."
     healthcheck:
       disable: true

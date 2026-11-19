@@ -1,4 +1,6 @@
 ---
+name: netdata
+
 networks:
   netdata_net:
     attachable: false
@@ -65,7 +67,6 @@ services:
       - SYS_PTRACE
       - SYS_ADMIN
     labels:
-      com.docker.compose.project: "netdata"
       com.netdata.description: "is an infrastructure monitoring and troubleshooting."
     healthcheck:
       disable: false

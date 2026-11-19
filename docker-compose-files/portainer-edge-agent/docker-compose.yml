@@ -1,4 +1,6 @@
 ---
+name: portainer-edge-agent
+
 networks:
   edge-agent_net:
     attachable: false
@@ -39,12 +41,12 @@ services:
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /:/host
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
       EDGE: 1
@@ -57,7 +59,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "portainer agent"
       com.edge-agent.description: "a remote environment is not directly accessible from docker server."
     healthcheck:
       disable: true

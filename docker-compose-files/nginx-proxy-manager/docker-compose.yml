@@ -1,4 +1,6 @@
 ---
+name: nginx-proxy-manager
+
 networks:
   nginx-proxy-manager_net:
     attachable: true
@@ -39,12 +41,12 @@ services:
       # - /docker/nginx-proxy-manager/production/my.cnf:/etc/my.cnf
       - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -85,18 +87,16 @@ services:
       nginx-proxy-manager_db:
         condition: service_healthy
         restart: true
-    links:
-      - nginx-proxy-manager_db
     volumes:
       - /docker/nginx-proxy-manager/production/app:/data
       - /etc/letsencrypt:/etc/letsencrypt
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -124,7 +124,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "nginx-proxy-manager"
       com.nginx-proxy-manager.description: "nginx proxy manager expose your services easily and securely."
     healthcheck:
       disable: false

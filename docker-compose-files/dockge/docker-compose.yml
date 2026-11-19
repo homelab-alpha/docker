@@ -1,4 +1,6 @@
 ---
+name: dockge
+
 networks:
   dockge_net:
     attachable: false
@@ -54,7 +56,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "dockge"
       com.dockge.description: "a fancy, easy-to-use and reactive self-hosted docker compose.yml stack."
     healthcheck:
       disable: false

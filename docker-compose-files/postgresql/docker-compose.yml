@@ -1,4 +1,6 @@
 ---
+name: postgresql
+
 networks:
   postgresql_net:
     attachable: true
@@ -38,12 +40,12 @@ services:
       - /docker/postgresql/config/postgresql.conf:/etc/postgresql/postgresql.conf
       - /docker/postgresql/18/production/db:/var/lib/postgresql
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"

@@ -1,4 +1,6 @@
 ---
+name: unifi-network-application
+
 networks:
   unifi-network-application_net:
     attachable: false
@@ -38,12 +40,12 @@ services:
       - /docker/unifi-network-application/production/db:/data/db
       - /docker/unifi-network-application/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -93,17 +95,15 @@ services:
     depends_on:
       unifi-network-application_db:
         condition: service_healthy
-    links:
-      - unifi-network-application_db
     volumes:
       - /docker/unifi-network-application/production/app:/config
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -114,7 +114,7 @@ services:
       MONGO_PASS: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
       MONGO_PORT: ${PORT_DB} # Fill in the value in both the .env and stack.env files
       MONGO_USER: ${USER_DB} # Fill in the value in both the .env and stack.env files
-      BASICAUTH: ${BASICAUTH_DB} # Fill in the value in both the .env and stack.env files
+      BASICAUTH: ${BASICAUTH} # Fill in the value in both the .env and stack.env files
       # MONGO_URL: ${MONGODB_URL}  # Fill in the value in both the .env and stack.env files
       MEM_LIMIT: 2048
       MEM_STARTUP: 2048
@@ -137,7 +137,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "unifi-network-application"
       com.unifi-network-application.description:
         "is an end-to-end system of network devices across different locations — all controlled from a single interface."
     healthcheck:

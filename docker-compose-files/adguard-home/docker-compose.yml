@@ -1,4 +1,6 @@
 ---
+name: adguard-home
+
 networks:
   adguard-home_net:
     attachable: false
@@ -65,7 +67,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "adguard-home"
       com.adguard-home.description: "is a network-wide software for blocking ads and tracking."
     healthcheck:
       disable: true

@@ -1,4 +1,6 @@
 ---
+name: xen-orchestra
+
 networks:
   xen-orchestra_net:
     attachable: false
@@ -74,7 +76,6 @@ services:
       - SYS_ADMIN
       - DAC_READ_SEARCH
     labels:
-      com.docker.compose.project: "xen-orchestra"
       com.xen-orchestra.description:
         "is a complete solution to visualize, manage, backup and delegate your XCP-ng or XenServer infrastructure."
     healthcheck:

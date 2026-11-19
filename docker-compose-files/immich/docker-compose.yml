@@ -1,4 +1,6 @@
 ---
+name: immich
+
 networks:
   immich_net:
     attachable: false
@@ -37,12 +39,12 @@ services:
     volumes:
       - /docker/immich/production/db:/var/lib/postgresql/data
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -59,7 +61,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.db.description: "is a PostgreSQL database."
     healthcheck:
       disable: false
@@ -96,7 +97,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.redis.description: "is a redis database."
     healthcheck:
       disable: false
@@ -121,12 +121,12 @@ services:
     volumes:
       - /docker/immich/production/ml:/cache
     env_file:
-      # Choose the correct environment file:
-      # - Use '.env' for Docker Compose.
-      # - Use 'stack.env' for Portainer.
-      # Comment out the file you are not using in the Compose file to avoid issues.
-      - .env
-      - stack.env
+      # Compose loads each file that exists and skips a missing one:
+      # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
+      - path: .env
+        required: false
+      - path: stack.env
+        required: false
     environment:
       PUID: "1000"
       PGID: "1000"
@@ -138,7 +138,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.ml.description:
         "a machine learning-powered component of immich, designed to enhance media management and automation."
     healthcheck:
@@ -161,10 +160,9 @@ services:
         restart: true
       immich_redis:
         condition: service_healthy
-    links:
-      - immich_db
-      - immich_redis
-      - immich_ml
+      immich_ml:
+        condition: service_started
+        restart: true
     volumes:
       - /docker/immich/production/app:/data
       - /docker/immich/production/app:/usr/src/app/upload
@@ -184,7 +182,6 @@ services:
     security_opt:
       - no-new-privileges:true
     labels:
-      com.docker.compose.project: "immich"
       com.immich.description:
         "a self-hosted solution for seamless photo and video management, offering privacy and full control."
     healthcheck:

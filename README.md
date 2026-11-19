@@ -94,7 +94,11 @@ More documentation is on the
 
 ### Requirements
 
-Docker with the Docker Compose plugin.
+Docker with the Docker Compose plugin, version 2.24.0 or later. The Compose
+files follow the [Compose Specification](https://compose-spec.io) and list both
+environment files with `required: false`, so Compose loads the one that exists:
+`.env` for the Docker Compose CLI, `stack.env` for Portainer. Each file sets its
+project name with a top-level `name:`.
 
 ### Installation
 

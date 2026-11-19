@@ -43,7 +43,6 @@ services:
       PUID: "1000"
       PGID: "1000"
       TZ: Europe/Amsterdam # Adjust the timezone to match your local timezone. You can find the full list of timezones here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
-      WEBPASSWORD: "set a secure password here or it will be random"
     domainname: pi-hole.local # Customize this with your own domain, e.g., `pi-hole.local` to `pi-hole.your-fqdn-here.com`.
     hostname: pi-hole
     networks:

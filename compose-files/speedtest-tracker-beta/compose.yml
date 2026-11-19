@@ -98,7 +98,7 @@ services:
       APP_TIMEZONE: Europe/Amsterdam
       APP_URL: http://localhost
       ASSET_URL: http://localhost
-      APP_DEBUG: true
+      # APP_DEBUG: true # Uncomment for debug mode
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_NAME: ${ADMIN_NAME}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}

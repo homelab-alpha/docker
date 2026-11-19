@@ -62,6 +62,8 @@ services:
       - "3008:8080/udp" # HTTP
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - ALL
     labels:
       com.dozzle.description: "is a small lightweight application with a web based interface to monitor Docker logs."
     healthcheck:

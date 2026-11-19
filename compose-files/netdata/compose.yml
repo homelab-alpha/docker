@@ -63,6 +63,7 @@ services:
       - "19999:19999/udp" # HTTP
     security_opt:
       - apparmor:unconfined
+      - no-new-privileges:true
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN

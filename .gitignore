@@ -37,6 +37,7 @@ super_linter.log
 # Coverage Files
 
 # Docker
+compose.override.yml
 docker-compose.override.yml
 
 # Environment and Configuration Files
@@ -110,6 +111,6 @@ __pycache__/
 !super_linter.env
 
 # --- Repository-specific ---
-!docker-compose-files/*/*.sql
-!docker-compose-files/*/.env
-!docker-compose-files/*/stack.env
+!compose-files/*/*.sql
+!compose-files/*/.env
+!compose-files/*/stack.env

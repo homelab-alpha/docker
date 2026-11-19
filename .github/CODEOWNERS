@@ -65,6 +65,6 @@
 
 # Repository Content
 # Ownership for the main content of the repository
-/docker-compose-files/                @homelab-alpha
+/compose-files/                       @homelab-alpha
 /docker-network-configurations/       @homelab-alpha
 /image-template/                      @homelab-alpha

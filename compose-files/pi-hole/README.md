@@ -1,25 +1,42 @@
-# Pi Hole
+# Pi-hole
+
+A network-wide DNS server that blocks ads and tracking.
+
+- **Upstream project**:
+  [Pi-hole Docker image](https://github.com/pi-hole/docker-pi-hole)
+- **Documentation**:
+  [Pi-hole on homelab-alpha.nl](https://homelab-alpha.nl/docker/compose-info/pi-hole/)
+
+## Quick Start
+
+> [!NOTE]
+>
+> Requires Docker Compose 2.24.0 or later.
+
+1. Start the stack:
+
+   ```bash
+   docker compose up -d
+   ```
 
 ## Default Web Access
 
-Access the Pi Hole web interface using the following URL:
+Access the Pi-hole web interface using the following URL:
 
 ```bash
-http://your-ip-adress:3080/admin/login
+http://your-ip-address:3080/admin/login
 ```
+
+DNS is published on port 5353 (TCP and UDP).
 
 ## Default Login Credentials
 
-**Username**:
-
-```bash
-No username is required.
-```
+**Username**: No username is required.
 
 **Password**:
 
-The default password for the first setup can be found in the logs. Look for a
-line similar to:
+The password for the first setup is in the logs (`docker logs pi-hole`). Look
+for a line similar to:
 
 ```log
 No password set in environment or config file, assigning random password: <password>

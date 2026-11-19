@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add the `badges.yml` workflow and `.github/scripts/generate_badges.py` to render the
   README badges, including Super Linter and CodeQL, as SVG files on the `badges`
   branch
+- feat(security): drop capabilities in four stacks [18ebddf](https://github.com/homelab-alpha/docker/commit/18ebddfa63ec9ddc6d3308125b78829c73d3c922) by [@homelab-alpha](https://github.com/homelab-alpha)
+- feat(security): add read-only Docker socket proxy [a647096](https://github.com/homelab-alpha/docker/commit/a647096d24c84d0d455e3d92da09c36ff58b2939) by [@homelab-alpha](https://github.com/homelab-alpha)
+- feat(security): add pids_limit to every service [6f1a8d3](https://github.com/homelab-alpha/docker/commit/6f1a8d3d814fe7489e16661bfae6d5eadce923a2) by [@homelab-alpha](https://github.com/homelab-alpha)
+- feat(security): read-only root fs for static apps [e38e83d](https://github.com/homelab-alpha/docker/commit/e38e83d74d8df5bd72114810370d4169ece3e4bc) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Changed
 
@@ -62,6 +66,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore(workflows): allow more MIT-like licenses [32d3ab2](https://github.com/homelab-alpha/docker/commit/32d3ab20fd890b11d91feb18d1edb30a3cb1be01) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(renovate): group npm updates in one pr [34df25c](https://github.com/homelab-alpha/docker/commit/34df25c51f664a4f7596b9208438987c06deb66a) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(renovate): group docker compose images [53b8de8](https://github.com/homelab-alpha/docker/commit/53b8de8d9c64cbac713f36a0b5ecb654535c5e14) by [@homelab-alpha](https://github.com/homelab-alpha)
+- ci(compose): add Compose validation workflow [ef8f69b](https://github.com/homelab-alpha/docker/commit/ef8f69b3eb9c9c584bfa73ac61f86426fe42fef2) by [@homelab-alpha](https://github.com/homelab-alpha)
+- refactor(compose): migrate to the Compose Specification [d13f9ad](https://github.com/homelab-alpha/docker/commit/d13f9adb9bcdb283807e68cd052b17eabdf4944a) by [@homelab-alpha](https://github.com/homelab-alpha)
+- refactor(compose): rename to compose-files and compose.yml [541dd2d](https://github.com/homelab-alpha/docker/commit/541dd2d9a215ad70da61dfca81bb4a8a298d2dae) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(compose): add a README to every stack [0f7c0e1](https://github.com/homelab-alpha/docker/commit/0f7c0e147efcb4cc7f9fce41169ab75f55bd5484) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(network): rewrite the network guides [41cbb39](https://github.com/homelab-alpha/docker/commit/41cbb39b72a0453eea21a376adf1a740f52bc810) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(ci): sync Compose validation with blueprint [0d454db](https://github.com/homelab-alpha/docker/commit/0d454db81e7470481a3d0bb30734fea1fe64b820) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(readme): list manage_workflows.yml [128b929](https://github.com/homelab-alpha/docker/commit/128b929d592d0d0f9b3860774feb306f99f1f2f5) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 
@@ -87,8 +98,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix(ci): harden the CodeQL workflow [e404c9b](https://github.com/homelab-alpha/docker/commit/e404c9bb0ff522909e85fe0fcc62e5b84b3c94b0) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(renovate): remove invalid security rule that disabled grouping [8c63aec](https://github.com/homelab-alpha/docker/commit/8c63aec67a0912f414494d94532f686b6b035d5c) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(renovate): label all updates in a group [160275d](https://github.com/homelab-alpha/docker/commit/160275da6fd3d7e613c680b24074efe256b06bc0) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(haproxy): map HTTPS to container port 443 [e693a53](https://github.com/homelab-alpha/docker/commit/e693a5379fe1786bc83dd225284697b3aef9c2b9) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(uptime-kuma): join beta to the main network [c6cedf1](https://github.com/homelab-alpha/docker/commit/c6cedf1b39ed82751832828bcc7425932ff69b18) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(speedtest-tracker): join beta to main network [7ad94f7](https://github.com/homelab-alpha/docker/commit/7ad94f7c0959d0d2cd77f22523e8fea78411fefb) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(compose): stop publishing UDP on web ports [55fdb9a](https://github.com/homelab-alpha/docker/commit/55fdb9a609445bf2a853771aed85dd2dcad7d95e) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(portainer): harden Portainer and Edge Agent [3291625](https://github.com/homelab-alpha/docker/commit/329162517be8d6ff7d70af1cf56f0ff78ddde443) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(haproxy): restore UDP 443 for HTTPS (QUIC) [a66368a](https://github.com/homelab-alpha/docker/commit/a66368a9a0e19e850d7098edea50590bfb6adb09) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Security
 
 - Override the transitive dev dependencies `glob` (14.0.3) and `minimatch`
   (11.0.3) to fix Dependabot alerts, which textlint pulls in
+- fix(security): drop Pi-hole password and debug [86180f1](https://github.com/homelab-alpha/docker/commit/86180f1edc2a367a8217e1c54b0e7a299b17daf6) by [@homelab-alpha](https://github.com/homelab-alpha)

@@ -2,27 +2,10 @@
 name: uptime-kuma-beta
 
 networks:
-  uptime-kuma-beta_net:
-    attachable: false
-    internal: false
-    external: false
-    name: uptime-kuma-beta
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.21.3.0/24
-          ip_range: 172.21.3.0/24
-          gateway: 172.21.3.1
-    driver_opts:
-      com.docker.network.bridge.default_bridge: "false"
-      com.docker.network.bridge.enable_icc: "true"
-      com.docker.network.bridge.enable_ip_masquerade: "true"
-      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
-      com.docker.network.bridge.name: "uptimekumabeta"
-      com.docker.network.driver.mtu: "1500"
-    labels:
-      com.uptime-kuma.network.description: "is an isolated bridge network."
+  # Joins the network of the uptime-kuma stack, which must be running first.
+  uptime-kuma_net:
+    external: true
+    name: uptime-kuma
 
 services:
   uptime-kuma-beta_db:
@@ -57,8 +40,8 @@ services:
       MARIADB_PASSWORD: ${PASSWORD_DB} # Fill in the value in both the .env and stack.env files
     hostname: uptime-kuma-beta_db
     networks:
-      uptime-kuma-beta_net:
-        ipv4_address: 172.21.3.2
+      uptime-kuma_net:
+        ipv4_address: 172.19.3.4
     security_opt:
       - no-new-privileges:true
     labels:
@@ -111,8 +94,8 @@ services:
     domainname: status.local # Customize this with your own domain, e.g., `status.local` to `status.your-fqdn-here.com`.
     hostname: status
     networks:
-      uptime-kuma-beta_net:
-        ipv4_address: 172.21.3.3
+      uptime-kuma_net:
+        ipv4_address: 172.19.3.5
     ports:
       - "3003:3001/tcp" # HTTP
       - "3003:3001/udp" # HTTP

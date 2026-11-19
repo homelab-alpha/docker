@@ -24,13 +24,16 @@ The beta version of Uptime Kuma, with a MariaDB database.
 >
 > Requires Docker Compose 2.24.0 or later.
 
-1. Copy `my.cnf` to `/docker/uptime-kuma-beta/testing/my.cnf`. Docker creates
+1. Start the `uptime-kuma` stack first. This stack joins its `uptime-kuma`
+   network, with the database on `172.19.3.4` and the app on `172.19.3.5`.
+
+2. Copy `my.cnf` to `/docker/uptime-kuma-beta/testing/my.cnf`. Docker creates
    the other directories under `/docker/uptime-kuma-beta/` on the first start.
 
-2. Change the values in `.env` (Docker Compose CLI) or `stack.env` (Portainer),
+3. Change the values in `.env` (Docker Compose CLI) or `stack.env` (Portainer),
    at least the passwords.
 
-3. Start the stack:
+4. Start the stack:
 
    ```bash
    docker compose up -d

@@ -226,7 +226,8 @@ docker/
 │   └── super_linter.env                        # Super Linter environment configuration
 ├── compose-files/                              # 28 Docker Compose stacks
 ├── docker-network-configurations/              # Docker network setup guides
-│   ├── bridge_network_setup.md                 # Create a bridge network
+│   ├── bridge_network_setup.md                 # Create a bridge network, and the IP plan
+│   ├── choosing_a_network_driver.md            # Compare bridge, ipvlan, and macvlan
 │   ├── ipvlan_network_setup.md                 # Create an ipvlan network
 │   └── macvlan_network_setup.md                # Create a macvlan network
 ├── image-template/                             # Template for a Node.js container image

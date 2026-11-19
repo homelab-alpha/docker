@@ -1,151 +1,185 @@
 # Docker - IPvlan Network Setup
 
-This document describes how to create a Docker network of type `ipvlan`. This
-network uses a specified IP range and offers various configuration options for
-network settings.
+An `ipvlan` network gives each container its own IP address on your network,
+while all containers share the MAC address of the host interface (the _parent_).
+Use it when a container must be reachable on its own address, but your switch,
+access point, or hypervisor limits the number of MAC addresses per port. The
+driver needs Linux kernel 4.2 or later.
 
-## Command to Create the Network
+See [Choosing a network driver](./choosing_a_network_driver.md) for a comparison
+with `bridge` and `macvlan`.
 
-Use the following Docker command to create the `ipvlan` network:
+IPvlan has two modes:
 
-```bash
-sudo docker network create ipvlan \
-  --scope="local" \  # Restrict network to local communication
-  --driver="ipvlan" \  # Use ipvlan driver for networking
-  --ipam-driver="default" \  # Use default IPAM driver for IP management
-  --ipam-opt="" \  # (Optional) Custom IPAM options
-  --subnet="192.168.1.0/24" \  # Set the subnet for the network
-  --ip-range="192.168.1.128/25" \  # Specify range for containers
-  --gateway="192.168.1.1" \  # Set the gateway IP
-  --aux-address="web-server=192.168.1.2" \  # Assign static IPs for hosts
-  --aux-address="db-server=192.168.1.3" \  # Assign static IPs for hosts
-  --internal=false \  # Allow traffic to and from the internet
-  --attachable=true \  # Allow containers to manually connect to the network
-  --ingress=false \  # Not for use with Docker Swarm mode
-  --config-from= \  # (Optional) Specify external config source
-  --config-only=false \  # Ensure network and config are created
-  --opt ipv6=disable \  # Disable IPv6 support
-  --opt ipvlan_mode=l2 \  # Use Layer 2 mode for communication
-  --opt parent=eno1 \  # Bind to the physical network interface eno1
-  --label com.ipvlan.network.description="is a non-isolated network."  # Custom network label
-```
+- **L2** (the default): the containers join the LAN of the parent interface.
+  They use the router of your LAN as gateway.
+- **L3**: the containers get their own subnet, and the Docker host routes it.
+  Broadcast and multicast are dropped, so your router needs a route to that
+  subnet.
 
-<br />
+The examples use this LAN:
 
-## Description of the Options
+| Setting                   | Value                                   |
+| :------------------------ | :-------------------------------------- |
+| LAN subnet                | `192.168.1.0/24`                        |
+| Router (gateway)          | `192.168.1.1`                           |
+| Parent interface          | `eth0` (check yours with `ip -br link`) |
+| Addresses for containers  | `192.168.1.192/27` (`.192` to `.223`)   |
+| Address for the host shim | `192.168.1.223`                         |
 
-- `--scope="local"`: Limit the network to local communication.
-  - **Example**: `--scope="local"` restricts the network to communication within
-    a single host.
-- `--driver="ipvlan"`: Use the `ipvlan` network driver.
-  - **Example**: `--driver="ipvlan"` specifies that the `ipvlan` driver will be
-    used to manage the network.
-- `--ipam-driver="default"`: Use the default IPAM driver.
-  - **Example**: `--ipam-driver="default"` uses Docker's default IP address
-    management for allocating IPs.
-- `--ipam-opt=""`: Specify IPAM options (empty in this case).
-  - **Example**: `--ipam-opt="subnet=192.168.1.0/24"` can be used to specify
-    custom IPAM options like a custom subnet.
-- `--subnet="192.168.1.0/24"`: The subnet for the network.
-  - **Example**: `--subnet="192.168.1.0/24"` defines the range of IP addresses
-    that will be used by the network.
-- `--ip-range="192.168.1.128/25"`: The range of available IP addresses for
-  containers.
-  - **Example**: `--ip-range="192.168.1.128/25"` ensures containers only use IP
-    addresses between `192.168.1.128` and `192.168.1.255`.
-- `--gateway="192.168.1.1"`: The IP address of the network gateway.
-  - **Example**: `--gateway="192.168.1.1"` specifies the gateway IP that
-    containers will use to access the outside network.
-- `--aux-address`: Specify specific IP addresses for hosts within the network.
-  - **Example**:
-    ```bash
-    --aux-address="web-server=192.168.1.2"
-    --aux-address="db-server=192.168.1.3"
-    ```
-    These entries assign specific IP addresses (`192.168.1.2`, `192.168.1.3`) to
-    `web-server` and `db-server`, ensuring they have static IPs within the
-    network.
-- `--internal=false`: Allow traffic to and from the internet.
-  - **Example**: `--internal=false` enables external communication, allowing
-    containers to access the internet.
-- `--attachable=true`: Allow containers to connect to this network.
-  - **Example**: `--attachable=true` lets containers manually connect to the
-    network via `docker network connect`.
-- `--ingress=false`: The network configuration is not intended for use with
-  Docker's Swarm mode.
-  - **Example**: `--ingress=false` specifies that the network should not be used
-    for Docker Swarm services.
-- `--config-from=`: Specify an external configuration source (not used in this
-  example).
-  - **Example**: `--config-from="my_config"` could be used when using a
-    predefined configuration file to define the network settings.
-- `--config-only=false`: Not only create a configuration.
-  - **Example**: `--config-only=false` ensures that both the network and its
-    configuration are created.
-- `--opt ipv6=disable`: Disable IPv6.
-  - **Example**: `--opt ipv6=disable` turns off IPv6 support, ensuring only IPv4
-    is used.
-- `--opt ipvlan_mode=l2`: Use Layer 2 mode for the network.
-  - **Example**: `--opt ipvlan_mode=l2` specifies that containers should
-    communicate at the data link layer (Layer 2), similar to regular Ethernet
-    devices.
-- `--opt parent=eno1`: The physical network interface on which the network is
-  based.
-  - **Example**: `--opt parent=eno1` binds the network to the physical interface
-    `eno1` on your host.
-    - **How to find it**: Run `ip a` to list all network interfaces on the host.
-      Look for the name of the active network interface connected to your local
-      network (e.g., `eno1`, `eth0`, or `ens33`).
-- `--label com.ipvlan.network.description="is a non-isolated network."`: A label
-  to describe the network.
-  - **Example**:
-    `--label com.ipvlan.network.description="is a non-isolated network."` adds a
-    custom label to help describe the network for organizational purposes.
+> [!IMPORTANT]
+>
+> Keep the container range outside the DHCP pool of your router, so that no
+> other device gets one of these addresses.
 
-<br />
+## L2 Mode
 
-## Applications and Considerations
+### Create the Network with the CLI
 
-- **IPvlan Mode (L2)**: Using `ipvlan_mode=l2` allows containers to communicate
-  as peers on the same physical network.
-- **Limitations**: Ensure the specified network interface (`eno1`) is available
-  and suitable for use with IPvlan. Verify it is up and properly configured.
-- **Network Security**: By setting `--internal=false`, containers can
-  communicate outside the network, which is important for applications that
-  require internet access.
-
-<br />
-
-### Practical Example
-
-To create a Docker network for a web application and a database, where the web
-server (`web-server`) and database server (`db-server`) are assigned static IPs:
+Create the network once, outside the stacks, so that `docker compose down` does
+not remove it:
 
 ```bash
-sudo docker network create ipvlan \
-  --scope="local" \
-  --driver="ipvlan" \
-  --subnet="192.168.2.0/24" \
-  --ip-range="192.168.2.128/25" \
-  --gateway="192.168.2.1" \
-  --aux-address="web-server=192.168.2.2" \
-  --aux-address="db-server=192.168.2.3" \
-  --internal=false \
-  --attachable=true \
+docker network create \
+  --driver ipvlan \
+  --subnet 192.168.1.0/24 \
+  --gateway 192.168.1.1 \
+  --ip-range 192.168.1.192/27 \
+  --aux-address host-shim=192.168.1.223 \
+  --opt parent=eth0 \
   --opt ipvlan_mode=l2 \
-  --opt parent=eno1
+  --label com.ipvlan.network.description="is an ipvlan network on the LAN." \
+  ipvlan
 ```
 
-This setup assigns specific IP addresses to `web-server` and `db-server` while
-ensuring the containers can access the internet.
+- `--ip-range` limits the addresses that Docker hands out.
+- `--aux-address` reserves an address, here for the
+  [host shim](#reach-the-containers-from-the-host).
 
-<br />
+### Use the Network in a Stack
 
-## Conclusion
+```yaml
+networks:
+  ipvlan:
+    external: true
+    name: ipvlan
 
-Using an `ipvlan` network in Docker offers benefits such as low-level network
-communication and IP address management. This is especially useful when
-containers need to function as 'peers' on the same physical network. However, be
-mindful of network interface availability and configuration. By understanding
-and configuring the various options, you can create a robust and flexible
-network tailored to your Docker containers.
+services:
+  example_app:
+    image: docker.io/library/nginx:stable
+    networks:
+      ipvlan:
+        ipv4_address: 192.168.1.200
+```
+
+The service is now reachable at `http://192.168.1.200` from your LAN. `ports`
+has no effect on this network: every port that the container listens on is
+reachable.
+
+### Define the Network in Compose
+
+You can also define the network in `compose.yml`. Docker Compose then removes it
+on `docker compose down`:
+
+```yaml
+networks:
+  ipvlan:
+    name: ipvlan
+    driver: ipvlan
+    driver_opts:
+      parent: eth0
+      ipvlan_mode: l2
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+          ip_range: 192.168.1.192/27
+          aux_addresses:
+            host-shim: 192.168.1.223
+```
+
+## L3 Mode
+
+In L3 mode, the containers use a subnet that is not your LAN, for example
+`10.10.10.0/24`. The Docker host acts as the router for it. `--gateway` is not
+used in this mode.
+
+```bash
+docker network create \
+  --driver ipvlan \
+  --subnet 10.10.10.0/24 \
+  --opt parent=eth0 \
+  --opt ipvlan_mode=l3 \
+  ipvlan-l3
+```
+
+Add a static route on your router, so that the LAN can reach the containers:
+
+| Destination     | Next hop                           |
+| :-------------- | :--------------------------------- |
+| `10.10.10.0/24` | The LAN address of the Docker host |
+
+Without this route, only the containers on the host can reach each other.
+
+## VLANs
+
+Use a parent such as `eth0.20` to put the network on VLAN 20. Docker creates the
+sub-interface and removes it again with `docker network rm`. The switch port of
+the host must carry that VLAN (a trunk port).
+
+```bash
+docker network create \
+  --driver ipvlan \
+  --subnet 192.168.20.0/24 \
+  --gateway 192.168.20.1 \
+  --opt parent=eth0.20 \
+  ipvlan20
+```
+
+## IPv6
+
+Add an IPv6 subnet of your LAN next to the IPv4 subnet:
+
+```bash
+docker network create \
+  --driver ipvlan --ipv6 \
+  --subnet 192.168.1.0/24 --gateway 192.168.1.1 --ip-range 192.168.1.192/27 \
+  --subnet 2001:db8:1::/64 --gateway 2001:db8:1::1 \
+  --opt parent=eth0 \
+  ipvlan
+```
+
+Replace `2001:db8:1::/64` (a documentation prefix) with the IPv6 prefix of your
+LAN. In Compose, add `enable_ipv6: true` and a second entry under `ipam.config`.
+
+## Reach the Containers from the Host
+
+Linux blocks traffic between the parent interface and its IPvlan containers. The
+host cannot reach the containers, and the containers cannot reach the host,
+while other devices on the LAN can. To fix this, add an IPvlan interface (a
+_shim_) on the host, on the same parent, with the reserved address:
+
+```bash
+sudo ip link add ipvlan-shim link eth0 type ipvlan mode l2
+sudo ip addr add 192.168.1.223/32 dev ipvlan-shim
+sudo ip link set ipvlan-shim up
+sudo ip route add 192.168.1.192/27 dev ipvlan-shim
+```
+
+These commands do not survive a reboot. Add them to the network configuration of
+the host (for example systemd-networkd or NetworkManager) to make them
+permanent.
+
+## Troubleshooting
+
+| Problem                                         | Check                                                                                       |
+| :---------------------------------------------- | :------------------------------------------------------------------------------------------ |
+| The host cannot reach the container             | Expected: add the [host shim](#reach-the-containers-from-the-host).                         |
+| The LAN cannot reach the container              | Check `parent`, the subnet, and the gateway; in L3 mode, check the route on the router.     |
+| Two devices use the same IP address             | Move the container range out of the DHCP pool of the router.                                |
+| `docker network create` fails                   | Check that the parent interface exists (`ip -br link`) and that the kernel supports IPvlan. |
+| Your router shows many IP addresses for one MAC | Expected with IPvlan; use `macvlan` if you need a MAC address per container.                |
+
+See also the
+[troubleshooting section](./choosing_a_network_driver.md#troubleshooting) of the
+overview.

@@ -136,53 +136,56 @@ If you leave out the IPv6 subnet, Docker picks a ULA prefix itself.
 
 ## IP Plan of the Stacks
 
-Each stack has its own `/24` subnet, so the networks never overlap:
+Each production stack has its own `/24` subnet, so the networks never overlap:
 
 - `172.20.<n>.0/24` for production stacks.
-- `172.21.<n>.0/24` for the beta version of a stack, with the same `<n>` as the
-  production stack.
 - The gateway is `.1`; the containers start at `.2`.
+- A beta stack has no network of its own. It joins the network of its production
+  stack as an external network and takes the next free addresses. Start the
+  production stack first.
 
-| Subnet           | Stack                             | Network                     | Gateway       |
-| :--------------- | :-------------------------------- | :-------------------------- | :------------ |
-| `172.19.3.0/24`  | `uptime-kuma`, `uptime-kuma-beta` | `uptime-kuma`               | `172.19.3.1`  |
-| `172.20.1.0/24`  | `portainer`                       | `portainer`                 | `172.20.1.1`  |
-| `172.20.2.0/24`  | `watchtower`                      | `watchtower`                | `172.20.2.1`  |
-| `172.20.4.0/24`  | `netdata`                         | `netdata`                   | `172.20.4.1`  |
-| `172.20.5.0/24`  | `jellyfin`                        | `jellyfin`                  | `172.20.5.1`  |
-| `172.20.6.0/24`  | `freshrss`                        | `freshrss`                  | `172.20.6.1`  |
-| `172.20.7.0/24`  | `dockge`                          | `dockge`                    | `172.20.7.1`  |
-| `172.20.8.0/24`  | `xen-orchestra`                   | `xen-orchestra`             | `172.20.8.1`  |
-| `172.20.9.0/24`  | `dozzle`                          | `dozzle`                    | `172.20.9.1`  |
-| `172.20.10.0/24` | `openspeedtest`                   | `openspeedtest`             | `172.20.10.1` |
-| `172.20.11.0/24` | `netboot`                         | `netboot`                   | `172.20.11.1` |
-| `172.20.12.0/24` | `plex`                            | `plex`                      | `172.20.12.1` |
-| `172.20.14.0/24` | `cloudbeaver`                     | `cloudbeaver`               | `172.20.14.1` |
-| `172.20.15.0/24` | `adguard-home`                    | `adguard-home`              | `172.20.15.1` |
-| `172.20.16.0/24` | `mariadb`                         | `mariadb`                   | `172.20.16.1` |
-| `172.20.17.0/24` | `pi-hole`                         | `pi-hole`                   | `172.20.17.1` |
-| `172.20.18.0/24` | `portainer-edge-agent`            | `edge-agent`                | `172.20.18.1` |
-| `172.20.19.0/24` | `unifi-network-application`       | `unifi-network-application` | `172.20.19.1` |
-| `172.20.20.0/24` | `nginx-proxy-manager`             | `nginx-proxy-manager`       | `172.20.20.1` |
-| `172.20.21.0/24` | `haproxy`                         | `haproxy`                   | `172.20.21.1` |
-| `172.20.22.0/24` | `it-tools`                        | `it-tools`                  | `172.20.22.1` |
-| `172.20.23.0/24` | `speedtest-tracker`               | `speedtest-tracker`         | `172.20.23.1` |
-| `172.20.24.0/24` | `immich`                          | `immich`                    | `172.20.24.1` |
-| `172.20.25.0/24` | `postgresql`                      | `postgresql`                | `172.20.25.1` |
-| `172.20.26.0/24` | `mini-qr`                         | `mini-qr`                   | `172.20.26.1` |
-| `172.20.27.0/24` | `harborguard`                     | `harborguard`               | `172.20.27.1` |
-| `172.21.23.0/24` | `speedtest-tracker-beta`          | `speedtest-tracker`         | `172.21.23.1` |
+| Subnet           | Stack                                         | Network                     | Gateway       |
+| :--------------- | :-------------------------------------------- | :-------------------------- | :------------ |
+| `172.19.3.0/24`  | `uptime-kuma`, `uptime-kuma-beta`             | `uptime-kuma`               | `172.19.3.1`  |
+| `172.20.1.0/24`  | `portainer`                                   | `portainer`                 | `172.20.1.1`  |
+| `172.20.2.0/24`  | `watchtower`                                  | `watchtower`                | `172.20.2.1`  |
+| `172.20.4.0/24`  | `netdata`                                     | `netdata`                   | `172.20.4.1`  |
+| `172.20.5.0/24`  | `jellyfin`                                    | `jellyfin`                  | `172.20.5.1`  |
+| `172.20.6.0/24`  | `freshrss`                                    | `freshrss`                  | `172.20.6.1`  |
+| `172.20.7.0/24`  | `dockge`                                      | `dockge`                    | `172.20.7.1`  |
+| `172.20.8.0/24`  | `xen-orchestra`                               | `xen-orchestra`             | `172.20.8.1`  |
+| `172.20.9.0/24`  | `dozzle`                                      | `dozzle`                    | `172.20.9.1`  |
+| `172.20.10.0/24` | `openspeedtest`                               | `openspeedtest`             | `172.20.10.1` |
+| `172.20.11.0/24` | `netboot`                                     | `netboot`                   | `172.20.11.1` |
+| `172.20.12.0/24` | `plex`                                        | `plex`                      | `172.20.12.1` |
+| `172.20.14.0/24` | `cloudbeaver`                                 | `cloudbeaver`               | `172.20.14.1` |
+| `172.20.15.0/24` | `adguard-home`                                | `adguard-home`              | `172.20.15.1` |
+| `172.20.16.0/24` | `mariadb`                                     | `mariadb`                   | `172.20.16.1` |
+| `172.20.17.0/24` | `pi-hole`                                     | `pi-hole`                   | `172.20.17.1` |
+| `172.20.18.0/24` | `portainer-edge-agent`                        | `edge-agent`                | `172.20.18.1` |
+| `172.20.19.0/24` | `unifi-network-application`                   | `unifi-network-application` | `172.20.19.1` |
+| `172.20.20.0/24` | `nginx-proxy-manager`                         | `nginx-proxy-manager`       | `172.20.20.1` |
+| `172.20.21.0/24` | `haproxy`                                     | `haproxy`                   | `172.20.21.1` |
+| `172.20.22.0/24` | `it-tools`                                    | `it-tools`                  | `172.20.22.1` |
+| `172.20.23.0/24` | `speedtest-tracker`, `speedtest-tracker-beta` | `speedtest-tracker`         | `172.20.23.1` |
+| `172.20.24.0/24` | `immich`                                      | `immich`                    | `172.20.24.1` |
+| `172.20.25.0/24` | `postgresql`                                  | `postgresql`                | `172.20.25.1` |
+| `172.20.26.0/24` | `mini-qr`                                     | `mini-qr`                   | `172.20.26.1` |
+| `172.20.27.0/24` | `harborguard`                                 | `harborguard`               | `172.20.27.1` |
 
-`uptime-kuma` is an exception: it uses `172.19.3.0/24`, and `uptime-kuma-beta`
-has no network of its own. It joins the `uptime-kuma` network as an external
-network, with the database on `172.19.3.4` and the app on `172.19.3.5`
-(`uptime-kuma` uses `.2` and `.3`). `speedtest-tracker-beta` uses the same
-network name (`speedtest-tracker`) as `speedtest-tracker`, so the two cannot run
-on the same host.
+`uptime-kuma` is an exception: it uses `172.19.3.0/24` instead of
+`172.20.3.0/24`. The beta stacks use these addresses:
 
-To add a stack, pick a free `<n>` (for example `172.20.3.0/24`,
-`172.20.13.0/24`, or `172.20.28.0/24`) and check that no other network on the
-host uses it with `docker network ls` and `docker network inspect`.
+| Stack                    | Network             | Database      | App           |
+| :----------------------- | :------------------ | :------------ | :------------ |
+| `uptime-kuma`            | `uptime-kuma`       | `172.19.3.2`  | `172.19.3.3`  |
+| `uptime-kuma-beta`       | `uptime-kuma`       | `172.19.3.4`  | `172.19.3.5`  |
+| `speedtest-tracker`      | `speedtest-tracker` | `172.20.23.2` | `172.20.23.3` |
+| `speedtest-tracker-beta` | `speedtest-tracker` | `172.20.23.4` | `172.20.23.5` |
+
+To add a stack, pick a free `<n>` (for example `172.20.13.0/24` or
+`172.20.28.0/24`) and check that no other network on the host uses it with
+`docker network ls` and `docker network inspect`.
 
 ## Troubleshooting
 

@@ -2,12 +2,6 @@
 
 The beta version of Speedtest Tracker, with a MariaDB database.
 
-> [!WARNING]
->
-> This stack uses the same container names and host paths
-> (`/docker/speedtest-tracker/`) as the `speedtest-tracker` stack. Do not run
-> both on the same host.
-
 - **Upstream project**:
   [Speedtest Tracker](https://github.com/alexjustesen/speedtest-tracker)
 - **Documentation**:
@@ -19,14 +13,18 @@ The beta version of Speedtest Tracker, with a MariaDB database.
 >
 > Requires Docker Compose 2.24.0 or later.
 
-1. Copy `my.cnf` to `/docker/speedtest-tracker/production/my.cnf`. Docker
-   creates the other directories under `/docker/speedtest-tracker/` on the first
-   start.
+1. Start the `speedtest-tracker` stack first. This stack joins its
+   `speedtest-tracker` network, with the database on `172.20.23.4` and the app
+   on `172.20.23.5`.
 
-2. Change the values in `.env` (Docker Compose CLI) or `stack.env` (Portainer),
+2. Copy `my.cnf` to `/docker/speedtest-tracker-beta/testing/my.cnf`. Docker
+   creates the other directories under `/docker/speedtest-tracker-beta/` on the
+   first start.
+
+3. Change the values in `.env` (Docker Compose CLI) or `stack.env` (Portainer),
    at least the passwords.
 
-3. Start the stack:
+4. Start the stack:
 
    ```bash
    docker compose up -d

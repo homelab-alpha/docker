@@ -2,30 +2,13 @@
 name: speedtest-tracker-beta
 
 networks:
+  # Joins the network of the speedtest-tracker stack, which must be running first.
   speedtest-tracker_net:
-    attachable: false
-    internal: false
-    external: false
+    external: true
     name: speedtest-tracker
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.21.23.0/24
-          ip_range: 172.21.23.0/24
-          gateway: 172.21.23.1
-    driver_opts:
-      com.docker.network.bridge.default_bridge: "false"
-      com.docker.network.bridge.enable_icc: "true"
-      com.docker.network.bridge.enable_ip_masquerade: "true"
-      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
-      com.docker.network.bridge.name: "speedtest"
-      com.docker.network.driver.mtu: "1500"
-    labels:
-      com.speedtest-tracker.network.description: "is an isolated bridge network."
 
 services:
-  speedtest-tracker_db:
+  speedtest-tracker-beta_db:
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -33,12 +16,12 @@ services:
         max-size: "1M"
         max-file: "2"
     stop_grace_period: 1m
-    container_name: speedtest-tracker_db
+    container_name: speedtest-tracker-beta_db
     image: docker.io/mariadb:13.0.2@sha256:54f493ea0d60b621a5bff84e5b20100f8b86b6efa6b79158e04756c5194a5e4d
     pull_policy: if_not_present
     volumes:
-      - /docker/speedtest-tracker/production/db:/var/lib/mysql
-      - /docker/speedtest-tracker/production/my.cnf:/etc/my.cnf
+      - /docker/speedtest-tracker-beta/testing/db:/var/lib/mysql
+      - /docker/speedtest-tracker-beta/testing/my.cnf:/etc/my.cnf
       - /sys/fs/cgroup/memory.pressure:/sys/fs/cgroup/memory.pressure
     env_file:
       # Compose loads each file that exists and skips a missing one:
@@ -55,10 +38,10 @@ services:
       MARIADB_DATABASE: ${NAME_DB}
       MARIADB_USER: ${USER_DB}
       MARIADB_PASSWORD: ${PASSWORD_DB}
-    hostname: speedtest-tracker_db
+    hostname: speedtest-tracker-beta_db
     networks:
       speedtest-tracker_net:
-        ipv4_address: 172.21.23.2
+        ipv4_address: 172.20.23.4
     security_opt:
       - no-new-privileges:true
     labels:
@@ -72,7 +55,7 @@ services:
       start_period: 10s
       start_interval: 5s
 
-  speedtest-tracker_app:
+  speedtest-tracker-beta_app:
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -80,17 +63,17 @@ services:
         max-size: "1M"
         max-file: "2"
     stop_grace_period: 1m
-    container_name: speedtest-tracker
+    container_name: speedtest-tracker-beta
     image: ghcr.io/alexjustesen/docker-speedtest-tracker:1.15.1@sha256:53177596e0ca033fc05f35706f84de5bbf7f35a04c5f06240356597241485c3b
     # image: ghcr.io/alexjustesen/docker-speedtest-tracker:dev-amd64
     pull_policy: if_not_present
     depends_on:
-      speedtest-tracker_db:
+      speedtest-tracker-beta_db:
         condition: service_healthy
         restart: true
     volumes:
-      - /docker/speedtest-tracker/production/.cert:/config/keys
-      - /docker/speedtest-tracker/production/app:/config
+      - /docker/speedtest-tracker-beta/testing/.cert:/config/keys
+      - /docker/speedtest-tracker-beta/testing/app:/config
     env_file:
       # Compose loads each file that exists and skips a missing one:
       # '.env' for the Docker Compose CLI, 'stack.env' for Portainer.
@@ -132,7 +115,7 @@ services:
     hostname: speedtest-tracker-beta
     networks:
       speedtest-tracker_net:
-        ipv4_address: 172.21.23.3
+        ipv4_address: 172.20.23.5
     ports:
       - "80:8080/tcp"
       - "80:8080/udp"

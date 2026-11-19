@@ -59,7 +59,6 @@ services:
         ipv4_address: 172.20.9.2
     ports:
       - "3008:8080/tcp" # HTTP
-      - "3008:8080/udp" # HTTP
     security_opt:
       - no-new-privileges:true
     labels:

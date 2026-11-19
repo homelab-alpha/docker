@@ -116,11 +116,8 @@ services:
         ipv4_address: 172.20.20.3
     ports:
       - "80:80/tcp" # HTTP
-      - "80:80/udp" # HTTP
       - "81:81/tcp" # web admin port
-      - "81:81/udp" # web admin port
       - "443:443/tcp" # HTTPS
-      - "443:443/udp" # HTTPS
     security_opt:
       - no-new-privileges:true
     labels:

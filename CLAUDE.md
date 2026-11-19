@@ -47,11 +47,11 @@ the other linters. For one file, `npx prettier --write <file>` uses the same
 
 ## Repository specifics
 
-- `docker-compose-files/<stack>/` has one directory per stack with a
-  `docker-compose.yml` and, where needed, `.env`, `stack.env`, `my.cnf`, and a
-  `README.md`. `docker-network-configurations/` has the guides for bridge,
-  ipvlan, and macvlan networks. `image-template/` is a Node.js image template
-  with its own `package.json`.
+- `compose-files/<stack>/` has one directory per stack with a `compose.yml` and,
+  where needed, `.env`, `stack.env`, `my.cnf`, and a `README.md`.
+  `docker-network-configurations/` has the guides for bridge, ipvlan, and
+  macvlan networks. `image-template/` is a Node.js image template with its own
+  `package.json`.
 - The environment files hold example values. Never commit real passwords or
   keys. `.gitignore` tracks `.env`, `stack.env`, and `*.sql` in the stack
   directories on purpose.

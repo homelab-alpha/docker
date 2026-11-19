@@ -65,8 +65,8 @@ More documentation is on the
 
 ## Features
 
-- **28 Docker Compose stacks** in `docker-compose-files/`, each in its own
-  directory with a `docker-compose.yml` and its environment files.
+- **28 Docker Compose stacks** in `compose-files/`, each in its own directory
+  with a `compose.yml` and its environment files.
 - **Network guides** — Setup guides for `bridge`, `ipvlan`, and `macvlan` Docker
   networks in `docker-network-configurations/`.
 - **Image template** — A simple Node.js and Express web server in a Docker
@@ -107,7 +107,7 @@ Copy the directory of a stack, review the values in its environment files
 
 ```bash
 git clone https://github.com/homelab-alpha/docker.git
-cd docker/docker-compose-files/<stack>
+cd docker/compose-files/<stack>
 docker compose up -d
 ```
 
@@ -223,14 +223,14 @@ docker/
 │   ├── pull_request_template.md                # Pull request template
 │   ├── renovate.json                           # Renovate dependency automation
 │   └── super_linter.env                        # Super Linter environment configuration
-├── docker-compose-files/                       # 28 Docker Compose stacks
+├── compose-files/                              # 28 Docker Compose stacks
 ├── docker-network-configurations/              # Docker network setup guides
 │   ├── bridge_network_setup.md                 # Create a bridge network
 │   ├── ipvlan_network_setup.md                 # Create an ipvlan network
 │   └── macvlan_network_setup.md                # Create a macvlan network
 ├── image-template/                             # Template for a Node.js container image
 │   ├── app.js                                  # Express web server
-│   ├── docker-compose.yml                      # Compose file for the template
+│   ├── compose.yml                             # Compose file for the template
 │   ├── Dockerfile                              # Image build instructions
 │   ├── package.json                            # Node.js dependencies of the template
 │   └── README.md                               # Usage of the template

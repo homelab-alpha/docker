@@ -31,7 +31,7 @@ Node.js, Express, and Docker Compose.
 4. **Start the containers using Docker Compose:**
 
    ```bash
-   docker-compose up
+   docker compose up
    ```
 
 5. **Open your web browser and go to
@@ -40,7 +40,7 @@ Node.js, Express, and Docker Compose.
 ## Custom Configuration
 
 - **Changing port:** If you want to change the web server port, modify the port
-  in the `docker-compose.yml` file under `ports`.
+  in the `compose.yml` file under `ports`.
 
 - **Customizing the application:** You can customize the Node.js application in
   the `app.js` file to fit your needs. Make sure to save any changes and rebuild

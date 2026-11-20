@@ -96,6 +96,42 @@
       "allowedVersions": "^24.0.0"
     },
     {
+      "description": "LinuxServer tags (3.4.7-r0-ls104): compare the package revision and the ls build number",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "/^lscr\\.io/linuxserver//",
+        "/^ghcr\\.io/linuxserver//"
+      ],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<build>\\d+)-ls(?<revision>\\d+)$"
+    },
+    {
+      "description": "netboot.xyz tags (0.7.6-nbxyz27): compare the nbxyz build number",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/netbootxyz/netbootxyz"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-nbxyz(?<build>\\d+)$"
+    },
+    {
+      "description": "Plex tags (1.43.5.11079-b3b13e506): ignore the commit hash suffix",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["docker.io/plexinc/pms-docker"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-[0-9a-f]+$"
+    },
+    {
+      "description": "nginx Alpine Perl tags (1.31.9-alpine3.24-perl): follow new Alpine releases",
+      "matchDatasources": ["docker"],
+      "matchFileNames": ["compose-files/mini-qr/compose.yml"],
+      "matchPackageNames": ["docker.io/nginx"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-alpine(?<build>\\d+)\\.(?<revision>\\d+)-perl$"
+    },
+    {
+      "description": "Uptime Kuma beta stack (3.0.0-beta.1-slim): follow beta and stable slim tags",
+      "matchDatasources": ["docker"],
+      "matchFileNames": ["compose-files/uptime-kuma-beta/compose.yml"],
+      "matchPackageNames": ["ghcr.io/louislam/uptime-kuma"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-(?<prerelease>beta\\.\\d+))?-slim$",
+      "ignoreUnstable": false
+    },
+    {
       "description": "Label every update type and dependency in the pull request, also in a group (up to 15 dependencies)",
       "matchUpdateTypes": [
         "major",

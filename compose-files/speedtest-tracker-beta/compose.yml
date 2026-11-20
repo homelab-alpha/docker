@@ -12,7 +12,7 @@ services:
     deploy:
       resources:
         limits:
-          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
+          pids: "2048" # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -63,7 +63,7 @@ services:
     deploy:
       resources:
         limits:
-          pids: 512 # Limits the number of processes and threads (fork bomb protection).
+          pids: "512" # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"

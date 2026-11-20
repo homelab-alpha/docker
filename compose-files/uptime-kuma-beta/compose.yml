@@ -65,7 +65,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma-beta
-    image: ghcr.io/louislam/uptime-kuma:2.1.0-beta-slim.2@sha256:34e39455ad3524efb4ac043545ce50b78ea2c215f8878c30e51ee02fca02d034
+    image: ghcr.io/louislam/uptime-kuma:3.0.0-beta.1-slim
     pull_policy: if_not_present
     depends_on:
       uptime-kuma-beta_db:
@@ -124,7 +124,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: uptime-kuma-beta_socket-proxy
-    image: lscr.io/linuxserver/socket-proxy:3.4.2-r0-ls89@sha256:b3c91258489c6d6ef26f20e9681177e3e861798466a2b85a3572ee0464c5e088
+    image: lscr.io/linuxserver/socket-proxy:3.4.7-r0-ls104
     pull_policy: if_not_present
     read_only: true
     tmpfs:

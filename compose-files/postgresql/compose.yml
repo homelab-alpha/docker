@@ -34,7 +34,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: postgresql_db
-    image: docker.io/postgres:19-trixie@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+    image: docker.io/postgres:19-trixie@sha256:bb6e70add742cd868fb62cb3b2f67d1dd2bdd2b65a521e778420748753687c60
     pull_policy: if_not_present
     volumes:
       - /docker/postgresql/config/postgresql.conf:/etc/postgresql/postgresql.conf

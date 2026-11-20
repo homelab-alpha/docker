@@ -29,7 +29,7 @@ services:
     deploy:
       resources:
         limits:
-          pids: "2048" # Limits the number of processes and threads (fork bomb protection).
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -80,7 +80,7 @@ services:
     deploy:
       resources:
         limits:
-          pids: "512" # Limits the number of processes and threads (fork bomb protection).
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -141,7 +141,7 @@ services:
     deploy:
       resources:
         limits:
-          pids: "512" # Limits the number of processes and threads (fork bomb protection).
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     # Read-only proxy for the Docker API. The app reaches Docker through this proxy instead of the socket.
     restart: unless-stopped
     logging:

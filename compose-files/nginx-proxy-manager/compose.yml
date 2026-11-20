@@ -26,6 +26,10 @@ networks:
 
 services:
   nginx-proxy-manager_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -59,7 +63,6 @@ services:
     networks:
       nginx-proxy-manager_net:
         ipv4_address: 172.20.20.2
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -74,6 +77,10 @@ services:
       start_interval: 5s
 
   nginx-proxy-manager_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -119,7 +126,6 @@ services:
       - "80:80/tcp" # HTTP
       - "81:81/tcp" # web admin port
       - "443:443/tcp" # HTTPS
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

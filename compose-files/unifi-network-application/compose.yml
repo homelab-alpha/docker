@@ -26,6 +26,10 @@ networks:
 
 services:
   unifi-network-application_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -60,7 +64,6 @@ services:
     networks:
       unifi-network-application_net:
         ipv4_address: 172.20.19.2
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -83,6 +86,10 @@ services:
       start_interval: 5s
 
   unifi-network-application_app:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -135,7 +142,6 @@ services:
       - "8843:8843/tcp" # Unifi guest portal HTTPS redirect port
       - "8880:8880/tcp" # Unifi guest portal HTTP redirect port
       - "10001:10001/udp" # Required for AP discovery
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

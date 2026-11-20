@@ -26,6 +26,10 @@ networks:
 
 services:
   netdata_app:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: always
     logging:
       driver: "json-file"
@@ -63,7 +67,6 @@ services:
         ipv4_address: 172.20.4.2
     ports:
       - "19999:19999/tcp" # HTTP
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - apparmor:unconfined
       - no-new-privileges:true
@@ -82,6 +85,10 @@ services:
       start_interval: 5s
 
   netdata_socket-proxy:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     # Read-only proxy for the Docker API. The app reaches Docker through this proxy instead of the socket.
     restart: unless-stopped
     logging:
@@ -106,7 +113,6 @@ services:
     networks:
       netdata_net:
         ipv4_address: 172.20.4.3
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

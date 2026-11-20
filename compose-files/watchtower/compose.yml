@@ -26,6 +26,10 @@ networks:
 
 services:
   watchtower_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: always
     logging:
       driver: "json-file"
@@ -45,7 +49,6 @@ services:
     networks:
       watchtower_net:
         ipv4_address: 172.20.2.2
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

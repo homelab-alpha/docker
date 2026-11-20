@@ -26,6 +26,10 @@ networks:
 
 services:
   openspeedtest_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -60,7 +64,6 @@ services:
     ports:
       - "3009:3000/tcp" # HTTP
       - "3010:3001/tcp" # HTTPS
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

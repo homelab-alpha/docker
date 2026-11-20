@@ -26,6 +26,10 @@ networks:
 
 services:
   haproxy_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: always
     logging:
       driver: "json-file"
@@ -60,7 +64,6 @@ services:
       - "443:443/tcp" # HTTPS
       - "443:443/udp" # HTTPS
       - "8404:8404/tcp" # Statistics Report
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

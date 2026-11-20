@@ -26,6 +26,10 @@ networks:
 
 services:
   edge-agent_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: always
     logging:
       driver: "json-file"
@@ -56,7 +60,6 @@ services:
     networks:
       edge-agent_net:
         ipv4_address: 172.20.18.2
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

@@ -26,6 +26,10 @@ networks:
 
 services:
   immich_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -58,7 +62,6 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.2
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -73,6 +76,10 @@ services:
       start_interval: 5s
 
   immich_redis:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -95,7 +102,6 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.3
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -110,6 +116,10 @@ services:
       start_interval: 5s
 
   immich_ml:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -137,7 +147,6 @@ services:
     networks:
       immich_net:
         ipv4_address: 172.20.24.4
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -147,6 +156,10 @@ services:
       disable: false
 
   immich_app:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -181,7 +194,6 @@ services:
         ipv4_address: 172.20.24.5
     ports:
       - "3015:2283/tcp" # HTTP
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

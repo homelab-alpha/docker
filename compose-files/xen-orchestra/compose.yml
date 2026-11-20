@@ -26,6 +26,10 @@ networks:
 
 services:
   xen-orchestra_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -67,7 +71,6 @@ services:
     #   - "/dev/fuse:/dev/fuse"
     #   - "/dev/loop-control:/dev/loop-control"
     #   - "/dev/loop0:/dev/loop0"
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
       - apparmor:unconfined

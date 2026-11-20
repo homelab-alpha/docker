@@ -26,6 +26,10 @@ networks:
 
 services:
   freshrss_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -59,7 +63,6 @@ services:
     networks:
       freshrss_net:
         ipv4_address: 172.20.6.2
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -74,6 +77,10 @@ services:
       start_interval: 5s
 
   freshrss_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -114,7 +121,6 @@ services:
         ipv4_address: 172.20.6.3
     ports:
       - "3002:80/tcp" # HTTP
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

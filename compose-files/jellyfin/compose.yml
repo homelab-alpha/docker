@@ -26,6 +26,10 @@ networks:
 
 services:
   jellyfin_app:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -58,7 +62,6 @@ services:
     devices:
       - /dev/dri:/dev/dri
       - /dev/dri/renderD128:/dev/dri/renderD128
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

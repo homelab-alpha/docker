@@ -26,6 +26,10 @@ networks:
 
 services:
   mariadb_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: always
     logging:
       driver: "json-file"
@@ -62,7 +66,6 @@ services:
         published: 3306 # publicly exposed port
         protocol: tcp # tcp or udp
         mode: ingress # host: For publishing a host port on each node
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

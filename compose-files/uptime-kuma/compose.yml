@@ -26,6 +26,10 @@ networks:
 
 services:
   uptime-kuma_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -59,7 +63,6 @@ services:
     networks:
       uptime-kuma_net:
         ipv4_address: 172.19.3.2
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -74,6 +77,10 @@ services:
       start_interval: 5s
 
   uptime-kuma_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -115,7 +122,6 @@ services:
         ipv4_address: 172.19.3.3
     ports:
       - "3001:3001/tcp" # HTTP
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -132,6 +138,10 @@ services:
       start_interval: 5s
 
   uptime-kuma_socket-proxy:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     # Read-only proxy for the Docker API. The app reaches Docker through this proxy instead of the socket.
     restart: unless-stopped
     logging:
@@ -157,7 +167,6 @@ services:
     networks:
       uptime-kuma_net:
         ipv4_address: 172.19.3.6
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

@@ -9,6 +9,10 @@ networks:
 
 services:
   speedtest-tracker-beta_db:
+    deploy:
+      resources:
+        limits:
+          pids: 2048 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -42,7 +46,6 @@ services:
     networks:
       speedtest-tracker_net:
         ipv4_address: 172.20.23.4
-    pids_limit: 2048 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:
@@ -57,6 +60,10 @@ services:
       start_interval: 5s
 
   speedtest-tracker-beta_app:
+    deploy:
+      resources:
+        limits:
+          pids: 512 # Limits the number of processes and threads (fork bomb protection).
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -120,7 +127,6 @@ services:
     ports:
       - "80:8080/tcp"
       - "443:8443/tcp"
-    pids_limit: 512 # Limits the number of processes and threads (fork bomb protection).
     security_opt:
       - no-new-privileges:true
     labels:

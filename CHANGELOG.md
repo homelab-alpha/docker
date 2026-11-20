@@ -104,6 +104,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix(compose): stop publishing UDP on web ports [55fdb9a](https://github.com/homelab-alpha/docker/commit/55fdb9a609445bf2a853771aed85dd2dcad7d95e) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(portainer): harden Portainer and Edge Agent [3291625](https://github.com/homelab-alpha/docker/commit/329162517be8d6ff7d70af1cf56f0ff78ddde443) by [@homelab-alpha](https://github.com/homelab-alpha)
 - fix(haproxy): restore UDP 443 for HTTPS (QUIC) [a66368a](https://github.com/homelab-alpha/docker/commit/a66368a9a0e19e850d7098edea50590bfb6adb09) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(jellyfin): switch image to 12.x tag format [b4577bf](https://github.com/homelab-alpha/docker/commit/b4577bf4007a0a1bbe5465c56e2feefee269433e) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(renovate): track images with build suffixes [87f39b8](https://github.com/homelab-alpha/docker/commit/87f39b8ae0c484683a15569049bd4021a847ee47) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(compose): move pids_limit to deploy limits [0f141b4](https://github.com/homelab-alpha/docker/commit/0f141b40b32ecc5b8eaf1f5202ede3521d18a044) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(compose): quote deploy pids limits [29b25ad](https://github.com/homelab-alpha/docker/commit/29b25addbd43204f3c37e0edeb378bbb4c586af6) by [@homelab-alpha](https://github.com/homelab-alpha)
+- fix(compose): use integers for deploy pids limits [3d440b0](https://github.com/homelab-alpha/docker/commit/3d440b09e2bf058a4cc1c70d31c565452bef1ffa) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Security
 

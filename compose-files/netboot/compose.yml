@@ -34,7 +34,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: netboot
-    image: ghcr.io/netbootxyz/netbootxyz:0.7.6-nbxyz27
+    image: ghcr.io/netbootxyz/netbootxyz:0.7.6-nbxyz27@sha256:109e60b2d0090a6b34a5ac67e7ccc623991f7291ab25c37040fd2e554a14d7fe
     pull_policy: if_not_present
     volumes:
       - /docker/netboot/production/app:/config

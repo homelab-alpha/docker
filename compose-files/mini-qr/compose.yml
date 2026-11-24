@@ -80,7 +80,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr_nginx
-    image: docker.io/nginx:1.31.10-alpine3.24-perl@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+    image: docker.io/nginx:1.31.10-alpine3.24-perl@sha256:b1d560f4ec4914d5cf9ccba910e1c87a8f5cbc23b63fac556e8c71a652bd23fb
     pull_policy: if_not_present
     read_only: true # Read-only root file system; nginx writes only to the tmpfs paths below.
     tmpfs:

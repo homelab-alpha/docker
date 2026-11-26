@@ -38,7 +38,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: mini-qr
-    image: ghcr.io/lyqht/mini-qr:v0.32.0@sha256:bca2ac7ccbec8899e6e9a6b91d45d0286238fa0fccf357fa10ca9640d2d09916
+    image: ghcr.io/lyqht/mini-qr:v0.34.0@sha256:ea7cf8a5cd805552a8033ef10e5122b597aabb77b40c01dddc43c26a75eb8e10
     pull_policy: if_not_present
     read_only: true # Read-only root file system; nginx writes only to the tmpfs paths below.
     tmpfs:

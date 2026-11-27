@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat(security): add read-only Docker socket proxy [a647096](https://github.com/homelab-alpha/docker/commit/a647096d24c84d0d455e3d92da09c36ff58b2939) by [@homelab-alpha](https://github.com/homelab-alpha)
 - feat(security): add pids_limit to every service [6f1a8d3](https://github.com/homelab-alpha/docker/commit/6f1a8d3d814fe7489e16661bfae6d5eadce923a2) by [@homelab-alpha](https://github.com/homelab-alpha)
 - feat(security): read-only root fs for static apps [e38e83d](https://github.com/homelab-alpha/docker/commit/e38e83d74d8df5bd72114810370d4169ece3e4bc) by [@homelab-alpha](https://github.com/homelab-alpha)
+- feat(github): add accessibility checks [c1c0c15](https://github.com/homelab-alpha/docker/commit/c1c0c1535b2d0355708f75a30aa31b4bcbc32743) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Changed
 
@@ -75,6 +76,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs(readme): list manage_workflows.yml [128b929](https://github.com/homelab-alpha/docker/commit/128b929d592d0d0f9b3860774feb306f99f1f2f5) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(labels): add renovate dependency labels [5b2e2df](https://github.com/homelab-alpha/docker/commit/5b2e2df09c1c2b7ad8438a90b3ae4fb6c8978aa1) by [@homelab-alpha](https://github.com/homelab-alpha)
 - docs: add conventional commits cheatsheet [6f06eba](https://github.com/homelab-alpha/docker/commit/6f06ebaf3a81d6501cdfbfc3c7dff5fdbc20659a) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(readme): add values to badge alt text [dce16ad](https://github.com/homelab-alpha/docker/commit/dce16ad66aa5d52cd5d995eebf78b84b1c03831b) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs: add accessibility statement [66704f9](https://github.com/homelab-alpha/docker/commit/66704f9016ba1509a0e2cccd0af9e59816367705) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs: link the accessibility statement [80b9aea](https://github.com/homelab-alpha/docker/commit/80b9aeaf84207eedecab1c39e6c0b91c926a808a) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs: document NO_COLOR support [e93e17f](https://github.com/homelab-alpha/docker/commit/e93e17f7e3df23ae995f859edb2e04802def4814) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs: update the accessibility statement [89c2616](https://github.com/homelab-alpha/docker/commit/89c261690a378c46fb906fbccd49ecd41d5f559c) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 

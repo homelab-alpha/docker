@@ -158,6 +158,7 @@ docker/
 │   │   ├── help-support.yml                    # Template for help and support
 │   │   └── q-a.yml                             # Template for Q&A
 │   ├── ISSUE_TEMPLATE/                         # GitHub issue templates
+│   │   ├── accessibility_report.yml            # Template for accessibility barriers
 │   │   ├── bug_report.yml                      # Template for bug reports
 │   │   ├── config.yml                          # Issue template configuration
 │   │   ├── i18n_issue.yml                      # Template for translation & localization

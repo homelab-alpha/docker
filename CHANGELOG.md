@@ -75,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs(readme): list manage_workflows.yml [128b929](https://github.com/homelab-alpha/docker/commit/128b929d592d0d0f9b3860774feb306f99f1f2f5) by [@homelab-alpha](https://github.com/homelab-alpha)
 - chore(labels): add renovate dependency labels [5b2e2df](https://github.com/homelab-alpha/docker/commit/5b2e2df09c1c2b7ad8438a90b3ae4fb6c8978aa1) by [@homelab-alpha](https://github.com/homelab-alpha)
 - docs: add conventional commits cheatsheet [6f06eba](https://github.com/homelab-alpha/docker/commit/6f06ebaf3a81d6501cdfbfc3c7dff5fdbc20659a) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(readme): add values to badge alt text [dce16ad](https://github.com/homelab-alpha/docker/commit/dce16ad66aa5d52cd5d995eebf78b84b1c03831b) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 

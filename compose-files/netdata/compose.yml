@@ -98,7 +98,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: netdata_socket-proxy
-    image: lscr.io/linuxserver/socket-proxy:3.4.8-r0-ls107@sha256:6beb1743581ec3b2ed1a2bafd617e8c7a1d7ae2fe835293e333327618fc2b925
+    image: lscr.io/linuxserver/socket-proxy:3.4.9-r0-ls108@sha256:b345bc46664acbabec2086875fa3b2d8cb248a06786dd55806f597055b27b201
     pull_policy: if_not_present
     read_only: true
     tmpfs:

@@ -81,6 +81,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: link the accessibility statement [80b9aea](https://github.com/homelab-alpha/docker/commit/80b9aeaf84207eedecab1c39e6c0b91c926a808a) by [@homelab-alpha](https://github.com/homelab-alpha)
 - docs: document NO_COLOR support [e93e17f](https://github.com/homelab-alpha/docker/commit/e93e17f7e3df23ae995f859edb2e04802def4814) by [@homelab-alpha](https://github.com/homelab-alpha)
 - docs: update the accessibility statement [89c2616](https://github.com/homelab-alpha/docker/commit/89c261690a378c46fb906fbccd49ecd41d5f559c) by [@homelab-alpha](https://github.com/homelab-alpha)
+- chore(renovate): ignore bot and owner commits [10059fa](https://github.com/homelab-alpha/docker/commit/10059fa293f3f7bc1694b44d1f61825da1b9267e) by [@homelab-alpha](https://github.com/homelab-alpha)
+- ci(release): tag version commit, fix mentions [c242e60](https://github.com/homelab-alpha/docker/commit/c242e60389fa619bb1cba460ccb09009670f0f74) by [@homelab-alpha](https://github.com/homelab-alpha)
+- docs(policy): fix timeout-minutes indentation [c55d9b3](https://github.com/homelab-alpha/docker/commit/c55d9b32eceea15cc0c5454d1792911765286cf2) by [@homelab-alpha](https://github.com/homelab-alpha)
 
 ### Deprecated
 

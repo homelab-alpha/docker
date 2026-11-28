@@ -38,7 +38,7 @@ services:
         max-file: "2"
     stop_grace_period: 1m
     container_name: freshrss_db
-    image: docker.io/mariadb:13.0.2@sha256:54f493ea0d60b621a5bff84e5b20100f8b86b6efa6b79158e04756c5194a5e4d
+    image: docker.io/mariadb:13.1.2@sha256:b7738e01f283ab4d79d96777a587bb8dc2ad057554a11231e7c8d363a5892e6d
     pull_policy: if_not_present
     volumes:
       - /docker/freshrss/production/db:/var/lib/mysql
